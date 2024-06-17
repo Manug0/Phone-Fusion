@@ -2,10 +2,11 @@ const mongoose = require("mongoose");
 
 const clientSchema = new mongoose.Schema(
 	{
+		clientId: { type: String, required: true },
 		name: { type: String, required: true },
 		email: { type: String, required: true },
-		userId: { type: mongoose.Types.ObjectId, ref: "users" },
-		saleId: [{ type: mongoose.Types.ObjectId, ref: "sales" }],
+		// userId: { type: mongoose.Types.ObjectId, ref: "users" },
+		// saleId: [{ type: mongoose.Types.ObjectId, ref: "sales" }],
 	},
 	{
 		timestamps: true,

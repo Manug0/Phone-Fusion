@@ -11,7 +11,7 @@ const clientsRouter = require("./src/api/routes/clients");
 const app = express();
 
 connectDB();
-// ddd
+
 app.use(cors());
 
 cloudinary.config({

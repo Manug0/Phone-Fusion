@@ -48,14 +48,14 @@ convertCsvToArray("src/resources/Phones.csv")
 		console.error(error);
 	});
 
-convertCsvToArray("src/resources/Sales.csv")
-	.then((data) => {
-		const dataString = "const sales = " + JSON.stringify(data, null, 2);
-		fs.writeFile("src/data/sales.js", dataString, (err) => {
-			if (err) throw err;
-			console.log("Los datos de Sales.csv se han escrito en el archivo con éxito.");
-		});
-	})
-	.catch((error) => {
-		console.error(error);
-	});
+// convertCsvToArray("src/resources/Sales.csv")
+// 	.then((data) => {
+// 		const dataString = "const sales = " + JSON.stringify(data, null, 2);
+// 		fs.writeFile("src/data/sales.js", dataString, (err) => {
+// 			if (err) throw err;
+// 			console.log("Los datos de Sales.csv se han escrito en el archivo con éxito.");
+// 		});
+// 	})
+// 	.catch((error) => {
+// 		console.error(error);
+// 	});
