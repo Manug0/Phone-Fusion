@@ -19,7 +19,7 @@ const HeaderContent = styled.div`
 	display: flex;
 	align-items: center;
 	margin: auto;
-	height: 6rem;
+	height: var(--size-6xl);
 `;
 
 const Logo = styled.img`
@@ -48,6 +48,14 @@ const StyledNavLink = styled(NavLink)`
 	}
 `;
 
+const HeartIcon = styled.i.attrs({ className: "ri-heart-line" })`
+	cursor: pointer;
+`;
+
+const SearchIcon = styled.i.attrs({ className: "ri-search-line" })`
+	cursor: pointer;
+`;
+
 const BagIcon = styled.i.attrs({ className: "ri-shopping-bag-line" })`
 	margin-right: 40px;
 	cursor: pointer;
@@ -65,6 +73,8 @@ const Header = () => {
 					<StyledNavLink to="/">Inicio</StyledNavLink>
 					<StyledNavLink to="/phones">Móviles</StyledNavLink>
 					<StyledNavLink to="/contact">Contacto</StyledNavLink>
+					<SearchIcon />
+					<HeartIcon />
 					<BagIcon />
 					<UserIcon />
 				</Nav>
