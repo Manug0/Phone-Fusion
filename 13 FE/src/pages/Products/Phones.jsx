@@ -64,7 +64,7 @@ const PrevNextButtons = styled.div`
 	gap: var(--size-4xl);
 `;
 
-const StyledCartSVG = styled(StyledCartSVG)`
+const StyledCartSVG = styled(CartSVG)`
 	position: absolute;
 	bottom: -50px;
 	left: 50%;
