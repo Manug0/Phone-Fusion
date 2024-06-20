@@ -1,12 +1,26 @@
 const Phone = require("../models/phones");
 
 const getPhones = async (req, res, next) => {
+	const { page = 1, limit = 10 } = req.query;
+
 	try {
-		const phone = await Phone.find().populate("saleId");
-		return res.status(200).json(phone);
+		const pageInt = parseInt(page);
+		const limitInt = parseInt(limit);
+
+		const phones = await Phone.find()
+			.skip((pageInt - 1) * limitInt)
+			.limit(limitInt);
+
+		const total = await Phone.countDocuments();
+
+		res.json({
+			phones,
+			total,
+			page: pageInt,
+			pages: Math.ceil(total / limitInt),
+		});
 	} catch (error) {
-		console.log(error);
-		return res.status(400).json(error);
+		res.status(500).json({ message: "Error consiguiendo los móviles", error });
 	}
 };
 
