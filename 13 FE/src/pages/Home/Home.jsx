@@ -2,10 +2,9 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import HomeMockup from "../../components/HomePage/HomeMockup";
 import { Button } from "@chakra-ui/react";
-import "./Home.css";
 
 const HomeSection = styled.section`
-	margin-top: var(--size-6xl);
+	/* margin-top: var(--size-6xl); */
 `;
 
 const Hero = styled.div`

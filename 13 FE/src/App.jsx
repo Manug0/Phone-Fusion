@@ -5,7 +5,6 @@ import Home from "./pages/Home/Home";
 import Phones from "./pages/Products/Phones";
 import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
-import { Box } from "@chakra-ui/react";
 
 function App() {
 	return (
