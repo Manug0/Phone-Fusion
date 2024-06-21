@@ -77,13 +77,13 @@ const deleteUser = async (req, res) => {
 
 const register = async (req, res, next) => {
 	try {
-		const { username, password, email } = req.body;
-		const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+		const { email, password } = req.body;
+		const existingUser = await User.findOne({ email });
 		if (existingUser) {
 			return res.status(400).json({ message: "El nombre de usuario o email ya existe" });
 		}
 
-		const newUser = new User({ username, password, email, rol: "user" });
+		const newUser = new User({ email, password, rol: "user" });
 
 		if (req.file) newUser.profilePic = req.file.path;
 		const saveUser = await newUser.save();
@@ -96,8 +96,8 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
 	try {
-		const { username, password, email } = req.body;
-		const user = await User.findOne({ $or: [{ username }, { email }] });
+		const { email, password } = req.body;
+		const user = await User.findOne({ email });
 
 		if (!user || !email || !bcrypt.compareSync(password, user.password)) {
 			return res.status(400).json("Usuario o contraseña incorrectos");
