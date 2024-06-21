@@ -1,5 +1,4 @@
 import React from "react";
-import { Box, Heading, Flex, Image } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
@@ -72,11 +71,13 @@ const Header = () => {
 				<Nav>
 					<StyledNavLink to="/">Inicio</StyledNavLink>
 					<StyledNavLink to="/phones">Móviles</StyledNavLink>
-					<StyledNavLink to="/contact">Contacto</StyledNavLink>
+					<StyledNavLink to="/about">Sobre nosotros</StyledNavLink>
 					<SearchIcon />
 					<HeartIcon />
 					<BagIcon />
-					<UserIcon />
+					<StyledNavLink to="/user">
+						<UserIcon />
+					</StyledNavLink>
 				</Nav>
 			</HeaderContent>
 		</StyledHeader>

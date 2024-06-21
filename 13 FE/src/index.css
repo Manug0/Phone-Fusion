@@ -3,8 +3,10 @@
 	--color-dark: rgb(2, 3, 31);
 	--color-primary: #ffff;
 	--color-secondary: #3f51b5;
-	--color-tertiary: #1f3288;
-	--color-quaternary: #7f7ecf;
+	--color-tertiary: #6e83e0;
+	--color-quaternary: #8293e2;
+	--color-quintary: #a4b0e7;
+	--color-sextary: #ccd5ff;
 
 	--trasition-main: 0.5s ease;
 	--trasition-fast: 0.25s ease;
