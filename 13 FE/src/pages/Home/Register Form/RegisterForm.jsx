@@ -1,7 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { Alert, AlertIcon, Button, useStyleConfig } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, useToast } from "@chakra-ui/react";
+import { loginClient } from "../../../services/Api";
+import { useNavigate } from "react-router-dom";
 
 const FormSection = styled.section`
 	display: flex;
@@ -44,13 +46,39 @@ const RegisterQuestion = styled.div`
 `;
 
 const RegisterForm = () => {
+	const toast = useToast();
+	const navigate = useNavigate();
+
+	const goToHome = () => {
+		navigate("/");
+	};
+
 	const {
 		handleSubmit,
 		register,
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = (data) => console.log(data);
+	const onSubmit = async (data) => {
+		try {
+			const response = await loginClient(data.email, data.password);
+			console.log("Sesion iniciada correctamente");
+			// localStorage.setItem("user", JSON.stringify(response));
+			setTimeout(() => {
+				goToHome();
+			}, 1500);
+
+			toast({
+				title: "Sesión iniciada.",
+				status: "success",
+				position: "top",
+				duration: 2000,
+				isClosable: true,
+			});
+		} catch (error) {
+			console.error("Error en la solicitud de inicio de sesión:", error);
+		}
+	};
 
 	return (
 		<>
@@ -86,7 +114,7 @@ const RegisterForm = () => {
 									message: "Este campo es obligatorio",
 								},
 								pattern: {
-									value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/,
+									// value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/,
 									message:
 										"La contraseña debe incluir números, letras Mayúsculas y minúsculas y como mínimo 4 caracteres",
 								},

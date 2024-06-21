@@ -13,8 +13,8 @@ export const fetchPhones = (page = 1, limit = 10) => {
 	});
 };
 
-export const createClient = () => {
-	return instance.post("/create-client");
+export const loginClient = (email, password) => {
+	return instance.post("/users/login", { email, password });
 };
 
 export const createSale = (saleData) => {

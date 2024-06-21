@@ -3,7 +3,6 @@ import { fetchPhones } from "../../services/Api";
 import styled from "styled-components";
 import CartSVG from "../../components/CartSVG";
 import HeartSVG from "../../components/HeartSVG";
-import { position } from "@chakra-ui/react";
 
 const PhoneSection = styled.section`
 	width: 90%;
