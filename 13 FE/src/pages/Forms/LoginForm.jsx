@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { Alert, AlertIcon, Button, useToast } from "@chakra-ui/react";
-import { loginClient } from "../../../services/Api";
+import {
+	Alert,
+	AlertIcon,
+	Button,
+	InputGroup,
+	InputRightElement,
+	useToast,
+} from "@chakra-ui/react";
+import { loginClient } from "../../services/Api";
 import { useNavigate } from "react-router-dom";
 
 const FormSection = styled.section`
@@ -45,13 +52,15 @@ const RegisterQuestion = styled.div`
 	margin: auto;
 `;
 
-const RegisterForm = () => {
+const LoginForm = () => {
+	const [show, setShow] = useState(false);
+
 	const toast = useToast();
 	const navigate = useNavigate();
 
-	const goToHome = () => {
-		navigate("/");
-	};
+	const goToHome = () => navigate("/");
+	const goToRegisterForm = () => navigate("/register");
+	const handleClickShow = () => setShow(!show);
 
 	const {
 		handleSubmit,
@@ -64,9 +73,9 @@ const RegisterForm = () => {
 			const response = await loginClient(data.email, data.password);
 			console.log("Sesion iniciada correctamente");
 			// localStorage.setItem("user", JSON.stringify(response));
-			setTimeout(() => {
-				goToHome();
-			}, 1500);
+			// setTimeout(() => {
+			// 	goToHome();
+			// }, 1500);
 
 			toast({
 				title: "Sesión iniciada.",
@@ -105,21 +114,28 @@ const RegisterForm = () => {
 								{errors.email.message}
 							</Alert>
 						) : null}
-						<FormInput
-							type="password"
-							placeholder="Contraseña"
-							{...register("password", {
-								required: {
-									value: true,
-									message: "Este campo es obligatorio",
-								},
-								pattern: {
-									// value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/,
-									message:
-										"La contraseña debe incluir números, letras Mayúsculas y minúsculas y como mínimo 4 caracteres",
-								},
-							})}
-						/>
+						<InputGroup size="md">
+							<FormInput
+								type={show ? "text" : "password"}
+								placeholder="Contraseña"
+								{...register("password", {
+									required: {
+										value: true,
+										message: "Este campo es obligatorio",
+									},
+									pattern: {
+										// value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/,
+										message:
+											"La contraseña debe incluir números, letras Mayúsculas y minúsculas y como mínimo 4 caracteres",
+									},
+								})}
+							/>
+							<InputRightElement width="4.5rem">
+								<Button h="2.25rem" size="sm" mt="8px" onClick={handleClickShow}>
+									{show ? <i class="ri-eye-line"></i> : <i class="ri-eye-off-line"></i>}
+								</Button>
+							</InputRightElement>
+						</InputGroup>
 						{errors.password ? (
 							<Alert status="error">
 								<AlertIcon />
@@ -160,7 +176,8 @@ const RegisterForm = () => {
 						variant="solid"
 						fontWeight="var(--font-weight-semibold)"
 						w="50%"
-						borderRadius="0">
+						borderRadius="0"
+						onClick={goToRegisterForm}>
 						Registro
 					</Button>
 				</RegisterQuestion>
@@ -169,4 +186,4 @@ const RegisterForm = () => {
 	);
 };
 
-export default RegisterForm;
+export default LoginForm;

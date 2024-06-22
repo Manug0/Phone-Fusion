@@ -75,7 +75,7 @@ const Header = () => {
 					<SearchIcon />
 					<HeartIcon />
 					<BagIcon />
-					<StyledNavLink to="/user">
+					<StyledNavLink to="/login">
 						<UserIcon />
 					</StyledNavLink>
 				</Nav>

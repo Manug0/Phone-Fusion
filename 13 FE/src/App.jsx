@@ -6,7 +6,8 @@ import Phones from "./pages/Products/Phones";
 import NotFound from "./pages/NotFound/NotFound";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
-import RegisterForm from "./pages/Home/Register Form/RegisterForm";
+import LoginForm from "./pages/Forms/LoginForm";
+import RegisterForm from "./pages/Forms/RegisterForm";
 
 function App() {
 	return (
@@ -15,7 +16,8 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home />}></Route>
 				<Route path="/phones" element={<Phones />}></Route>
-				<Route path="/user" element={<RegisterForm />}></Route>
+				<Route path="/login" element={<LoginForm />}></Route>
+				<Route path="/register" element={<RegisterForm />}></Route>
 				<Route path="*" element={<NotFound />}></Route>
 			</Routes>
 			<Footer />

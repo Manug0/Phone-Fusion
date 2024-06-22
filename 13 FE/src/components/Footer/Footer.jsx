@@ -67,7 +67,7 @@ const SubscribeButton = styled.button`
 	margin: 10px;
 	border: none;
 	border-radius: 5px;
-	background-color: var(--color-secondary);
+	background-color: var(--color-tertiary);
 	color: white;
 	font-size: var(--size-md);
 	cursor: pointer;

@@ -17,6 +17,10 @@ export const loginClient = (email, password) => {
 	return instance.post("/users/login", { email, password });
 };
 
+export const registerClient = (name, email, password) => {
+	return instance.post("/users/register", { name, email, password });
+};
+
 export const createSale = (saleData) => {
 	return instance.post("/create-sale", saleData);
 };
