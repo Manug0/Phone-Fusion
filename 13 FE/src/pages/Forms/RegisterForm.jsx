@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import {
-	Alert,
-	AlertIcon,
 	Button,
 	FormControl,
 	FormErrorMessage,
-	FormHelperText,
 	FormLabel,
 	Input,
 	InputGroup,
@@ -18,6 +16,7 @@ import { loginClient, registerClient } from "../../services/Api";
 import { useNavigate } from "react-router-dom";
 
 const FormSection = styled.section`
+	position: relative;
 	display: flex;
 	height: fit-content;
 	width: 100%;
@@ -27,6 +26,15 @@ const FormSection = styled.section`
 const FormContainer = styled.div`
 	width: 50%;
 	margin: var(--size-6xl) 0;
+`;
+
+const ReturnToLogin = styled.div`
+	position: absolute;
+	display: flex;
+	align-items: center;
+	top: var(--size-4xl);
+	left: var(--size-4xl);
+	cursor: pointer;
 `;
 
 const Form = styled.form`
@@ -47,6 +55,7 @@ const RegisterForm = () => {
 	const navigate = useNavigate();
 
 	const goToHome = () => navigate("/");
+	const goBackToLogin = () => navigate("/login");
 	const handleClickShowPassword = () => setShowPassword(!showPassword);
 	const handleClickShowConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword);
 
@@ -89,6 +98,11 @@ const RegisterForm = () => {
 	return (
 		<>
 			<FormSection>
+				<ReturnToLogin onClick={goBackToLogin}>
+					<ArrowBackIcon boxSize={6} />
+					Volver a iniciar sesión
+				</ReturnToLogin>
+
 				<FormContainer style={{ display: "flex", flexDirection: "column", gap: "var(--size-5xl)" }}>
 					<h2 style={{ fontSize: "var(--size-2xl)" }}>Ingresa tus datos</h2>
 					<Form onSubmit={handleSubmit(onSubmit)}>
