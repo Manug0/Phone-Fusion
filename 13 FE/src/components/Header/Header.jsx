@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
@@ -55,7 +55,7 @@ const SearchIcon = styled.i.attrs({ className: "ri-search-line" })`
 	cursor: pointer;
 `;
 
-const BagIcon = styled.i.attrs({ className: "ri-shopping-bag-line" })`
+const BagIcon = styled.i.attrs({ className: "ri-shopping-cart-line" })`
 	margin-right: 40px;
 	cursor: pointer;
 `;
@@ -63,7 +63,7 @@ const BagIcon = styled.i.attrs({ className: "ri-shopping-bag-line" })`
 const UserIcon = styled.i.attrs({ className: "ri-user-3-line" })`
 	cursor: pointer;
 `;
-const Header = () => {
+const Header = ({ onOpen }) => {
 	return (
 		<StyledHeader>
 			<HeaderContent>
@@ -74,7 +74,7 @@ const Header = () => {
 					<StyledNavLink to="/about">Sobre nosotros</StyledNavLink>
 					<SearchIcon />
 					<HeartIcon />
-					<BagIcon />
+					<BagIcon onClick={onOpen} />
 					<StyledNavLink to="/login">
 						<UserIcon />
 					</StyledNavLink>

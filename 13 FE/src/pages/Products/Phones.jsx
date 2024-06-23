@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchPhones } from "../../services/Api";
 import styled from "styled-components";
-import CartSVG from "../../components/CartSVG";
 import HeartSVG from "../../components/HeartSVG";
+import CartIcon from "../../components/Cart/CartIcon";
 
 const PhoneSection = styled.section`
 	width: 90%;
@@ -52,33 +52,6 @@ const PhoneImg = styled.img`
 	border-radius: 8px;
 `;
 
-const PhoneName = styled.p`
-	font-weight: var(--font-weight-bold);
-`;
-
-const PhoneBrand = styled.p`
-	max-width: 250px;
-	width: 80%;
-	margin: auto;
-	height: fit-content;
-	border-radius: 8px;
-`;
-
-const PhonePrice = styled.p`
-	max-width: 250px;
-	width: 80%;
-	margin: auto;
-	height: fit-content;
-	border-radius: 8px;
-`;
-
-const PhoneCondition = styled.p`
-	max-width: 250px;
-	width: 80%;
-	margin: auto;
-	height: fit-content;
-	border-radius: 8px;
-`;
 const AddCartButton = styled.button`
 	bottom: var(--size-xl);
 	left: var(--size-5xl);
@@ -111,7 +84,7 @@ const PrevNextButtons = styled.div`
 	gap: var(--size-4xl);
 `;
 
-const Phones = () => {
+const Phones = ({ onOpen }) => {
 	const [phones, setPhones] = useState([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
@@ -164,7 +137,7 @@ const Phones = () => {
 						</div>
 
 						<AddCartButton>
-							Añadir al carrito <CartSVG />
+							<CartIcon phone={phone} onOpen={onOpen} />
 						</AddCartButton>
 						<StyledHeartSVG />
 					</PhoneCard>
