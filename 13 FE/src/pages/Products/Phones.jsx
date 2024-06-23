@@ -25,23 +25,38 @@ const PhoneDisplay = styled.div`
 `;
 
 const PhoneCard = styled.div`
+	display: flex;
+	flex-direction: column;
 	position: relative;
+	overflow: hidden;
 	width: 250px;
 	height: 400px;
 	cursor: pointer;
 	padding: var(--size-xl);
 	border-radius: 10px;
-	transition: box-shadow 0.5s;
-	border: 0.31px solid;
-	border-color: #ffffff66;
+	transition: scale 0.3s;
+	border: 1px solid #ffffff66;
 	border-radius: 12.5px;
 	box-shadow: 1.56px 1.56px 3.12px #a6aabc, -1.56px -1.56px 3.12px #f9faff;
 	&:hover {
-		background-color: lightblue;
+		scale: 1.01;
 	}
 `;
 
 const PhoneImg = styled.img`
+	max-width: 250px;
+	max-height: 166px;
+	width: 80%;
+	margin: 0 auto;
+	height: fit-content;
+	border-radius: 8px;
+`;
+
+const PhoneName = styled.p`
+	font-weight: var(--font-weight-bold);
+`;
+
+const PhoneBrand = styled.p`
 	max-width: 250px;
 	width: 80%;
 	margin: auto;
@@ -49,13 +64,46 @@ const PhoneImg = styled.img`
 	border-radius: 8px;
 `;
 
-const PhoneCartButton = styled.button`
-	display: flex;
-	gap: var(--size-xl);
+const PhonePrice = styled.p`
 	max-width: 250px;
-	width: 100%;
+	width: 80%;
+	margin: auto;
 	height: fit-content;
 	border-radius: 8px;
+`;
+
+const PhoneCondition = styled.p`
+	max-width: 250px;
+	width: 80%;
+	margin: auto;
+	height: fit-content;
+	border-radius: 8px;
+`;
+const AddCartButton = styled.button`
+	bottom: var(--size-xl);
+	left: var(--size-5xl);
+	position: absolute;
+	display: flex;
+	align-items: center;
+	gap: var(--size-xs);
+	transform: translateY(100px);
+	transition: transform 0.3s ease-in-out;
+
+	${PhoneCard}:hover & {
+		transform: translateY(0%);
+	}
+`;
+
+const StyledHeartSVG = styled(HeartSVG)`
+	position: absolute;
+	top: var(--size-sm);
+	right: var(--size-sm);
+	transform: translateY(-100px);
+	transition: transform 0.3s ease-in-out;
+
+	${PhoneCard}:hover & {
+		transform: translateY(0%);
+	}
 `;
 
 const PrevNextButtons = styled.div`
@@ -63,37 +111,10 @@ const PrevNextButtons = styled.div`
 	gap: var(--size-4xl);
 `;
 
-const StyledCartSVG = styled(CartSVG)`
-	position: absolute;
-	bottom: -50px;
-	left: 50%;
-	transform: translateX(-50%);
-	transition: bottom 0.3s ease-out, opacity 0.3s ease-out, visibility 0.3s;
-	opacity: 0;
-	visibility: hidden;
-	top: var(--size-xl);
-	right: var(--size-xl);
-
-	${PhoneCard}:hover & {
-		bottom: 10px;
-		opacity: 1;
-		visibility: visible;
-	}
-`;
-
 const Phones = () => {
 	const [phones, setPhones] = useState([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const [hoveredPhone, setHoveredPhone] = useState(null);
-
-	const hoverButtons = (phoneId) => {
-		setHoveredPhone(phoneId);
-	};
-
-	const leaveButtons = () => {
-		setHoveredPhone(null);
-	};
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -123,21 +144,29 @@ const Phones = () => {
 		<PhoneSection>
 			<PhoneDisplay>
 				{phones.map((phone) => (
-					<PhoneCard
-						key={phone._id}
-						phone={phone}
-						onMouseEnter={() => hoverButtons(phone._id)}
-						onMouseLeave={leaveButtons}>
+					<PhoneCard key={phone._id} phone={phone}>
 						<PhoneImg src={phone.imageUrl} alt={phone.name} />
-						<p>{phone.name}</p>
-						<p>{phone.brand}</p>
-						<p>{phone.price}</p>
-						<p>{phone.condition}</p>
-						{hoveredPhone === phone._id && (
-							<PhoneCartButton>
-								Añadir al carrito <StyledCartSVG /> <HeartSVG />
-							</PhoneCartButton>
-						)}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "column",
+								alignItems: "start",
+								width: "80%",
+								margin: "auto",
+								gap: "4px",
+							}}>
+							<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.name}</p>
+							<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.brand}</p>
+							<p style={{ fontWeight: "var(--font-weight-bold)" }}>{phone.price}€</p>
+							<p style={{ color: phone.condition === "Usado" ? "#e0986e" : "green" }}>
+								{phone.condition}
+							</p>
+						</div>
+
+						<AddCartButton>
+							Añadir al carrito <CartSVG />
+						</AddCartButton>
+						<StyledHeartSVG />
 					</PhoneCard>
 				))}
 			</PhoneDisplay>
