@@ -16,7 +16,7 @@ function App() {
 	const btnRef = useRef();
 	return (
 		<div className="App">
-			<Header onOpen={onOpen} />
+			<Header onOpen={onOpen} isOpen={isOpen} />
 			<Routes>
 				<Route path="/" element={<Home />}></Route>
 				<Route path="/phones" element={<Phones onOpen={onOpen} />}></Route>

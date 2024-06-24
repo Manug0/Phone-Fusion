@@ -17,8 +17,6 @@ const StyledHeader = styled.header`
 const HeaderContent = styled.div`
 	display: flex;
 	align-items: center;
-	margin: auto;
-	height: var(--size-6xl);
 `;
 
 const Logo = styled.img`
@@ -37,6 +35,7 @@ const Nav = styled.nav`
 	padding: var(--size-3xl);
 	font-size: var(--size-xl);
 	color: var(--color-dark);
+	/* transition: padding-right 0.3s ease; */
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -63,12 +62,12 @@ const BagIcon = styled.i.attrs({ className: "ri-shopping-cart-line" })`
 const UserIcon = styled.i.attrs({ className: "ri-user-3-line" })`
 	cursor: pointer;
 `;
-const Header = ({ onOpen }) => {
+const Header = ({ onOpen, isOpen }) => {
 	return (
 		<StyledHeader>
 			<HeaderContent>
 				<Logo src="/src/assets/logo.png" alt="logo"></Logo>
-				<Nav>
+				<Nav style={{ paddingRight: isOpen ? "8px" : "0px" }}>
 					<StyledNavLink to="/">Inicio</StyledNavLink>
 					<StyledNavLink to="/phones">Móviles</StyledNavLink>
 					<StyledNavLink to="/about">Sobre nosotros</StyledNavLink>
