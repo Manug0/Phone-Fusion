@@ -12,7 +12,7 @@ import {
 	InputRightElement,
 	useToast,
 } from "@chakra-ui/react";
-import { loginClient, registerClient } from "../../services/Api";
+import { loginUser, registerUser } from "../../services/Api";
 import { useNavigate } from "react-router-dom";
 
 const FormSection = styled.section`
@@ -67,11 +67,11 @@ const RegisterForm = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const registerResponse = await registerClient(data.name, data.email, data.password);
+			const registerResponse = await registerUser(data.name, data.email, data.password);
 			console.log("Registro de usuario completado", registerResponse);
 
 			if (registerResponse.status === 201) {
-				const loginResponse = await loginClient(data.email, data.password);
+				const loginResponse = await loginUser(data.email, data.password);
 				console.log("Sesión iniciada correctamente", loginResponse);
 
 				localStorage.setItem("user", JSON.stringify(loginResponse.data));

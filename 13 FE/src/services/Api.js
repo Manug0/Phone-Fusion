@@ -13,16 +13,30 @@ export const fetchPhones = (page = 1, limit = 10) => {
 	});
 };
 
-export const loginClient = (email, password) => {
+export const loginUser = (email, password) => {
 	return instance.post("/users/login", { email, password });
 };
 
-export const registerClient = (name, email, password) => {
+export const registerUser = (name, email, password) => {
 	return instance.post("/users/register", { name, email, password });
 };
 
-export const createSale = (saleData) => {
-	return instance.post("/create-sale", saleData);
+export const createSale = (newSale, token) => {
+	return instance.post("/sales", newSale, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+};
+
+export const createClient = (clientData, token) => {
+	return instance.post("/clients", clientData, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+};
+
+export const updateClient = (id, clientData, token) => {
+	return instance.put(`/clients/${id}`, clientData, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
 };
 
 export default instance;

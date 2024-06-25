@@ -9,4 +9,5 @@
 	display: flex;
 	flex-direction: column;
 	margin-top: var(--size-6xl);
+	font-family: var(--font-body);
 }

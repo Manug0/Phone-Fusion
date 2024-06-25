@@ -3,6 +3,15 @@ import { fetchPhones } from "../../services/Api";
 import styled from "styled-components";
 import HeartSVG from "../../components/HeartSVG";
 import CartIcon from "../../components/Cart/CartIcon";
+import {
+	Button,
+	Slider,
+	SliderTrack,
+	SliderFilledTrack,
+	SliderThumb,
+	SliderMark,
+} from "@chakra-ui/react";
+import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 
 const PhoneSection = styled.section`
 	width: 90%;
@@ -96,10 +105,8 @@ const Phones = ({ onOpen }) => {
 				const response = await fetchPhones(page);
 				setPhones(response.data.phones);
 				setTotalPages(response.data.pages);
-				// setLoading(false);
 			} catch (error) {
 				console.error("Error consiguiendo los móviles:", error);
-				// setLoading(false);
 			}
 		};
 
@@ -116,6 +123,12 @@ const Phones = ({ onOpen }) => {
 
 	return (
 		<PhoneSection>
+			<Slider aria-label="slider-ex-1" defaultValue={30}>
+				<SliderTrack>
+					<SliderFilledTrack />
+				</SliderTrack>
+				<SliderThumb />
+			</Slider>
 			<PhoneDisplay>
 				{phones.map((phone) => (
 					<PhoneCard key={phone._id} phone={phone}>
@@ -145,12 +158,20 @@ const Phones = ({ onOpen }) => {
 				))}
 			</PhoneDisplay>
 			<PrevNextButtons>
-				<button onClick={handlePreviousPage} disabled={page === 1}>
+				<Button
+					onClick={handlePreviousPage}
+					disabled={page === 1}
+					leftIcon={<ArrowBackIcon />}
+					variant="outline">
 					Anterior
-				</button>
-				<button onClick={handleNextPage} disabled={page === totalPages}>
+				</Button>
+				<Button
+					onClick={handleNextPage}
+					disabled={page === totalPages}
+					rightIcon={<ArrowForwardIcon />}
+					variant="outline">
 					Siguiente
-				</button>
+				</Button>
 			</PrevNextButtons>
 		</PhoneSection>
 	);

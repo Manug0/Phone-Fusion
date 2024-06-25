@@ -9,7 +9,7 @@ import {
 	InputRightElement,
 	useToast,
 } from "@chakra-ui/react";
-import { loginClient } from "../../services/Api";
+import { loginUser } from "../../services/Api";
 import { useNavigate } from "react-router-dom";
 
 const FormSection = styled.section`
@@ -70,7 +70,7 @@ const LoginForm = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await loginClient(data.email, data.password);
+			const response = await loginUser(data.email, data.password);
 			console.log("Sesion iniciada correctamente");
 			// localStorage.setItem("user", JSON.stringify(response));
 			// setTimeout(() => {

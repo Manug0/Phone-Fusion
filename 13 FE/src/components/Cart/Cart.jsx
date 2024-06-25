@@ -15,13 +15,7 @@ import { useCounter } from "../../contexts/CounterContext";
 import { DeleteIcon } from "@chakra-ui/icons";
 import styled, { keyframes } from "styled-components";
 import OrderCompleteCheckmark from "../OrderCompleteCheckmark/OrderCompleteCheckmark";
-
-const fadeInOut = keyframes`
-  0% { opacity: 0; }
-  45% { opacity: 1; }
-  55% { opacity: 1; }
-  100% { opacity: 0; }
-`;
+import { createClient, createSale, updateClient } from "../../services/Api";
 
 const CartItem = styled.div`
 	border-bottom: 1px solid var(--color-dark);
@@ -44,19 +38,72 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 		}));
 	};
 
-	const confirmOrder = () => {
-		setIsLoading(true);
+	const confirmOrder = async () => {
+		try {
+			setIsLoading(true);
+			const storedData = JSON.parse(localStorage.getItem("user"));
 
-		setTimeout(() => {
-			setCart([]);
-			setCounter({});
-			setCompleteOrder(true);
+			if (!storedData || !storedData.token || !storedData.user) {
+				throw new Error("User data is missing");
+			}
+
+			const token = storedData.token;
+			const user = storedData.user;
+
+			const newClient = {
+				name: user.name,
+				email: user.email,
+				userId: user._id,
+				saleId: [],
+			};
+			console.log(newClient);
+
+			const clientRes = await createClient(newClient, token);
+
+			if (clientRes.status !== 201) {
+				throw new Error("Failed to create client");
+			}
+
+			const createdClient = clientRes.data;
+			console.log(createdClient);
+
+			const newSale = {
+				saleDate: new Date(),
+				phoneIds: cart.map((phone) => phone._id),
+				clientId: createdClient._id,
+			};
+
+			const saleRes = await createSale(newSale, token);
+
+			if (saleRes.status !== 201) {
+				throw new Error("Failed to create sale");
+			}
+
+			const createdSale = saleRes.data;
+			console.log(createdSale);
+
+			createdClient.saleId.push(createdSale._id);
+
+			const updateRes = await updateClient(createdClient._id, createdClient, token);
+
+			if (updateRes.status !== 200) {
+				throw new Error("Failed to update client");
+			}
+
+			setTimeout(() => {
+				setCart([]);
+				setCounter({});
+				setCompleteOrder(true);
+				setIsLoading(false);
+			}, 2000);
+
+			setTimeout(() => {
+				setCompleteOrder(false);
+			}, 4000);
+		} catch (error) {
+			console.error(error);
 			setIsLoading(false);
-		}, 2000);
-
-		setTimeout(() => {
-			setCompleteOrder(false);
-		}, 4000);
+		}
 	};
 
 	const totalPrice = useMemo(() => {
