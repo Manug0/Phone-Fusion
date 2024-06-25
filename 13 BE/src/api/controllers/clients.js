@@ -25,22 +25,24 @@ const getClientById = async (req, res, next) => {
 
 const createClient = async (req, res, next) => {
 	try {
-		const userId = req.user._id;
+		const { name, email, userId } = req.body;
+
+		if (!name || !email || !userId) {
+			return res.status(400).json({ error: "Missing required fields" });
+		}
 
 		const newClient = new Client({
-			name: req.user.username,
-			email: req.user.email,
+			name,
+			email,
+			userId,
 		});
+
 		const savedClient = await newClient.save();
 
-		const user = await User.findById(userId);
-		user.clientId.push(savedClient._id);
-		await user.save();
-
-		return res.status(200).json(savedClient);
+		return res.status(201).json(savedClient);
 	} catch (error) {
 		console.error(error);
-		return res.status(400).json({ error: "Error al crear cliente", details: error.message });
+		return res.status(500).json({ error: "Error creating client", details: error.message });
 	}
 };
 

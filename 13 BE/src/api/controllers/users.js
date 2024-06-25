@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 
 const getUsers = async (req, res, next) => {
 	try {
-		const users = await User.find().populate("clientId").populate("inCart");
+		const users = await User.find().populate("inCart");
 		return res.status(200).json(users);
 	} catch (error) {
 		console.error(error);
@@ -16,7 +16,7 @@ const getUsers = async (req, res, next) => {
 const getUserById = async (req, res, next) => {
 	try {
 		const { id } = req.params;
-		const users = await User.findById(id).populate("clientId").populate("inCart");
+		const users = await User.findById(id).populate("inCart");
 		return res.status(200).json(users);
 	} catch (error) {
 		console.error(error);
@@ -77,15 +77,15 @@ const deleteUser = async (req, res) => {
 
 const register = async (req, res, next) => {
 	try {
-		const { email, password } = req.body;
+		const { name, email, password } = req.body;
 		const existingUser = await User.findOne({ email });
 		if (existingUser) {
 			return res.status(400).json({ message: "El nombre de usuario o email ya existe" });
 		}
 
-		const newUser = new User({ email, password, rol: "user" });
+		const newUser = new User({ name, email, password, rol: "user" });
 
-		if (req.file) newUser.profilePic = req.file.path;
+		// if (req.file) newUser.profilePic = req.file.path;
 		const saveUser = await newUser.save();
 		return res.status(201).json(saveUser);
 	} catch (error) {

@@ -4,11 +4,11 @@ const { default: mongoose } = require("mongoose");
 
 const saleSchema = new mongoose.Schema(
 	{
-		saleId: { type: String, required: true },
+		saleId: { type: String, required: false },
 		clientId: { type: mongoose.Types.ObjectId, ref: "clients" },
-		phoneId: { type: mongoose.Types.ObjectId, ref: "phones" },
-		review: { type: String, required: true },
-		rating: { type: Number, required: true },
+		phoneIds: [{ type: mongoose.Types.ObjectId, ref: "phones" }],
+		review: { type: String, required: false },
+		rating: { type: Number, required: false },
 		saleDate: { type: String, required: true },
 	},
 	{

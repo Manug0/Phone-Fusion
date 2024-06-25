@@ -3,14 +3,15 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
 	{
+		name: { type: String, required: false },
 		email: { type: String, required: true },
 		password: { type: String, required: true },
-		clientId: [{ type: mongoose.Types.ObjectId, ref: "clients" }],
+		// clientId: [{ type: mongoose.Types.ObjectId, ref: "clients" }],
 		inCart: [{ type: mongoose.Types.ObjectId, ref: "phones" }],
-		profilePic: { type: String, required: false },
+		// profilePic: { type: String, required: false },
 		rol: {
 			type: String,
-			required: true,
+			required: false,
 			default: "user",
 			enum: ["admin", "user"],
 		},

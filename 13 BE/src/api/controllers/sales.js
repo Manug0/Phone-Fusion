@@ -23,39 +23,18 @@ const getSaleById = async (req, res, next) => {
 	}
 };
 
-// const createSale = async (req, res, next) => {
-// 	try {
-// 		const { review, rating, saleDate } = req.body;
-
-// 		const clientId = req.client._id;
-// 		const phoneId = req.phone._id;
-
-// 		const newSale = new Sale({ review, rating, saleDate });
-// 		const savedSale = await newSale.save();
-
-// 		const client = await Client.findById(clientId);
-// 		client.saleId.push(savedSale._id);
-// 		await client.save();
-
-// 		const phone = await Phone.findById(phoneId);
-// 		phone.saleId.push(savedSale._id);
-// 		await phone.save();
-
-// 		return res.status(200).json(savedSale);
-// 	} catch (error) {
-// 		console.error(error);
-// 		return res.status(400).json({ error: "Error al crear venta", details: error.message });
-// 	}
-// };
-
 const createSale = async (req, res, next) => {
 	try {
-		const { clientId, phoneIds } = req.body;
+		const { clientId, phoneIds, saleDate } = req.body;
 
-		const newSale = new Sale({ clientId, phoneIds });
+		const newSale = new Sale({ clientId, phoneIds, saleDate });
 		const savedSale = await newSale.save();
 
 		const client = await Client.findById(clientId);
+		if (!client) {
+			return res.status(404).json({ error: "Client not found" });
+		}
+
 		client.saleId.push(savedSale._id);
 		await client.save();
 
@@ -67,10 +46,10 @@ const createSale = async (req, res, next) => {
 			}
 		}
 
-		return res.status(200).json(savedSale);
+		return res.status(201).json(savedSale);
 	} catch (error) {
 		console.error(error);
-		return res.status(400).json({ error: "Error al crear venta", details: error.message });
+		return res.status(400).json({ error: "Error creating sale", details: error.message });
 	}
 };
 
