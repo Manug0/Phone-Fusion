@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { useCart } from "../../contexts/CartContext";
 
 const StyledHeader = styled.header`
 	position: fixed;
@@ -35,7 +36,6 @@ const Nav = styled.nav`
 	padding: var(--size-3xl);
 	font-size: var(--size-xl);
 	color: var(--color-dark);
-	/* transition: padding-right 0.3s ease; */
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -54,15 +54,30 @@ const SearchIcon = styled.i.attrs({ className: "ri-search-line" })`
 	cursor: pointer;
 `;
 
-const BagIcon = styled.i.attrs({ className: "ri-shopping-cart-line" })`
-	margin-right: 40px;
+const CartIcon = styled.i.attrs({ className: "ri-shopping-cart-line" })`
+	/* margin-right: 40px; */
 	cursor: pointer;
+`;
+
+const CartCounter = styled.span`
+	position: absolute;
+	cursor: pointer;
+
+	color: var(--color-primary);
+	background-color: red;
+	padding: 1px 8px;
+	border-radius: 50px;
+	font-size: 12px;
+	top: -20%;
+	right: -50%;
 `;
 
 const UserIcon = styled.i.attrs({ className: "ri-user-3-line" })`
 	cursor: pointer;
 `;
 const Header = ({ onOpen, isOpen }) => {
+	const { cartCount } = useCart();
+
 	return (
 		<StyledHeader>
 			<HeaderContent>
@@ -73,7 +88,11 @@ const Header = ({ onOpen, isOpen }) => {
 					<StyledNavLink to="/about">Sobre nosotros</StyledNavLink>
 					<SearchIcon />
 					<HeartIcon />
-					<BagIcon onClick={onOpen} />
+					<div style={{ position: "relative", width: "fit-content", marginRight: "40px" }}>
+						<CartIcon onClick={onOpen} />
+						{cartCount > 0 && <CartCounter onClick={onOpen}>{cartCount}</CartCounter>}
+					</div>
+
 					<StyledNavLink to="/login">
 						<UserIcon />
 					</StyledNavLink>

@@ -13,7 +13,13 @@ export const CartContext = ({ children }) => {
 		setCart((prevCart) => prevCart.filter((c) => c !== cart));
 	};
 
-	return <Cart.Provider value={{ cart, setCart, addCart, removeCart }}>{children}</Cart.Provider>;
+	const cartCount = cart.length;
+
+	return (
+		<Cart.Provider value={{ cart, setCart, addCart, removeCart, cartCount }}>
+			{children}
+		</Cart.Provider>
+	);
 };
 
 export const useCart = () => useContext(Cart);
