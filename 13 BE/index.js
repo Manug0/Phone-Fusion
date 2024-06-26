@@ -1,4 +1,6 @@
 require("dotenv").config();
+const mongoose = require("mongoose");
+
 const express = require("express");
 const { connectDB } = require("./src/config/db");
 const cloudinary = require("cloudinary").v2;
@@ -10,6 +12,11 @@ const clientsRouter = require("./src/api/routes/clients");
 
 const app = express();
 
+// const closeDB = async () => {
+// 	await mongoose.connection.close();
+// };
+
+// closeDB();
 connectDB();
 
 app.use(cors());
