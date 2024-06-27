@@ -1,9 +1,9 @@
 import React from "react";
 import { useCart } from "../../contexts/CartContext";
 import { useCounter } from "../../contexts/CounterContext";
-import { Button, Flex } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 
-const CartIcon = ({ phone, onOpen }) => {
+const CartIcon = ({ phone, onOpen, styles, colorScheme, size }) => {
 	const { cart, addCart } = useCart();
 	const { incrementCounter } = useCounter();
 
@@ -21,9 +21,9 @@ const CartIcon = ({ phone, onOpen }) => {
 
 	return (
 		<Button
-			style={{ display: "flex", gap: "8px" }}
-			colorScheme="green"
-			size="sm"
+			style={{ ...styles, display: "flex", gap: "8px" }}
+			colorScheme={colorScheme || "green"}
+			size={size || "sm"}
 			onClick={toggleLiked}>
 			<p>Añadir al carrito </p>
 			<i class="ri-shopping-cart-2-fill"></i>

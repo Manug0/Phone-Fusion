@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchPhones } from "../../services/Api";
 import styled from "styled-components";
-import HeartSVG from "../../components/HeartSVG";
-import CartIcon from "../../components/Cart/CartIcon";
 import {
 	Button,
 	Slider,
@@ -12,6 +10,9 @@ import {
 	SliderMark,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import { useNavigate } from "react-router-dom";
+import HeartSVG from "../../components/SVGs/HeartSVG";
+import CartIcon from "../../components/Cart/CartIcon";
 
 const PhoneSection = styled.section`
 	width: 90%;
@@ -81,6 +82,8 @@ const StyledHeartSVG = styled(HeartSVG)`
 	position: absolute;
 	top: var(--size-sm);
 	right: var(--size-sm);
+	width: 18px;
+	height: 19px;
 	transform: translateY(-100px);
 	transition: transform 0.3s ease-in-out;
 
@@ -98,6 +101,10 @@ const Phones = ({ onOpen }) => {
 	const [phones, setPhones] = useState([]);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
+
+	const navigate = useNavigate();
+
+	const goToPhone = (phone) => navigate(`/phone/${phone._id}`);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -131,7 +138,7 @@ const Phones = ({ onOpen }) => {
 			</Slider>
 			<PhoneDisplay>
 				{phones.map((phone) => (
-					<PhoneCard key={phone._id} phone={phone}>
+					<PhoneCard key={phone._id} phone={phone} onClick={() => goToPhone(phone)}>
 						<PhoneImg src={phone.imageUrl} alt={phone.name} />
 						<div
 							style={{

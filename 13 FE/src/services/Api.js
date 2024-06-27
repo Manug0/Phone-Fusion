@@ -39,4 +39,12 @@ export const updateClient = (id, clientData, token) => {
 	});
 };
 
+export const getPhoneById = (id) => {
+	return instance.get(`/phones/${id}`);
+};
+
+export const getSaleById = (id) => {
+	return instance.get(`/sales/${id}`);
+};
+
 export default instance;

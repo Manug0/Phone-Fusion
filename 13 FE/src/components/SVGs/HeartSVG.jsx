@@ -2,11 +2,11 @@ import React from "react";
 
 const HeartSVG = (props) => {
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" width={18} height={19} fill="none" {...props}>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none" {...props}>
 			<mask
 				id="a"
-				width={18}
-				height={19}
+				width="100%"
+				height="100%"
 				x={0}
 				y={0}
 				maskUnits="userSpaceOnUse"
