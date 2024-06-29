@@ -5,7 +5,7 @@ const phonesRouter = require("express").Router();
 
 phonesRouter.get("/", getPhones);
 phonesRouter.get("/:id", getPhoneById);
-phonesRouter.put("/:id", [isAdmin], updatePhone);
+phonesRouter.put("/:id", updatePhone); //auth
 phonesRouter.delete("/:id", [isAdmin], deletePhone);
 
 module.exports = phonesRouter;

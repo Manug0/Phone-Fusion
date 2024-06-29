@@ -39,7 +39,10 @@ const updatePhone = async (req, res, next) => {
 	try {
 		const { id } = req.params;
 		const updates = { ...req.body };
-		const phoneUpdated = await Phone.findByIdAndUpdate(id, updates, { new: true });
+		const phoneUpdated = await Phone.findByIdAndUpdate(id, updates, {
+			new: true,
+			useFindAndModify: false,
+		});
 		return res.status(200).json({ message: "Móvil actualizado", phoneUpdated });
 	} catch (error) {
 		console.error(error);

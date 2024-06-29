@@ -12,11 +12,6 @@ const clientsRouter = require("./src/api/routes/clients");
 
 const app = express();
 
-// const closeDB = async () => {
-// 	await mongoose.connection.close();
-// };
-
-// closeDB();
 connectDB();
 
 app.use(cors());
