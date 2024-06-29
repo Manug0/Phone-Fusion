@@ -1,11 +1,15 @@
-import { useState, useEffect } from "react";
+// Phone.js
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPhoneById, getSaleById } from "../../services/Api";
+import { getPhoneById } from "../../services/Api";
 import styled from "styled-components";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Button, position } from "@chakra-ui/react";
+import { Button, Spinner } from "@chakra-ui/react";
 import CartIcon from "../../components/Cart/CartIcon";
 import HeartSVG from "../../components/SVGs/HeartSVG";
+import ReviewModal from "../../components/ReviewModal/ReviewModal";
+import ReviewsBox from "../../components/ReviewBox/ReviewBox";
+import Rating from "../../components/Rating/Rating";
 
 const Container = styled.div`
 	position: relative;
@@ -67,6 +71,7 @@ const Condition = styled.p`
 `;
 
 const ReviewSection = styled.section`
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	margin: auto;
@@ -74,41 +79,14 @@ const ReviewSection = styled.section`
 	width: 80%;
 `;
 
-const WriteReview = styled.button`
-	background-color: #e3e8ff;
-	position: absolute;
-	right: var(--size-xl);
-	padding: var(--size-md);
-	border-radius: 8px;
-	font-weight: var(--font-weight-semibold);
-`;
-
-const ReviewContainer = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 4px;
-	background-color: #fafafa;
-	width: 20%;
-`;
-
-const Rating = styled.p`
-	font-size: 16px;
-	font-weight: 500;
-`;
-
-const Reviews = styled.p`
-	font-size: 16px;
-	font-weight: 500;
-`;
-
 const Phone = ({ onOpen }) => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [phone, setPhone] = useState(null);
 	const [loading, setLoading] = useState(true);
-	const [selected, setSelected] = useState(null);
+	const [selected, setSelected] = useState("6GB x 128GB");
 	const [extraPrice, setExtraPrice] = useState(null);
+	const [averageRating, setAverageRating] = useState(0);
 
 	const backToPhones = () => navigate("/phones");
 
@@ -117,7 +95,6 @@ const Phone = ({ onOpen }) => {
 			try {
 				const phoneRes = await getPhoneById(id);
 				setPhone(phoneRes.data);
-
 				setLoading(false);
 			} catch (error) {
 				console.error("Error consiguiendo el móvil:", error);
@@ -128,6 +105,14 @@ const Phone = ({ onOpen }) => {
 		fetchPhone();
 	}, [id]);
 
+	useEffect(() => {
+		if (phone) {
+			const avgRating =
+				phone.reviews.reduce((sum, review) => sum + review.rating, 0) / phone.reviews.length;
+			setAverageRating(avgRating);
+		}
+	}, [phone]);
+
 	const handleClick = (value) => {
 		setSelected(value);
 		if (!extraPrice) {
@@ -136,11 +121,7 @@ const Phone = ({ onOpen }) => {
 	};
 
 	if (loading) {
-		return <div>Cargando...</div>;
-	}
-
-	if (!phone) {
-		return <div>No se encontró el teléfono.</div>;
+		return <Spinner />;
 	}
 
 	return (
@@ -161,15 +142,15 @@ const Phone = ({ onOpen }) => {
 					) : (
 						<Price>{phone.price}€</Price>
 					)}
+					<Rating averageRating={averageRating} reviewCount={phone?.reviews?.length || 0} />{" "}
 					<Condition condition={phone.condition}>{phone.condition}</Condition>
-
 					<div style={{ display: "flex", gap: "8px" }}>
 						<Button
 							colorScheme={selected === "6GB x 128GB" ? "blue" : "gray"}
 							variant="outline"
 							onClick={() => handleClick("6GB x 128GB")}>
 							6GB x 128GB
-						</Button>{" "}
+						</Button>
 						<Button
 							colorScheme={selected === "8GB x 256GB" ? "blue" : "gray"}
 							variant="outline"
@@ -179,11 +160,11 @@ const Phone = ({ onOpen }) => {
 					</div>
 					<div>
 						<p>
-							<i class="ri-truck-line"></i> Envío gratis{" "}
+							<i className="ri-truck-line"></i> Envío gratis
 						</p>
 						<span style={{ fontWeight: "var(--font-weight-semibold)", color: "green" }}>
 							Recíbelo mañana
-						</span>{" "}
+						</span>
 					</div>
 					<CartIcon
 						phone={phone}
@@ -195,16 +176,11 @@ const Phone = ({ onOpen }) => {
 				</Details>
 			</div>
 			<ReviewSection>
-				<WriteReview>Escribe una reseña</WriteReview>
-				{phone.review && phone.review.length > 0 ? (
-					<ReviewContainer>
-						<Rating>Rating: {phone.rating.join(", ")}</Rating>
-						{phone.review.map((rev, index) => (
-							<Reviews key={index}>{rev}</Reviews>
-						))}
-					</ReviewContainer>
+				<ReviewModal />
+				{phone.reviews && phone.reviews.length > 0 ? (
+					<ReviewsBox reviews={phone.reviews} />
 				) : (
-					<ReviewSection>Se el primero en comentar!</ReviewSection>
+					<p>Se el primero en comentar!</p>
 				)}
 			</ReviewSection>
 		</Container>
