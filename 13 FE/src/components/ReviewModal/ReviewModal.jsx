@@ -1,5 +1,4 @@
-import { useDisclosure } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
 	Button,
@@ -11,24 +10,12 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	Input,
+	Text,
+	FormLabel,
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import { updatePhone } from "../../services/Api";
 import { useParams } from "react-router-dom";
-
-// const WriteReview = styled(Button)`
-// 	background-color: var(--color-quaternary);
-// 	position: absolute;
-// 	right: var(--size-xl);
-// 	padding: var(--size-xs);
-// 	border-radius: 8px;
-// 	border: 1px solid var(--color-secondary);
-// 	font-weight: var(--font-weight-medium);
-
-// 	&:hover {
-// 		background-color: var(--color-tertiary);
-// 	}
-// `;
 
 const StarRatingContainer = styled.div`
 	display: flex;
@@ -54,17 +41,31 @@ const Star = styled.span`
 	font-size: 2rem;
 `;
 
+const ErrorMessage = styled(Text)`
+	color: red;
+	font-size: 0.8rem;
+`;
+
 const ReviewModal = ({ setPhone, phone, disclosure }) => {
-	const { isOpen, onOpen, onClose } = useDisclosure();
+	const { isOpen, onClose } = disclosure;
 	const { id } = useParams();
 	const [hover, setHover] = useState(0);
+	const [userName, setUserName] = useState("");
+
 	const {
 		register,
 		handleSubmit,
 		setValue,
 		watch,
 		formState: { errors },
+		trigger,
 	} = useForm();
+
+	useEffect(() => {
+		let storedUser = JSON.parse(localStorage.getItem("user"));
+		setUserName(storedUser.user.name);
+		setValue("name", storedUser.user.name);
+	}, [setValue]);
 
 	const rating = watch("rating", 0);
 
@@ -82,10 +83,15 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 			};
 			await updatePhone(id, { $push: { reviews: reviewData } });
 			setPhone({ ...phone, reviews: [...phone.reviews, reviewData] });
-			disclosure.onClose();
+			onClose();
 		} catch (error) {
 			console.error("Error submitting review", error);
 		}
+	};
+
+	const handleRatingClick = (index) => {
+		setValue("rating", index);
+		trigger("rating");
 	};
 
 	return (
@@ -104,7 +110,7 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 										type="button"
 										key={index}
 										className={index <= (hover || rating) ? "on" : "off"}
-										onClick={() => setValue("rating", index)}
+										onClick={() => handleRatingClick(index)}
 										onMouseEnter={() => setHover(index)}
 										onMouseLeave={() => setHover(rating)}>
 										<Star className="star">&#9733;</Star>
@@ -112,18 +118,31 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 								);
 							})}
 						</StarRatingContainer>
+						{errors.rating && <ErrorMessage>La calificación es obligatoria</ErrorMessage>}
+						<FormLabel>Nombre público que aparecerá ante otros clientes</FormLabel>
 						<Input
-							style={{ height: "var(--size-6xl)", padding: "var(--size-xl)" }}
-							placeholder="Comparte tu experiencia"
+							style={{
+								padding: "var(--size-xl)",
+								borderColor: errors.name ? "red" : "initial",
+							}}
+							size="md"
+							value={userName}
+							onChange={(e) => {
+								setUserName(e.target.value);
+								setValue("name", e.target.value);
+							}}
+						/>
+						{errors.name && <ErrorMessage>El nombre es obligatorio</ErrorMessage>}
+						<FormLabel>Comparte tu experiencia</FormLabel>
+						<Input
+							style={{
+								height: "var(--size-6xl)",
+								padding: "var(--size-xl)",
+								borderColor: errors.review ? "red" : "initial",
+							}}
+							placeholder="Me ha encantado!"
 							{...register("review")}
 						/>
-						<Input
-							style={{ padding: "var(--size-xl)" }}
-							size="md"
-							placeholder="Nombre público que aparecerá ante otros clientes"
-							{...register("name", { required: true })}
-						/>
-						{errors.name && <span>El nombre es obligatorio</span>}
 					</ModalBody>
 					<ModalFooter>
 						<Button variant="ghost" type="submit">

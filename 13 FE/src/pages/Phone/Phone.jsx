@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPhoneById } from "../../services/Api";
 import styled from "styled-components";
@@ -9,6 +9,7 @@ import HeartSVG from "../../components/SVGs/HeartSVG";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import ReviewsBox from "../../components/ReviewBox/ReviewBox";
 import Rating from "../../components/Rating/Rating";
+import Cart from "../../components/Cart/Cart";
 
 const Container = styled.div`
 	position: relative;
@@ -89,6 +90,7 @@ const Phone = () => {
 	const [averageRating, setAverageRating] = useState(0);
 	const cartDisclosure = useDisclosure();
 	const reviewDisclosure = useDisclosure();
+	const btnRef = useRef(); // Define btnRef
 
 	const backToPhones = () => navigate("/phones");
 
@@ -181,6 +183,7 @@ const Phone = () => {
 						colorScheme="gray"
 						size="lg"
 						styles={{ fontSize: "var(--size-xl)" }}
+						ref={btnRef}
 					/>
 				</Details>
 			</div>
@@ -199,6 +202,7 @@ const Phone = () => {
 					<p>Se el primero en comentar!</p>
 				)}
 			</ReviewSection>
+			<Cart isOpen={cartDisclosure.isOpen} onClose={cartDisclosure.onClose} btnRef={btnRef} />
 		</Container>
 	);
 };
