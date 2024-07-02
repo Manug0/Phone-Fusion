@@ -29,6 +29,12 @@ const BackButton = styled.button`
 	cursor: pointer;
 `;
 
+const PhoneSection = styled.section`
+	display: flex;
+	gap: var(--size-5xl);
+	position: relative;
+`;
+
 const StyledHeartSVG = styled(HeartSVG)`
 	position: absolute;
 	top: var(--size-4xl);
@@ -90,7 +96,7 @@ const Phone = () => {
 	const [averageRating, setAverageRating] = useState(0);
 	const cartDisclosure = useDisclosure();
 	const reviewDisclosure = useDisclosure();
-	const btnRef = useRef(); // Define btnRef
+	const btnRef = useRef();
 
 	const backToPhones = () => navigate("/phones");
 
@@ -134,7 +140,7 @@ const Phone = () => {
 				<ArrowBackIcon boxSize={6} />
 				Volver a móviles
 			</BackButton>
-			<div style={{ display: "flex", gap: "var(--size-5xl)" }}>
+			<PhoneSection>
 				<Image src={phone.imageUrl} alt={phone.name} />
 				<StyledHeartSVG />
 				<Details>
@@ -186,16 +192,16 @@ const Phone = () => {
 						ref={btnRef}
 					/>
 				</Details>
-			</div>
-			<ReviewModal setPhone={setPhone} phone={phone} disclosure={reviewDisclosure} />
-			<ReviewSection>
 				<Button
-					style={{ position: "absolute", top: "50%", left: "8%", zIndex: "1" }}
+					style={{ position: "absolute", bottom: "-10%", left: "-20%", zIndex: "1" }}
 					colorScheme="blue"
 					variant="outline"
 					onClick={reviewDisclosure.onOpen}>
 					Escribe una reseña
 				</Button>
+			</PhoneSection>
+			<ReviewModal setPhone={setPhone} phone={phone} disclosure={reviewDisclosure} />
+			<ReviewSection>
 				{phone.reviews && phone.reviews.length > 0 ? (
 					<ReviewsBox reviews={phone.reviews} />
 				) : (

@@ -9,6 +9,7 @@ const ReviewContainer = styled.div`
 	gap: 4px;
 	margin-top: var(--size-6xl);
 	width: 80%;
+	margin: auto;
 `;
 
 const Reviews = styled.p`
