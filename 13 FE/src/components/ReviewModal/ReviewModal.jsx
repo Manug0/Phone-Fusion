@@ -57,9 +57,17 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 		handleSubmit,
 		setValue,
 		watch,
-		formState: { errors },
+		formState: { errors, isSubmitted },
 		trigger,
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			rating: 0,
+		},
+	});
+
+	useEffect(() => {
+		register("rating", { required: "La calificación es obligatoria", min: 1 });
+	}, [register]);
 
 	useEffect(() => {
 		let storedUser = JSON.parse(localStorage.getItem("user"));
@@ -70,6 +78,10 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 	const rating = watch("rating", 0);
 
 	const writeReview = async (data) => {
+		if (data.rating === 0) {
+			setValue("rating", 0, { shouldValidate: true });
+			return;
+		}
 		try {
 			let rawDate = new Date();
 			let options = { year: "numeric", month: "2-digit", day: "2-digit" };
@@ -90,7 +102,7 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 	};
 
 	const handleRatingClick = (index) => {
-		setValue("rating", index);
+		setValue("rating", index, { shouldValidate: true });
 		trigger("rating");
 	};
 
@@ -102,25 +114,36 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 					<ModalHeader>¿Cómo calificarías este producto?</ModalHeader>
 					<ModalCloseButton />
 					<ModalBody>
-						<StarRatingContainer style={{ marginBottom: "var(--size-lg)" }}>
-							{[...Array(5)].map((_, index) => {
-								index += 1;
-								return (
-									<StarButton
-										type="button"
-										key={index}
-										className={index <= (hover || rating) ? "on" : "off"}
-										onClick={() => handleRatingClick(index)}
-										onMouseEnter={() => setHover(index)}
-										onMouseLeave={() => setHover(rating)}>
-										<Star className="star">&#9733;</Star>
-									</StarButton>
-								);
-							})}
-						</StarRatingContainer>
-						{errors.rating && <ErrorMessage>La calificación es obligatoria</ErrorMessage>}
+						<div>
+							<input
+								type="hidden"
+								{...register("rating", { required: "La calificación es obligatoria", min: 1 })}
+							/>
+							<StarRatingContainer style={{ marginBottom: "var(--size-lg)" }}>
+								{[...Array(5)].map((_, index) => {
+									index += 1;
+									return (
+										<StarButton
+											type="button"
+											key={index}
+											className={index <= (hover || rating) ? "on" : "off"}
+											onClick={() => handleRatingClick(index)}
+											onMouseEnter={() => setHover(index)}
+											onMouseLeave={() => setHover(rating)}>
+											<Star className="star">&#9733;</Star>
+										</StarButton>
+									);
+								})}
+							</StarRatingContainer>
+							{(errors.rating || (isSubmitted && !rating)) && (
+								<ErrorMessage>
+									{errors.rating?.message || "La calificación es obligatoria"}
+								</ErrorMessage>
+							)}
+						</div>
 						<FormLabel>Nombre público que aparecerá ante otros clientes</FormLabel>
 						<Input
+							{...register("name", { required: "El nombre es obligatorio" })}
 							style={{
 								padding: "var(--size-xl)",
 								borderColor: errors.name ? "red" : "initial",
@@ -135,13 +158,13 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 						{errors.name && <ErrorMessage>El nombre es obligatorio</ErrorMessage>}
 						<FormLabel>Comparte tu experiencia</FormLabel>
 						<Input
+							{...register("review")}
 							style={{
 								height: "var(--size-6xl)",
 								padding: "var(--size-xl)",
 								borderColor: errors.review ? "red" : "initial",
 							}}
 							placeholder="Me ha encantado!"
-							{...register("review")}
 						/>
 					</ModalBody>
 					<ModalFooter>
