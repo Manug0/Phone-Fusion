@@ -1,10 +1,9 @@
-// Phone.js
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPhoneById } from "../../services/Api";
 import styled from "styled-components";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Button, Spinner } from "@chakra-ui/react";
+import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
 import CartIcon from "../../components/Cart/CartIcon";
 import HeartSVG from "../../components/SVGs/HeartSVG";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
@@ -17,6 +16,7 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 	padding: 20px;
+	margin-top: var(--size-md);
 `;
 
 const BackButton = styled.button`
@@ -79,7 +79,7 @@ const ReviewSection = styled.section`
 	width: 80%;
 `;
 
-const Phone = ({ onOpen }) => {
+const Phone = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const [phone, setPhone] = useState(null);
@@ -87,6 +87,8 @@ const Phone = ({ onOpen }) => {
 	const [selected, setSelected] = useState("6GB x 128GB");
 	const [extraPrice, setExtraPrice] = useState(null);
 	const [averageRating, setAverageRating] = useState(0);
+	const cartDisclosure = useDisclosure();
+	const reviewDisclosure = useDisclosure();
 
 	const backToPhones = () => navigate("/phones");
 
@@ -142,7 +144,12 @@ const Phone = ({ onOpen }) => {
 					) : (
 						<Price>{phone.price}€</Price>
 					)}
-					<Rating averageRating={averageRating} reviewCount={phone?.reviews?.length || 0} />{" "}
+					{phone.reviews && phone.reviews.length > 0 && (
+						<div>
+							<Rating averageRating={averageRating} reviewCount={phone?.reviews?.length || 0} />{" "}
+						</div>
+					)}
+
 					<Condition condition={phone.condition}>{phone.condition}</Condition>
 					<div style={{ display: "flex", gap: "8px" }}>
 						<Button
@@ -168,15 +175,24 @@ const Phone = ({ onOpen }) => {
 					</div>
 					<CartIcon
 						phone={phone}
-						onOpen={onOpen}
+						selectedOption={selected}
+						extraPrice={extraPrice}
+						onOpen={cartDisclosure.onOpen}
 						colorScheme="gray"
 						size="lg"
 						styles={{ fontSize: "var(--size-xl)" }}
 					/>
 				</Details>
 			</div>
+			<ReviewModal setPhone={setPhone} phone={phone} disclosure={reviewDisclosure} />
 			<ReviewSection>
-				<ReviewModal />
+				<Button
+					style={{ position: "absolute", top: "50%", left: "8%", zIndex: "1" }}
+					colorScheme="blue"
+					variant="outline"
+					onClick={reviewDisclosure.onOpen}>
+					Escribe una reseña
+				</Button>
 				{phone.reviews && phone.reviews.length > 0 ? (
 					<ReviewsBox reviews={phone.reviews} />
 				) : (

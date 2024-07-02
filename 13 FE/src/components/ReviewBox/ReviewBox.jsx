@@ -4,34 +4,36 @@ import StarsReview from "../StarsReview/StarsReview";
 
 const ReviewContainer = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: column-reverse;
 	align-items: center;
 	gap: 4px;
 	margin-top: var(--size-6xl);
-	background-color: #fafafa;
 	width: 80%;
 `;
 
-const Rating = styled.p`
-	font-size: 16px;
-	font-weight: 500;
-`;
-
 const Reviews = styled.p`
-	font-size: 16px;
-	font-weight: 500;
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	align-items: start;
+	background-color: #f2f2f2;
+	padding: var(--size-xl);
+	font-size: var(--size-md);
+	font-weight: var(--font-weight-normal);
+	border-radius: 8px;
 `;
 
 const ReviewsBox = ({ reviews }) => {
-	const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
-
 	return (
 		<ReviewContainer>
-			<Rating averageRating={averageRating} reviewCount={reviews.length} />
 			{reviews.map((rev, index) => (
 				<Reviews key={index}>
-					<strong>{rev.clientPublicName}:</strong> {rev.review} (Puntuación:{" "}
-					<StarsReview count={rev.rating} />)
+					<div style={{ display: "flex", gap: "var(--size-md)", alignItems: "center" }}>
+						<strong>{rev.clientPublicName}</strong>
+						<StarsReview count={rev.rating} />
+					</div>
+					<p>{rev.reviewDate}</p>
+					<p>{rev.review}</p>
 				</Reviews>
 			))}
 		</ReviewContainer>

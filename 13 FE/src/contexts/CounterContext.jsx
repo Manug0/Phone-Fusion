@@ -12,10 +12,20 @@ export const CounterContext = ({ children }) => {
 		}));
 	};
 
+	const decrementCounter = (productName) => {
+		if (counter[productName] > 0) {
+			setCounter((prevCounter) => ({
+				...prevCounter,
+				[productName]: prevCounter[productName] - 1,
+			}));
+		}
+	};
+
 	const getCounter = (productName) => counter[productName] || 0;
 
 	return (
-		<Counter.Provider value={{ counter, setCounter, incrementCounter, getCounter }}>
+		<Counter.Provider
+			value={{ counter, setCounter, incrementCounter, decrementCounter, getCounter }}>
 			{children}
 		</Counter.Provider>
 	);

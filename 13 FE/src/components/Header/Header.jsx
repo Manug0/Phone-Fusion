@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useCart } from "../../contexts/CartContext";
 
@@ -25,6 +25,7 @@ const Logo = styled.img`
 	left: 50px;
 	height: var(--size-6xl);
 	transition: height 0.4s ease;
+	cursor: pointer;
 `;
 
 const Nav = styled.nav`
@@ -78,10 +79,14 @@ const UserIcon = styled.i.attrs({ className: "ri-user-3-line" })`
 const Header = ({ onOpen, isOpen }) => {
 	const { cartCount } = useCart();
 
+	const navigate = useNavigate();
+
+	const goToHome = () => navigate("/");
+
 	return (
 		<StyledHeader>
 			<HeaderContent>
-				<Logo src="/src/assets/logo.png" alt="logo"></Logo>
+				<Logo src="/src/assets/logo.png" alt="logo" onClick={goToHome} />
 				<Nav style={{ paddingRight: isOpen ? "8px" : "0px" }}>
 					<StyledNavLink to="/">Inicio</StyledNavLink>
 					<StyledNavLink to="/phones">Móviles</StyledNavLink>

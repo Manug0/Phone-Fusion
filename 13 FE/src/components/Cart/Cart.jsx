@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
 	Drawer,
 	DrawerBody,
@@ -8,25 +8,70 @@ import {
 	DrawerContent,
 	DrawerCloseButton,
 	Button,
+	IconButton,
 } from "@chakra-ui/react";
 import { useCart } from "../../contexts/CartContext";
-import PhoneCounter from "../PhoneCounter/PhoneCounter";
 import { useCounter } from "../../contexts/CounterContext";
-import { DeleteIcon } from "@chakra-ui/icons";
-import styled, { keyframes } from "styled-components";
+import { DeleteIcon, AddIcon, MinusIcon } from "@chakra-ui/icons";
+import styled from "styled-components";
 import OrderCompleteCheckmark from "../OrderCompleteCheckmark/OrderCompleteCheckmark";
 import { createClient, createSale, updateClient } from "../../services/Api";
 
 const CartItem = styled.div`
-	border-bottom: 1px solid var(--color-dark);
 	width: 80%;
 	padding: var(--size-lg) 0;
 	margin: auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+
+	img {
+		width: 60%;
+	}
+
+	> div {
+		flex: 1;
+	}
+
+	.product-info {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+
+		.product-name {
+			font-weight: var(--font-weight-semibold);
+		}
+
+		.product-price {
+			font-weight: var(--font-weight-bold);
+		}
+
+		.quantity-container {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+	}
+
+	.delete-button {
+		cursor: pointer;
+		position: absolute;
+		top: 10px;
+		left: -10px;
+	}
+`;
+
+const TotalPrice = styled.p`
+	font-weight: var(--font-weight-semibold);
+	margin-top: var(--size-xl);
+	display: flex;
+	gap: 4px;
 `;
 
 const Cart = ({ isOpen, onClose, btnRef }) => {
 	const { cart, setCart, removeCart } = useCart();
-	const { counter, setCounter } = useCounter();
+	const { counter, setCounter, incrementCounter, decrementCounter } = useCounter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [completeOrder, setCompleteOrder] = useState(false);
 
@@ -34,7 +79,7 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 		removeCart(phone);
 		setCounter((prevCounter) => ({
 			...prevCounter,
-			[phone.name]: 0,
+			[`${phone.name} (${phone.selectedOption})`]: 0,
 		}));
 	};
 
@@ -56,7 +101,6 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 				userId: user._id,
 				saleId: [],
 			};
-			console.log(newClient);
 
 			const clientRes = await createClient(newClient, token);
 
@@ -65,7 +109,6 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 			}
 
 			const createdClient = clientRes.data;
-			console.log(createdClient);
 
 			const newSale = {
 				saleDate: new Date(),
@@ -80,7 +123,6 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 			}
 
 			const createdSale = saleRes.data;
-			console.log(createdSale);
 
 			createdClient.saleId.push(createdSale._id);
 
@@ -107,7 +149,11 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 	};
 
 	const totalPrice = useMemo(() => {
-		return cart.reduce((total, phone) => total + phone.price * counter[phone.name], 0);
+		return cart.reduce(
+			(total, phone) =>
+				total + phone.price * (counter[`${phone.name} (${phone.selectedOption})`] || 1),
+			0
+		);
 	}, [cart, counter]);
 
 	return (
@@ -122,36 +168,53 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 						<p style={{ fontWeight: "var(--font-weight-semibold)" }}>Tu carrito está vacío</p>
 					) : (
 						cart.map((phone) => (
-							<CartItem key={phone.name}>
-								<img src={phone.imageUrl} alt="phone" style={{ width: "60%" }} />
-								<div>
-									<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.name}</p>
-									<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.price}€</p>
-									<p style={{ display: "flex" }}>
-										Uds: <PhoneCounter productName={phone.name} />
-									</p>
-									{counter[phone.name] > 1 && (
-										<p
-											style={{
-												fontWeight: "var(--font-weight-semibold)",
-												marginTop: "var(--size-xl)",
-												display: "flex",
-												flexDirection: "column",
-											}}>
-											Total:
-											<span style={{ color: "green" }}>{counter[phone.name] * phone.price}€</span>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column",
+									borderBottom: "1px solid var(--color-dark)",
+								}}>
+								<CartItem key={`${phone.name} (${phone.selectedOption})`}>
+									<IconButton
+										className="delete-button"
+										icon={<DeleteIcon />}
+										onClick={() => handleDelete(phone)}
+										size="xs"
+									/>
+									<img src={phone.imageUrl} alt="phone" />
+									<div className="product-info">
+										<p className="product-name">
+											{phone.name} ({phone.selectedOption})
 										</p>
+										<p className="product-price">{phone.price}€</p>
+										<div className="quantity-container">
+											<IconButton
+												icon={<MinusIcon />}
+												onClick={() => decrementCounter(`${phone.name} (${phone.selectedOption})`)}
+												isDisabled={counter[`${phone.name} (${phone.selectedOption})`] === 1}
+												size="sm"
+											/>
+											<p>{counter[`${phone.name} (${phone.selectedOption})`]}</p>
+											<IconButton
+												icon={<AddIcon />}
+												onClick={() => incrementCounter(`${phone.name} (${phone.selectedOption})`)}
+												size="sm"
+											/>
+										</div>
+									</div>
+								</CartItem>
+								<div>
+									{counter[`${phone.name} (${phone.selectedOption})`] > 1 && (
+										<TotalPrice>
+											Total:
+											<span style={{ color: "green" }}>
+												{" "}
+												{counter[`${phone.name} (${phone.selectedOption})`] * phone.price}€
+											</span>
+										</TotalPrice>
 									)}
 								</div>
-								<DeleteIcon
-									onClick={() => handleDelete(phone)}
-									style={{
-										cursor: "pointer",
-										position: "relative",
-										right: "-200px",
-									}}
-								/>
-							</CartItem>
+							</div>
 						))
 					)}
 					{completeOrder && (

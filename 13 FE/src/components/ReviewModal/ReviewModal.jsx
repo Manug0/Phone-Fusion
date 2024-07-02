@@ -16,19 +16,19 @@ import styled from "styled-components";
 import { updatePhone } from "../../services/Api";
 import { useParams } from "react-router-dom";
 
-const WriteReview = styled.button`
-	background-color: var(--color-quaternary);
-	position: absolute;
-	right: var(--size-xl);
-	padding: var(--size-xs);
-	border-radius: 8px;
-	border: 1px solid var(--color-secondary);
-	font-weight: var(--font-weight-medium);
+// const WriteReview = styled(Button)`
+// 	background-color: var(--color-quaternary);
+// 	position: absolute;
+// 	right: var(--size-xl);
+// 	padding: var(--size-xs);
+// 	border-radius: 8px;
+// 	border: 1px solid var(--color-secondary);
+// 	font-weight: var(--font-weight-medium);
 
-	&:hover {
-		background-color: var(--color-tertiary);
-	}
-`;
+// 	&:hover {
+// 		background-color: var(--color-tertiary);
+// 	}
+// `;
 
 const StarRatingContainer = styled.div`
 	display: flex;
@@ -54,7 +54,7 @@ const Star = styled.span`
 	font-size: 2rem;
 `;
 
-const ReviewModal = () => {
+const ReviewModal = ({ setPhone, phone, disclosure }) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const { id } = useParams();
 	const [hover, setHover] = useState(0);
@@ -70,21 +70,26 @@ const ReviewModal = () => {
 
 	const writeReview = async (data) => {
 		try {
+			let rawDate = new Date();
+			let options = { year: "numeric", month: "2-digit", day: "2-digit" };
+			let date = rawDate.toLocaleDateString("es-ES", options);
+
 			const reviewData = {
 				review: data.review,
 				rating: data.rating,
 				clientPublicName: data.name,
+				reviewDate: date,
 			};
 			await updatePhone(id, { $push: { reviews: reviewData } });
-			onClose(); // Close the modal on success
+			setPhone({ ...phone, reviews: [...phone.reviews, reviewData] });
+			disclosure.onClose();
 		} catch (error) {
-			console.error("Error submitting review", error); // Handle error
+			console.error("Error submitting review", error);
 		}
 	};
 
 	return (
 		<>
-			<WriteReview onClick={onOpen}>Escribe una reseña</WriteReview>
 			<Modal isOpen={isOpen} onClose={onClose} size="xl">
 				<ModalOverlay />
 				<ModalContent as="form" onSubmit={handleSubmit(writeReview)}>

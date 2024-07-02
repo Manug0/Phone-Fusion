@@ -3,17 +3,23 @@ import { useCart } from "../../contexts/CartContext";
 import { useCounter } from "../../contexts/CounterContext";
 import { Button } from "@chakra-ui/react";
 
-const CartIcon = ({ phone, onOpen, styles, colorScheme, size }) => {
+const CartIcon = ({ phone, selectedOption, extraPrice, onOpen, styles, colorScheme, size }) => {
 	const { cart, addCart } = useCart();
 	const { incrementCounter } = useCounter();
 
 	const toggleLiked = (event) => {
 		event.stopPropagation();
-		if (cart.some((c) => c.name === phone.name)) {
-			incrementCounter(phone.name);
+		const phoneWithOption = {
+			...phone,
+			selectedOption,
+			price: phone.price + (selectedOption === "8GB x 256GB" ? extraPrice : 0),
+		};
+
+		if (cart.some((c) => c.name === phone.name && c.selectedOption === selectedOption)) {
+			incrementCounter(`${phone.name} (${selectedOption})`);
 		} else {
-			addCart(phone);
-			incrementCounter(phone.name);
+			addCart(phoneWithOption);
+			incrementCounter(`${phone.name} (${selectedOption})`);
 		}
 
 		onOpen();
@@ -26,7 +32,7 @@ const CartIcon = ({ phone, onOpen, styles, colorScheme, size }) => {
 			size={size || "sm"}
 			onClick={toggleLiked}>
 			<p>Añadir al carrito </p>
-			<i class="ri-shopping-cart-2-fill"></i>
+			<i className="ri-shopping-cart-2-fill"></i>
 		</Button>
 	);
 };

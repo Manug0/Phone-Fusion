@@ -44,23 +44,21 @@ const PhoneCard = styled.div`
 	cursor: pointer;
 	padding: var(--size-xl);
 	border-radius: 10px;
-	transition: scale 0.3s;
-
-	&:hover {
-		scale: 1.01;
-		border: 1px solid #ffffff66;
-		border-radius: 12.5px;
-		box-shadow: 1.56px 1.56px 3.12px #a6aabc, -1.56px -1.56px 3.12px #f9faff;
-	}
 `;
 
 const PhoneImg = styled.img`
 	max-width: 250px;
 	max-height: 166px;
+	min-height: 166px;
 	width: 80%;
 	margin: 0 auto;
 	height: fit-content;
 	border-radius: 8px;
+	transition: scale 0.3s;
+
+	&:hover {
+		scale: 1.02;
+	}
 `;
 
 const AddCartButton = styled.button`
