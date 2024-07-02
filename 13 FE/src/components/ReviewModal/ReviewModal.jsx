@@ -12,6 +12,8 @@ import {
 	Input,
 	Text,
 	FormLabel,
+	FormControl,
+	FormErrorMessage,
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import { updatePhone } from "../../services/Api";
@@ -59,6 +61,7 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 		watch,
 		formState: { errors, isSubmitted },
 		trigger,
+		clearErrors,
 	} = useForm({
 		defaultValues: {
 			rating: 0,
@@ -77,6 +80,15 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 
 	const rating = watch("rating", 0);
 
+	const resetForm = () => {
+		setValue("name", "");
+		setValue("rating", 0);
+		setValue("review", "");
+		setUserName("");
+		setHover(0);
+		clearErrors();
+	};
+
 	const writeReview = async (data) => {
 		if (data.rating === 0) {
 			setValue("rating", 0, { shouldValidate: true });
@@ -93,9 +105,10 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 				clientPublicName: data.name,
 				reviewDate: date,
 			};
+
 			await updatePhone(id, { $push: { reviews: reviewData } });
 			setPhone({ ...phone, reviews: [...phone.reviews, reviewData] });
-			onClose();
+			handleClose();
 		} catch (error) {
 			console.error("Error submitting review", error);
 		}
@@ -106,13 +119,20 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 		trigger("rating");
 	};
 
+	const handleClose = () => {
+		resetForm();
+		onClose();
+	};
+
 	return (
 		<>
-			<Modal isOpen={isOpen} onClose={onClose} size="xl">
+			<Modal isOpen={isOpen} onClose={handleClose} size="xl">
 				<ModalOverlay />
 				<ModalContent as="form" onSubmit={handleSubmit(writeReview)}>
-					<ModalHeader>¿Cómo calificarías este producto?</ModalHeader>
-					<ModalCloseButton />
+					<ModalHeader>
+						¿Cómo calificarías este producto? <span style={{ color: "red" }}>*</span>
+					</ModalHeader>
+					<ModalCloseButton onClick={handleClose} />
 					<ModalBody>
 						<div>
 							<input
@@ -141,31 +161,31 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 								</ErrorMessage>
 							)}
 						</div>
-						<FormLabel>Nombre público que aparecerá ante otros clientes</FormLabel>
-						<Input
-							{...register("name", { required: "El nombre es obligatorio" })}
+						<FormControl isInvalid={errors.name}>
+							<FormLabel>
+								Nombre público <span style={{ color: "red" }}>*</span>
+							</FormLabel>
+							<Input
+								{...register("name", { required: "El nombre es obligatorio" })}
+								size="md"
+								style={{ padding: "var(--size-xs)" }}
+							/>
+							<FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
+						</FormControl>
+						<FormControl
 							style={{
-								padding: "var(--size-xl)",
-								borderColor: errors.name ? "red" : "initial",
-							}}
-							size="md"
-							value={userName}
-							onChange={(e) => {
-								setUserName(e.target.value);
-								setValue("name", e.target.value);
-							}}
-						/>
-						{errors.name && <ErrorMessage>El nombre es obligatorio</ErrorMessage>}
-						<FormLabel>Comparte tu experiencia</FormLabel>
-						<Input
-							{...register("review")}
-							style={{
-								height: "var(--size-6xl)",
-								padding: "var(--size-xl)",
-								borderColor: errors.review ? "red" : "initial",
-							}}
-							placeholder="Me ha encantado!"
-						/>
+								marginTop: "var(--size-xl)",
+							}}>
+							<FormLabel>Comparte tu experiencia</FormLabel>
+							<Input
+								{...register("review")}
+								style={{
+									height: "var(--size-6xl)",
+									padding: "var(--size-xs)",
+								}}
+								placeholder="Me ha encantado!"
+							/>
+						</FormControl>
 					</ModalBody>
 					<ModalFooter>
 						<Button variant="ghost" type="submit">
