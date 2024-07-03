@@ -11,6 +11,7 @@ import RegisterForm from "./pages/Forms/RegisterForm";
 import Cart from "./components/Cart/Cart";
 import { useDisclosure } from "@chakra-ui/react";
 import Phone from "./pages/Phone/Phone";
+import Favorites from "./pages/Favorites/Favorites";
 
 function App() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
@@ -21,6 +22,7 @@ function App() {
 			<Routes>
 				<Route path="/" element={<Home />}></Route>
 				<Route path="/phones" element={<Phones onOpen={onOpen} />}></Route>
+				<Route path="/favorites" element={<Favorites onOpen={onOpen} />}></Route>
 				<Route path="/login" element={<LoginForm />}></Route>
 				<Route path="/register" element={<RegisterForm />}></Route>
 				<Route path="/phone/:id" element={<Phone onOpen={onOpen} />}></Route>

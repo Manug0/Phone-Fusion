@@ -91,8 +91,10 @@ const Header = ({ onOpen, isOpen }) => {
 					<StyledNavLink to="/">Inicio</StyledNavLink>
 					<StyledNavLink to="/phones">Móviles</StyledNavLink>
 					<StyledNavLink to="/about">Sobre nosotros</StyledNavLink>
+					<StyledNavLink to="/favorites">
+						<HeartIcon />
+					</StyledNavLink>
 					<SearchIcon />
-					<HeartIcon />
 					<div style={{ position: "relative", width: "fit-content", marginRight: "40px" }}>
 						<CartIcon onClick={onOpen} />
 						{cartCount > 0 && <CartCounter onClick={onOpen}>{cartCount}</CartCounter>}

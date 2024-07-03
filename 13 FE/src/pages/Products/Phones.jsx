@@ -13,6 +13,7 @@ import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import HeartSVG from "../../components/SVGs/HeartSVG";
 import CartIcon from "../../components/Cart/CartIcon";
+import HeartButton from "../../components/HeartButton/HeartButton";
 
 const PhoneSection = styled.section`
 	width: 90%;
@@ -76,12 +77,12 @@ const AddCartButton = styled.button`
 	}
 `;
 
-const StyledHeartSVG = styled(HeartSVG)`
+const StyledHeartButton = styled(HeartButton)`
 	position: absolute;
-	top: var(--size-sm);
-	right: var(--size-sm);
-	width: 18px;
-	height: 19px;
+	top: var(--size-2xl);
+	right: var(--size-2xl);
+	width: 24px;
+	height: 25px;
 	transform: translateY(-100px);
 	transition: transform 0.3s ease-in-out;
 
@@ -158,7 +159,7 @@ const Phones = ({ onOpen }) => {
 						<AddCartButton>
 							<CartIcon phone={phone} onOpen={onOpen} />
 						</AddCartButton>
-						<StyledHeartSVG />
+						<StyledHeartButton phone={phone} />
 					</PhoneCard>
 				))}
 			</PhoneDisplay>

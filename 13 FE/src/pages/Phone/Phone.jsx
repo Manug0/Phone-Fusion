@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPhoneById } from "../../services/Api";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
 import CartIcon from "../../components/Cart/CartIcon";
@@ -10,6 +10,7 @@ import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import ReviewsBox from "../../components/ReviewBox/ReviewBox";
 import Rating from "../../components/Rating/Rating";
 import Cart from "../../components/Cart/Cart";
+import HeartButton from "../../components/HeartButton/HeartButton";
 
 const Container = styled.div`
 	position: relative;
@@ -35,12 +36,16 @@ const PhoneSection = styled.section`
 	position: relative;
 `;
 
-const StyledHeartSVG = styled(HeartSVG)`
-	position: absolute;
-	top: var(--size-4xl);
-	cursor: pointer;
-	width: 30px;
-	height: 30px;
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 `;
 
 const Image = styled.img`
@@ -134,6 +139,8 @@ const Phone = () => {
 		return <Spinner />;
 	}
 
+	// CENTRAR SPINNER // dejar heart quieto en Cards?
+
 	return (
 		<Container>
 			<BackButton onClick={backToPhones}>
@@ -142,7 +149,7 @@ const Phone = () => {
 			</BackButton>
 			<PhoneSection>
 				<Image src={phone.imageUrl} alt={phone.name} />
-				<StyledHeartSVG />
+				<HeartButton phone={phone} />
 				<Details>
 					<Brand>
 						{phone.brand} {phone.name}

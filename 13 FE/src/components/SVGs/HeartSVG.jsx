@@ -1,6 +1,9 @@
 import React from "react";
+import { useHeart } from "../../contexts/HeartContext";
 
-const HeartSVG = (props) => {
+const HeartSVG = ({ fill, ...props }) => {
+	const { heart, addHeart, removeHeart } = useHeart();
+
 	return (
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 19" fill="none" {...props}>
 			<mask
@@ -17,7 +20,7 @@ const HeartSVG = (props) => {
 			</mask>
 			<g mask="url(#a)">
 				<path
-					fill="#d3d3d3"
+					fill={fill}
 					d="M1.453 6.16c0-4.4 5.771-6.03 7.547-.937 1.776-5.093 7.547-3.462 7.547.937C16.547 10.94 9 17 9 17S1.453 10.94 1.453 6.16"
 				/>
 			</g>
