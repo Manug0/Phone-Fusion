@@ -35,7 +35,7 @@ const HeartButton = ({ phone, className, style }) => {
 	const isFavorite = heart.some((item) => item._id === phone._id);
 
 	const handleHeartClick = (e) => {
-		e.stopPropagation(); // Detiene la propagación del evento
+		e.stopPropagation();
 		if (isFavorite) {
 			removeHeart(phone);
 		} else {

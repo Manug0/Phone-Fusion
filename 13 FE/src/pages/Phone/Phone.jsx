@@ -1,16 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getPhoneById } from "../../services/Api";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
 import CartIcon from "../../components/Cart/CartIcon";
-import HeartSVG from "../../components/SVGs/HeartSVG";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import ReviewsBox from "../../components/ReviewBox/ReviewBox";
 import Rating from "../../components/Rating/Rating";
 import Cart from "../../components/Cart/Cart";
 import HeartButton from "../../components/HeartButton/HeartButton";
+
+const SpinnerContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	min-height: 70vh;
+`;
 
 const Container = styled.div`
 	position: relative;
@@ -34,18 +42,6 @@ const PhoneSection = styled.section`
 	display: flex;
 	gap: var(--size-5xl);
 	position: relative;
-`;
-
-const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
 `;
 
 const Image = styled.img`
@@ -136,7 +132,11 @@ const Phone = () => {
 	};
 
 	if (loading) {
-		return <Spinner />;
+		return (
+			<SpinnerContainer>
+				<Spinner size="xl" />;
+			</SpinnerContainer>
+		);
 	}
 
 	// CENTRAR SPINNER // dejar heart quieto en Cards?

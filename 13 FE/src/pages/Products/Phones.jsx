@@ -8,12 +8,21 @@ import {
 	SliderFilledTrack,
 	SliderThumb,
 	SliderMark,
+	Spinner,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import HeartSVG from "../../components/SVGs/HeartSVG";
 import CartIcon from "../../components/Cart/CartIcon";
 import HeartButton from "../../components/HeartButton/HeartButton";
+
+const SpinnerContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	min-height: 70vh;
+`;
 
 const PhoneSection = styled.section`
 	width: 90%;
@@ -98,6 +107,7 @@ const PrevNextButtons = styled.div`
 
 const Phones = ({ onOpen }) => {
 	const [phones, setPhones] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 
@@ -111,8 +121,10 @@ const Phones = ({ onOpen }) => {
 				const response = await fetchPhones(page);
 				setPhones(response.data.phones);
 				setTotalPages(response.data.pages);
+				setLoading(false);
 			} catch (error) {
 				console.error("Error consiguiendo los móviles:", error);
+				setLoading(false);
 			}
 		};
 
@@ -126,6 +138,14 @@ const Phones = ({ onOpen }) => {
 	const handlePreviousPage = () => {
 		setPage((prevPage) => Math.max(prevPage - 1, 1));
 	};
+
+	if (loading) {
+		return (
+			<SpinnerContainer>
+				<Spinner size="xl" />;
+			</SpinnerContainer>
+		);
+	}
 
 	return (
 		<PhoneSection>
