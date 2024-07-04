@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHeart } from "../../contexts/HeartContext";
 import styled from "styled-components";
 import { Button, IconButton } from "@chakra-ui/react";
-import { ArrowForwardIcon, DeleteIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon, CloseIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
+import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
 
 const FavoritesContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	align-items: ${(props) => (props.hasItems ? "center" : "center")};
+	justify-content: ${(props) => (props.hasItems ? "flex-start" : "center")};
 	padding: 20px;
 	min-height: calc(100vh - 300px);
+	background-color: #f5f5f5;
 `;
 
 const NoFavoritesMessage = styled.p`
@@ -30,40 +32,91 @@ const ShopPhonesButton = styled(Button)`
 	}
 `;
 
-const FavItemContainer = styled.div`
+const Message = styled.h2`
+	font-size: 1.5rem;
+	font-weight: var(--font-weight-semibold);
+	margin-bottom: 20px;
+	text-align: left;
 	width: 100%;
+	color: #333;
+`;
+
+const FavoritesListContainer = styled.div`
+	width: 70%;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+	gap: 20px;
+	margin: 0 auto;
+`;
+
+const FavItemContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	border-bottom: 1px solid var(--color-dark);
-	padding: 10px;
+	padding: 20px; /* Aumentar el padding para mayor espacio */
+	background-color: var(--color-primary);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+	&:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	}
 `;
 
 const FavItem = styled.div`
 	display: flex;
+	flex-direction: column; /* Cambiado a columna para mejor alineación */
 	align-items: center;
 	gap: 20px;
 	padding: 10px 0;
+
 	.product-info {
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 	}
+
 	.product-name {
 		font-weight: var(--font-weight-medium);
+		color: #333;
+		font-size: 1.2rem; /* Aumentar tamaño del texto */
 	}
+
+	.product-brand {
+		color: #666;
+		font-size: 1rem; /* Aumentar tamaño del texto */
+	}
+
 	.product-price {
-		color: var(--color-primary);
+		color: var(--color-dark);
 		font-weight: var(--font-weight-bold);
+		font-size: 1.1rem; /* Aumentar tamaño del texto */
+	}
+
+	img {
+		width: 150px; /* Aumentar tamaño de la imagen */
+		height: auto;
 	}
 `;
 
-const Favorites = () => {
+const ActionsContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+`;
+
+const Favorites = ({ onOpen }) => {
 	const { heart, removeHeart } = useHeart();
+	const [selected, setSelected] = useState("6GB x 128GB");
 
 	const navigate = useNavigate();
 
 	const goToPhones = () => navigate("/phones");
+
 	return (
-		<FavoritesContainer>
+		<FavoritesContainer hasItems={heart.length > 0}>
 			{heart.length === 0 ? (
 				<div>
 					<NoFavoritesMessage>No hay nada en tus favoritos</NoFavoritesMessage>
@@ -76,23 +129,38 @@ const Favorites = () => {
 					</ShopPhonesButton>
 				</div>
 			) : (
-				heart.map((phone) => (
-					<FavItemContainer key={phone.id}>
-						<FavItem>
-							<img src={phone.imageUrl} alt="phone" width="100" />
-							<div className="product-info">
-								<p className="product-name">{phone.name}</p>
-								<p className="product-price">{phone.price}€</p>
-							</div>
-							<IconButton
-								className="delete-button"
-								icon={<DeleteIcon />}
-								onClick={() => removeHeart(phone)}
-								size="sm"
-							/>
-						</FavItem>
-					</FavItemContainer>
-				))
+				<>
+					<Message>Aquí están tus móviles favoritos</Message>
+					<FavoritesListContainer>
+						{heart.map((phone) => (
+							<FavItemContainer key={phone._id}>
+								<FavItem>
+									<img src={phone.imageUrl} alt="phone" />
+									<div className="product-info">
+										<p className="product-name">{phone.name}</p>
+										<p className="product-brand">{phone.brand}</p>
+										<p className="product-price">{phone.price}€</p>
+									</div>
+									<ActionsContainer>
+										<IconButton
+											className="delete-button"
+											icon={<CloseIcon />}
+											onClick={(event) => removeHeart(event, phone)}
+											size="sm"
+											colorScheme="red"
+										/>
+										<AddToCartButton
+											phone={phone}
+											onOpen={onOpen}
+											selectedOption={selected}
+											isIconButton={true}
+										/>
+									</ActionsContainer>
+								</FavItem>
+							</FavItemContainer>
+						))}
+					</FavoritesListContainer>
+				</>
 			)}
 		</FavoritesContainer>
 	);

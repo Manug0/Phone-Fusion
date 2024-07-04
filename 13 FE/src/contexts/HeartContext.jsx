@@ -24,7 +24,8 @@ export const HeartContext = ({ children }) => {
 		});
 	};
 
-	const removeHeart = (phone) => {
+	const removeHeart = (phone, e) => {
+		e.stopPropagation();
 		setHeart((prevHeart) => prevHeart.filter((h) => h._id !== phone._id));
 	};
 

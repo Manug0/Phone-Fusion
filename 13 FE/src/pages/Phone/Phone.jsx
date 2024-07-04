@@ -4,7 +4,7 @@ import { getPhoneById } from "../../services/Api";
 import styled from "styled-components";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
-import CartIcon from "../../components/AddToCartButton";
+import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import ReviewsBox from "../../components/ReviewBox/ReviewBox";
 import Rating from "../../components/Rating/Rating";
@@ -186,7 +186,7 @@ const Phone = () => {
 							Recíbelo mañana
 						</span>
 					</div>
-					<CartIcon
+					<AddToCartButton
 						phone={phone}
 						selectedOption={selected}
 						extraPrice={extraPrice}

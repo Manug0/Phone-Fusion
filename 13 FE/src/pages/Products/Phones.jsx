@@ -12,8 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import CartIcon from "../../components/AddToCartButton";
 import HeartButton from "../../components/HeartButton/HeartButton";
+import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
 
 const SpinnerContainer = styled.div`
 	display: flex;
@@ -178,7 +178,7 @@ const Phones = ({ onOpen }) => {
 						</div>
 
 						<AddCartButton>
-							<CartIcon phone={phone} onOpen={onOpen} selectedOption={selected} />
+							<AddToCartButton phone={phone} onOpen={onOpen} selectedOption={selected} />
 						</AddCartButton>
 						<StyledHeartButton phone={phone} />
 					</PhoneCard>

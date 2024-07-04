@@ -1,9 +1,18 @@
 import React from "react";
-import { useCart } from "../contexts/CartContext";
-import { useCounter } from "../contexts/CounterContext";
-import { Button } from "@chakra-ui/react";
+import { useCart } from "../../contexts/CartContext";
+import { useCounter } from "../../contexts/CounterContext";
+import { Button, IconButton } from "@chakra-ui/react";
 
-const CartIcon = ({ phone, selectedOption, extraPrice, onOpen, styles, colorScheme, size }) => {
+const AddToCartButton = ({
+	phone,
+	selectedOption,
+	extraPrice,
+	onOpen,
+	styles,
+	colorScheme,
+	size,
+	isIconButton,
+}) => {
 	const { cart, addCart } = useCart();
 	const { incrementCounter } = useCounter();
 
@@ -25,16 +34,24 @@ const CartIcon = ({ phone, selectedOption, extraPrice, onOpen, styles, colorSche
 		onOpen();
 	};
 
-	return (
+	return isIconButton ? (
+		<IconButton
+			style={styles}
+			colorScheme={colorScheme || "green"}
+			size={size || "sm"}
+			icon={<i className="ri-shopping-cart-2-fill"></i>}
+			onClick={toggleLiked}
+		/>
+	) : (
 		<Button
 			style={{ ...styles, display: "flex", gap: "8px" }}
 			colorScheme={colorScheme || "green"}
 			size={size || "sm"}
 			onClick={toggleLiked}>
-			<p>Añadir al carrito </p>
+			<p>Añadir al carrito</p>
 			<i className="ri-shopping-cart-2-fill"></i>
 		</Button>
 	);
 };
 
-export default CartIcon;
+export default AddToCartButton;
