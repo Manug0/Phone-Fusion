@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
-import CartIcon from "../../components/Cart/CartIcon";
+import CartIcon from "../../components/AddToCartButton";
 import HeartButton from "../../components/HeartButton/HeartButton";
 
 const SpinnerContainer = styled.div`

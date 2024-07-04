@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useCart } from "../../contexts/CartContext";
+import { useHeart } from "../../contexts/HeartContext";
 
 const StyledHeader = styled.header`
 	position: fixed;
@@ -56,28 +57,34 @@ const SearchIcon = styled.i.attrs({ className: "ri-search-line" })`
 `;
 
 const CartIcon = styled.i.attrs({ className: "ri-shopping-cart-line" })`
-	/* margin-right: 40px; */
 	cursor: pointer;
 `;
 
-const CartCounter = styled.span`
+const Counter = styled.span`
 	position: absolute;
 	cursor: pointer;
 
+	position: absolute;
 	color: var(--color-primary);
 	background-color: red;
-	padding: 1px 8px;
-	border-radius: 50px;
-	font-size: 12px;
-	top: -20%;
-	right: -50%;
+	padding: 1px 6px;
+	border-radius: 50%;
+	font-size: 10px;
+	top: -15%;
+	right: -45%;
+	width: var(--size-md);
+	height: var(--size-md);
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 const UserIcon = styled.i.attrs({ className: "ri-user-3-line" })`
 	cursor: pointer;
 `;
-const Header = ({ onOpen, isOpen }) => {
+const Header = ({ onOpen }) => {
 	const { cartCount } = useCart();
+	const { heartCount } = useHeart();
 
 	const navigate = useNavigate();
 
@@ -87,17 +94,21 @@ const Header = ({ onOpen, isOpen }) => {
 		<StyledHeader>
 			<HeaderContent>
 				<Logo src="/src/assets/logo.png" alt="logo" onClick={goToHome} />
-				<Nav style={{ paddingRight: isOpen ? "8px" : "0px" }}>
+				<Nav>
+					<SearchIcon />
+
 					<StyledNavLink to="/">Inicio</StyledNavLink>
 					<StyledNavLink to="/phones">Móviles</StyledNavLink>
 					<StyledNavLink to="/about">Sobre nosotros</StyledNavLink>
-					<StyledNavLink to="/favorites">
-						<HeartIcon />
-					</StyledNavLink>
-					<SearchIcon />
+					<div style={{ position: "relative" }}>
+						<StyledNavLink to="/favorites">
+							<HeartIcon />
+							{heartCount > 0 && <Counter>{heartCount}</Counter>}
+						</StyledNavLink>
+					</div>
 					<div style={{ position: "relative", width: "fit-content", marginRight: "40px" }}>
 						<CartIcon onClick={onOpen} />
-						{cartCount > 0 && <CartCounter onClick={onOpen}>{cartCount}</CartCounter>}
+						{cartCount > 0 && <Counter onClick={onOpen}>{cartCount}</Counter>}
 					</div>
 
 					<StyledNavLink to="/login">

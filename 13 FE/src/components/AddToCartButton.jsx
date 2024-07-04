@@ -1,6 +1,6 @@
 import React from "react";
-import { useCart } from "../../contexts/CartContext";
-import { useCounter } from "../../contexts/CounterContext";
+import { useCart } from "../contexts/CartContext";
+import { useCounter } from "../contexts/CounterContext";
 import { Button } from "@chakra-ui/react";
 
 const CartIcon = ({ phone, selectedOption, extraPrice, onOpen, styles, colorScheme, size }) => {

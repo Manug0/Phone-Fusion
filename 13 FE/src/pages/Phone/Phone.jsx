@@ -4,7 +4,7 @@ import { getPhoneById } from "../../services/Api";
 import styled from "styled-components";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
-import CartIcon from "../../components/Cart/CartIcon";
+import CartIcon from "../../components/AddToCartButton";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import ReviewsBox from "../../components/ReviewBox/ReviewBox";
 import Rating from "../../components/Rating/Rating";
