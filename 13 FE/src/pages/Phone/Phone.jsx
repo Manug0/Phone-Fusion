@@ -139,8 +139,6 @@ const Phone = () => {
 		);
 	}
 
-	// CENTRAR SPINNER // dejar heart quieto en Cards?
-
 	return (
 		<Container>
 			<BackButton onClick={backToPhones}>

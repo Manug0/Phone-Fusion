@@ -110,6 +110,7 @@ const Phones = ({ onOpen }) => {
 	const [loading, setLoading] = useState(true);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
+	const [selected, setSelected] = useState("6GB x 128GB");
 
 	const navigate = useNavigate();
 
@@ -177,7 +178,7 @@ const Phones = ({ onOpen }) => {
 						</div>
 
 						<AddCartButton>
-							<CartIcon phone={phone} onOpen={onOpen} />
+							<CartIcon phone={phone} onOpen={onOpen} selectedOption={selected} />
 						</AddCartButton>
 						<StyledHeartButton phone={phone} />
 					</PhoneCard>
