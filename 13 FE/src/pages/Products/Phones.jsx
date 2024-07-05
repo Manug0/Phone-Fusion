@@ -9,6 +9,7 @@ import {
 	SliderThumb,
 	SliderMark,
 	Spinner,
+	Badge,
 } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
@@ -143,7 +144,7 @@ const Phones = ({ onOpen }) => {
 	if (loading) {
 		return (
 			<SpinnerContainer>
-				<Spinner size="xl" />;
+				<Spinner size="xl" />
 			</SpinnerContainer>
 		);
 	}
@@ -172,9 +173,9 @@ const Phones = ({ onOpen }) => {
 							<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.name}</p>
 							<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.brand}</p>
 							<p style={{ fontWeight: "var(--font-weight-bold)" }}>{phone.price}€</p>
-							<p style={{ color: phone.condition === "Usado" ? "#e0986e" : "green" }}>
+							<Badge colorScheme={phone.condition === "Usado" ? "orange" : "green"}>
 								{phone.condition}
-							</p>
+							</Badge>
 						</div>
 
 						<AddCartButton>

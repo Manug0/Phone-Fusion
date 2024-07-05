@@ -70,6 +70,7 @@ const FavItem = styled.div`
 	align-items: center;
 	gap: 20px;
 	padding: 10px 0;
+	cursor: pointer;
 
 	.product-info {
 		display: flex;
@@ -114,6 +115,7 @@ const Favorites = ({ onOpen }) => {
 	const navigate = useNavigate();
 
 	const goToPhones = () => navigate("/phones");
+	const goToPhone = (phone) => navigate(`/phone/${phone._id}`);
 
 	return (
 		<FavoritesContainer hasItems={heart.length > 0}>
@@ -133,7 +135,7 @@ const Favorites = ({ onOpen }) => {
 					<Message>Aquí están tus móviles favoritos</Message>
 					<FavoritesListContainer>
 						{heart.map((phone) => (
-							<FavItemContainer key={phone._id}>
+							<FavItemContainer key={phone._id} onClick={() => goToPhone(phone)}>
 								<FavItem>
 									<img src={phone.imageUrl} alt="phone" />
 									<div className="product-info">
@@ -145,7 +147,7 @@ const Favorites = ({ onOpen }) => {
 										<IconButton
 											className="delete-button"
 											icon={<CloseIcon />}
-											onClick={(event) => removeHeart(event, phone)}
+											onClick={(e) => removeHeart(phone, e)}
 											size="sm"
 											colorScheme="red"
 										/>

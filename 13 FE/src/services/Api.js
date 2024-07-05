@@ -15,9 +15,9 @@ export const registerUser = (name, email, password) => {
 	return instance.post("/users/register", { name, email, password });
 };
 
-export const fetchPhones = (page = 1, limit = 10) => {
+export const fetchPhones = (page = 1, limit = 10, query = "") => {
 	return instance.get("/phones", {
-		params: { page, limit },
+		params: { page, limit, query },
 	});
 };
 
