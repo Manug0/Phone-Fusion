@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { fetchPhones } from "../../services/Api";
 import styled from "styled-components";
-import { Button, Spinner, Badge, Flex } from "@chakra-ui/react";
+import { Button, Spinner, Badge } from "@chakra-ui/react";
 import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import HeartButton from "../../components/HeartButton/HeartButton";
 import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
 import PriceSlider from "../../components/PriceSlider/PriceSlider";
+import BrandFilter from "../../components/BrandFilter/BrandFilter";
 
 const PhoneSection = styled.section`
 	width: 90%;
@@ -20,6 +21,7 @@ const PhoneSection = styled.section`
 	height: 100%;
 	z-index: 2;
 `;
+
 const FilterH2 = styled.h2`
 	font-size: var(--size-2xl);
 	font-weight: var(--font-weight-bold);
@@ -112,6 +114,7 @@ const StyledHeartButton = styled(HeartButton)`
 
 const PrevNextButtons = styled.div`
 	display: flex;
+	align-items: center;
 	gap: var(--size-4xl);
 `;
 
@@ -122,6 +125,7 @@ const Phones = ({ onOpen }) => {
 	const [totalPages, setTotalPages] = useState(1);
 	const [selected, setSelected] = useState("6GB x 128GB");
 	const [priceRange, setPriceRange] = useState([0, 1000]);
+	const [selectedBrands, setSelectedBrands] = useState([]);
 
 	const navigate = useNavigate();
 
@@ -152,7 +156,10 @@ const Phones = ({ onOpen }) => {
 	};
 
 	const filteredPhones = phones.filter(
-		(phone) => phone.price >= priceRange[0] && phone.price <= priceRange[1]
+		(phone) =>
+			selectedBrands.includes(phone.brand) &&
+			phone.price >= priceRange[0] &&
+			phone.price <= priceRange[1]
 	);
 
 	if (loading) {
@@ -169,6 +176,7 @@ const Phones = ({ onOpen }) => {
 				<SearchFilter>
 					<FilterH2>Filtros de búsqueda</FilterH2>
 					<PriceSlider onChange={setPriceRange} />
+					<BrandFilter onBrandChange={setSelectedBrands} />
 				</SearchFilter>
 
 				<PhoneDisplay>
@@ -209,6 +217,9 @@ const Phones = ({ onOpen }) => {
 					variant="outline">
 					Anterior
 				</Button>
+				<div>
+					{page} de {totalPages}
+				</div>
 				<Button
 					onClick={handleNextPage}
 					disabled={page === totalPages}
