@@ -120,23 +120,25 @@ const PrevNextButtons = styled.div`
 
 const Phones = ({ onOpen }) => {
 	const [phones, setPhones] = useState([]);
+	const [filteredPhones, setFilteredPhones] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const [selected, setSelected] = useState("6GB x 128GB");
-	const [priceRange, setPriceRange] = useState([0, 1000]);
 	const [selectedBrands, setSelectedBrands] = useState([]);
+	const [priceRange, setPriceRange] = useState([0, 1000]);
 
 	const navigate = useNavigate();
+	const phonesPerPage = 10; // Número de teléfonos por página
 
 	const goToPhone = (phone) => navigate(`/phone/${phone._id}`);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetchPhones(page);
-				setPhones(response.data.phones);
-				setTotalPages(response.data.pages);
+				const response = await fetchPhones(1, 100); // Cargar todos los teléfonos de una vez
+				const allPhones = response.data.phones;
+				setPhones(allPhones);
+				setFilteredPhones(allPhones);
 				setLoading(false);
 			} catch (error) {
 				console.error("Error consiguiendo los móviles:", error);
@@ -145,7 +147,7 @@ const Phones = ({ onOpen }) => {
 		};
 
 		fetchData();
-	}, [page]);
+	}, []);
 
 	const handleNextPage = () => {
 		setPage((prevPage) => Math.min(prevPage + 1, totalPages));
@@ -155,12 +157,22 @@ const Phones = ({ onOpen }) => {
 		setPage((prevPage) => Math.max(prevPage - 1, 1));
 	};
 
-	const filteredPhones = phones.filter(
-		(phone) =>
-			selectedBrands.includes(phone.brand) &&
-			phone.price >= priceRange[0] &&
-			phone.price <= priceRange[1]
-	);
+	useEffect(() => {
+		const filtered = phones.filter(
+			(phone) =>
+				selectedBrands.includes(phone.brand) &&
+				phone.price >= priceRange[0] &&
+				phone.price <= priceRange[1]
+		);
+		setFilteredPhones(filtered);
+		setPage(1); // Resetear a la primera página cada vez que se aplica un filtro
+	}, [phones, selectedBrands, priceRange]);
+
+	useEffect(() => {
+		setTotalPages(Math.ceil(filteredPhones.length / phonesPerPage));
+	}, [filteredPhones]);
+
+	const paginatedPhones = filteredPhones.slice((page - 1) * phonesPerPage, page * phonesPerPage);
 
 	if (loading) {
 		return (
@@ -180,7 +192,7 @@ const Phones = ({ onOpen }) => {
 				</SearchFilter>
 
 				<PhoneDisplay>
-					{filteredPhones.map((phone) => (
+					{paginatedPhones.map((phone) => (
 						<PhoneCard key={phone._id} phone={phone} onClick={() => goToPhone(phone)}>
 							<PhoneImg src={phone.imageUrl} alt={phone.name} />
 							<div
@@ -201,7 +213,7 @@ const Phones = ({ onOpen }) => {
 							</div>
 
 							<AddCartButton>
-								<AddToCartButton phone={phone} onOpen={onOpen} selectedOption={selected} />
+								<AddToCartButton phone={phone} onOpen={onOpen} />
 							</AddCartButton>
 							<StyledHeartButton phone={phone} />
 						</PhoneCard>
