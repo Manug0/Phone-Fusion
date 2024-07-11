@@ -128,14 +128,14 @@ const Phones = ({ onOpen }) => {
 	const [priceRange, setPriceRange] = useState([0, 1000]);
 
 	const navigate = useNavigate();
-	const phonesPerPage = 10; // Número de teléfonos por página
+	const phonesPerPage = 10;
 
 	const goToPhone = (phone) => navigate(`/phone/${phone._id}`);
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetchPhones(1, 100); // Cargar todos los teléfonos de una vez
+				const response = await fetchPhones(1, 100);
 				const allPhones = response.data.phones;
 				setPhones(allPhones);
 				setFilteredPhones(allPhones);
@@ -165,7 +165,7 @@ const Phones = ({ onOpen }) => {
 				phone.price <= priceRange[1]
 		);
 		setFilteredPhones(filtered);
-		setPage(1); // Resetear a la primera página cada vez que se aplica un filtro
+		setPage(1);
 	}, [phones, selectedBrands, priceRange]);
 
 	useEffect(() => {

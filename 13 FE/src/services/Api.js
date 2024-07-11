@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useCart } from "../contexts/CartContext";
+import { useHeart } from "../contexts/HeartContext";
 
 const instance = axios.create({
 	baseURL: "http://localhost:3000/api/v1",
@@ -47,6 +49,32 @@ export const createClient = (clientData, token) => {
 
 export const updateClient = (id, clientData, token) => {
 	return instance.put(`/clients/${id}`, clientData, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+};
+
+export const updateCart = (cart, token) => {
+	return instance.post(
+		"/users/update-cart",
+		{ cart },
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		}
+	);
+};
+
+export const updateFavorites = (favorites, token) => {
+	return instance.post(
+		"/users/update-favorites",
+		{ favorites },
+		{
+			headers: { Authorization: `Bearer ${token}` },
+		}
+	);
+};
+
+export const getUserData = (token) => {
+	return instance.get("/users/user-data", {
 		headers: { Authorization: `Bearer ${token}` },
 	});
 };

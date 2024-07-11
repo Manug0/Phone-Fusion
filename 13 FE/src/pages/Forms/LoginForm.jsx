@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import {
@@ -9,8 +9,10 @@ import {
 	InputRightElement,
 	useToast,
 } from "@chakra-ui/react";
-import { loginUser } from "../../services/Api";
+import { getUserData, loginUser } from "../../services/Api";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../../contexts/CartContext";
+import { useHeart } from "../../contexts/HeartContext";
 
 const FormSection = styled.section`
 	display: flex;
@@ -57,6 +59,8 @@ const LoginForm = () => {
 
 	const toast = useToast();
 	const navigate = useNavigate();
+	const { setCart, handleTokenChange } = useCart();
+	const { setHeart } = useHeart();
 
 	const goToHome = () => navigate("/");
 	const goToRegisterForm = () => navigate("/register");
@@ -68,14 +72,34 @@ const LoginForm = () => {
 		formState: { errors },
 	} = useForm();
 
+	const syncCartAndFavorites = async (token) => {
+		try {
+			const response = await getUserData(token);
+			const { cart, favorites } = response.data;
+
+			localStorage.setItem("cart", JSON.stringify(cart));
+			localStorage.setItem("heart", JSON.stringify(favorites));
+
+			setCart(cart);
+			setHeart(favorites);
+		} catch (error) {
+			console.error("Error sincronizando datos:", error);
+		}
+	};
+
 	const onSubmit = async (data) => {
 		try {
 			const response = await loginUser(data.email, data.password);
-			console.log("Sesion iniciada correctamente");
-			// localStorage.setItem("user", JSON.stringify(response));
-			// setTimeout(() => {
-			// 	goToHome();
-			// }, 1500);
+			const { user, token } = response.data;
+
+			localStorage.setItem("user", JSON.stringify(user));
+			localStorage.setItem("token", token);
+
+			await syncCartAndFavorites(token);
+
+			setTimeout(() => {
+				goToHome();
+			}, 1500);
 
 			toast({
 				title: "Sesión iniciada.",
@@ -86,6 +110,13 @@ const LoginForm = () => {
 			});
 		} catch (error) {
 			console.error("Error en la solicitud de inicio de sesión:", error);
+			toast({
+				title: "Error al iniciar sesión.",
+				status: "error",
+				position: "top",
+				duration: 2000,
+				isClosable: true,
+			});
 		}
 	};
 
@@ -124,7 +155,6 @@ const LoginForm = () => {
 										message: "Este campo es obligatorio",
 									},
 									pattern: {
-										// value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/,
 										message:
 											"La contraseña debe incluir números, letras Mayúsculas y minúsculas y como mínimo 4 caracteres",
 									},
@@ -132,7 +162,7 @@ const LoginForm = () => {
 							/>
 							<InputRightElement width="4.5rem">
 								<Button h="2.25rem" size="sm" mt="8px" onClick={handleClickShow}>
-									{show ? <i class="ri-eye-line"></i> : <i class="ri-eye-off-line"></i>}
+									{show ? <i className="ri-eye-line"></i> : <i className="ri-eye-off-line"></i>}
 								</Button>
 							</InputRightElement>
 						</InputGroup>
@@ -148,7 +178,7 @@ const LoginForm = () => {
 						<Button
 							type="submit"
 							bg="var(--color-quaternary)"
-							_hover={{ bg: "var(	--color-tertiary)" }}
+							_hover={{ bg: "var(--color-tertiary)" }}
 							_active={{
 								bg: "var(--color-secondary)",
 								transform: "scale(0.98)",

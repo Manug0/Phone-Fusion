@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import { getUserData, updateCart } from "../services/Api";
 
 const Cart = createContext();
 
@@ -6,23 +7,65 @@ export const CartContext = ({ children }) => {
 	const [cart, setCart] = useState([]);
 
 	useEffect(() => {
-		const localCart = localStorage.getItem("cart");
-		if (localCart) {
-			setCart(JSON.parse(localCart));
-		}
+		const loadCart = async () => {
+			const token = localStorage.getItem("token");
+			if (token) {
+				try {
+					const response = await getUserData(token);
+					if (response.data && response.data.cart) {
+						setCart(response.data.cart);
+					}
+				} catch (error) {
+					console.error("Error fetching user data:", error);
+				}
+			} else {
+				const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+				setCart(localCart);
+			}
+		};
+		loadCart();
 	}, []);
 
 	useEffect(() => {
+		const token = localStorage.getItem("token");
+		if (token && cart.length > 0) {
+			updateCart(cart, token).catch((error) => console.error("Error updating cart:", error));
+		}
 		localStorage.setItem("cart", JSON.stringify(cart));
 	}, [cart]);
 
-	const addCart = (cart) => {
-		setCart((prevCart) => [...prevCart, cart]);
+	const addCart = (item) => {
+		setCart((prevCart) => [...prevCart, item]);
 	};
 
-	const removeCart = (cart) => {
-		setCart((prevCart) => prevCart.filter((c) => c !== cart));
+	const removeCart = (item) => {
+		setCart((prevCart) => {
+			const updatedCart = prevCart.filter((c) => c._id !== item._id);
+			localStorage.setItem("cart", JSON.stringify(updatedCart));
+			return updatedCart;
+		});
 	};
+
+	useEffect(() => {
+		const loadData = async () => {
+			const token = localStorage.getItem("token");
+			if (token) {
+				try {
+					const response = await getUserData(token);
+					if (response.data) {
+						// setHeart(response.data.favorites || []);
+						setCart(response.data.cart || []);
+					}
+				} catch (error) {
+					console.error("Error fetching user data:", error);
+				}
+			} else {
+				// setHeart([]);
+				setCart([]);
+			}
+		};
+		loadData();
+	}, [localStorage.getItem("token")]);
 
 	const cartCount = cart.length;
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHeart } from "../../contexts/HeartContext";
 import styled from "styled-components";
 import { Button, IconButton } from "@chakra-ui/react";
@@ -109,10 +109,23 @@ const ActionsContainer = styled.div`
 `;
 
 const Favorites = ({ onOpen }) => {
-	const { heart, removeHeart } = useHeart();
+	const { heart, setHeart, removeHeart } = useHeart();
 	const [selected, setSelected] = useState("6GB x 128GB");
-
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (heart.length === 0) {
+			const savedHeart = localStorage.getItem("heart");
+			if (savedHeart) {
+				setHeart(JSON.parse(savedHeart));
+			}
+		}
+	}, [heart, setHeart]);
+
+	const handleRemoveFromFavorites = (phone, e) => {
+		e.stopPropagation();
+		removeHeart(phone);
+	};
 
 	const goToPhones = () => navigate("/phones");
 	const goToPhone = (phone) => navigate(`/phone/${phone._id}`);
@@ -147,7 +160,7 @@ const Favorites = ({ onOpen }) => {
 										<IconButton
 											className="delete-button"
 											icon={<CloseIcon />}
-											onClick={(e) => removeHeart(phone, e)}
+											onClick={(e) => handleRemoveFromFavorites(phone, e)}
 											size="sm"
 											colorScheme="red"
 										/>

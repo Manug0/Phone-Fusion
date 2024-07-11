@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useCart } from "../../contexts/CartContext";
 import { useHeart } from "../../contexts/HeartContext";
 import { fetchPhones } from "../../services/Api";
+import UserAccounticon from "../UserAccountIcon/UserAccountIcon";
 
 const StyledHeader = styled.header`
 	position: fixed;
@@ -141,10 +142,6 @@ const Counter = styled.span`
 	align-items: center;
 `;
 
-const UserIcon = styled.i.attrs({ className: "ri-user-3-line" })`
-	cursor: pointer;
-`;
-
 const Header = ({ onOpen }) => {
 	const { cartCount } = useCart();
 	const { heartCount } = useHeart();
@@ -156,6 +153,7 @@ const Header = ({ onOpen }) => {
 	const searchBarRef = useRef(null);
 
 	const goToHome = () => navigate("/");
+	const goToLogin = () => navigate("/login");
 
 	const searchIconClick = () => {
 		setSearch(true);
@@ -257,9 +255,7 @@ const Header = ({ onOpen }) => {
 					<CartIcon onClick={onOpen} />
 					{cartCount > 0 && <Counter onClick={onOpen}>{cartCount}</Counter>}
 				</div>
-				<StyledNavLink to="/login">
-					<UserIcon />
-				</StyledNavLink>
+				<UserAccounticon onClick={goToLogin} />
 			</Nav>
 		</StyledHeader>
 	);

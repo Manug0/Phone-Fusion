@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
 	Drawer,
 	DrawerBody,
@@ -74,6 +74,15 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 	const { counter, setCounter, incrementCounter, decrementCounter } = useCounter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [completeOrder, setCompleteOrder] = useState(false);
+
+	useEffect(() => {
+		if (cart.length === 0) {
+			const savedCart = localStorage.getItem("cart");
+			if (savedCart) {
+				setCart(JSON.parse(savedCart));
+			}
+		}
+	}, [cart, setCart]);
 
 	const handleDelete = (phone) => {
 		removeCart(phone);
