@@ -62,14 +62,12 @@ export const HeartContext = ({ children }) => {
 					const response = await getUserData(token);
 					if (response.data) {
 						setHeart(response.data.favorites || []);
-						// setCart(response.data.cart || []);
 					}
 				} catch (error) {
 					console.error("Error fetching user data:", error);
 				}
 			} else {
 				setHeart([]);
-				// setCart([]);
 			}
 		};
 		loadData();

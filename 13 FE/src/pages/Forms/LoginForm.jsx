@@ -59,7 +59,7 @@ const LoginForm = () => {
 
 	const toast = useToast();
 	const navigate = useNavigate();
-	const { setCart, handleTokenChange } = useCart();
+	const { setCart } = useCart();
 	const { setHeart } = useHeart();
 
 	const goToHome = () => navigate("/");

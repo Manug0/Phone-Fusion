@@ -74,8 +74,8 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 
 	useEffect(() => {
 		let storedUser = JSON.parse(localStorage.getItem("user"));
-		setUserName(storedUser.user.name);
-		setValue("name", storedUser.user.name);
+		setUserName(storedUser.name);
+		setValue("name", storedUser.name);
 	}, [setValue]);
 
 	const rating = watch("rating", 0);

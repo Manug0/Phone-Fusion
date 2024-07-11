@@ -27,8 +27,6 @@ const PopoverButtons = styled.div`
 
 const UserAccounticon = () => {
 	const [isOpen, setIsOpen] = useState(false);
-	const { setCart } = useCart();
-	const { setHeart } = useHeart();
 	const navigate = useNavigate();
 
 	const storedUser = localStorage.getItem("user");
@@ -57,13 +55,10 @@ const UserAccounticon = () => {
 	};
 
 	const logout = () => {
-		setCart([]);
-		setHeart([]);
 		localStorage.removeItem("cart");
 		localStorage.removeItem("heart");
 		localStorage.removeItem("user");
 		localStorage.removeItem("token");
-		// localStorage.removeItem("favorites");
 		window.location.href = "/login";
 	};
 

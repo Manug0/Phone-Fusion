@@ -52,7 +52,7 @@ const FavoritesListContainer = styled.div`
 const FavItemContainer = styled.div`
 	display: flex;
 	flex-direction: column;
-	padding: 20px; /* Aumentar el padding para mayor espacio */
+	padding: 20px;
 	background-color: var(--color-primary);
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
@@ -66,7 +66,7 @@ const FavItemContainer = styled.div`
 
 const FavItem = styled.div`
 	display: flex;
-	flex-direction: column; /* Cambiado a columna para mejor alineación */
+	flex-direction: column;
 	align-items: center;
 	gap: 20px;
 	padding: 10px 0;
@@ -81,22 +81,22 @@ const FavItem = styled.div`
 	.product-name {
 		font-weight: var(--font-weight-medium);
 		color: #333;
-		font-size: 1.2rem; /* Aumentar tamaño del texto */
+		font-size: 1.2rem;
 	}
 
 	.product-brand {
 		color: #666;
-		font-size: 1rem; /* Aumentar tamaño del texto */
+		font-size: 1rem;
 	}
 
 	.product-price {
 		color: var(--color-dark);
 		font-weight: var(--font-weight-bold);
-		font-size: 1.1rem; /* Aumentar tamaño del texto */
+		font-size: 1.1rem;
 	}
 
 	img {
-		width: 150px; /* Aumentar tamaño de la imagen */
+		width: 150px;
 		height: auto;
 	}
 `;

@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useCart } from "../contexts/CartContext";
-import { useHeart } from "../contexts/HeartContext";
 
 const instance = axios.create({
 	baseURL: "http://localhost:3000/api/v1",
