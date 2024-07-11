@@ -111,4 +111,69 @@ const login = async (req, res, next) => {
 	}
 };
 
-module.exports = { getUsers, getUserById, updateUser, deleteUser, register, login };
+const updateCart = async (req, res) => {
+	try {
+		const userId = req.user._id;
+		const { cart } = req.body;
+
+		const user = await User.findByIdAndUpdate(userId, { inCart: cart }, { new: true });
+
+		if (!user) {
+			return res.status(404).json({ message: "Usuario no encontrado" });
+		}
+
+		return res.status(200).json({ message: "Carrito actualizado", cart: user.inCart });
+	} catch (error) {
+		console.error(error);
+		return res.status(400).json(error);
+	}
+};
+
+const updateFavorites = async (req, res) => {
+	try {
+		const userId = req.user._id;
+		const { favorites } = req.body;
+
+		const user = await User.findByIdAndUpdate(userId, { inFav: favorites }, { new: true });
+
+		if (!user) {
+			return res.status(404).json({ message: "Usuario no encontrado" });
+		}
+
+		return res.status(200).json({ message: "Favoritos actualizados", favorites: user.inFav });
+	} catch (error) {
+		console.error(error);
+		return res.status(400).json(error);
+	}
+};
+
+const getUserData = async (req, res) => {
+	try {
+		const userId = req.user._id;
+		const user = await User.findById(userId);
+
+		if (!user) {
+			return res.status(404).json({ message: "Usuario no encontrado" });
+		}
+
+		return res.status(200).json({
+			cart: user.inCart,
+			favorites: user.inFav,
+		});
+	} catch (error) {
+		console.error(error);
+		return res.status(400).json(error);
+	}
+};
+
+module.exports = {
+	getUsers,
+	getUserById,
+	updateUser,
+	deleteUser,
+	register,
+	login,
+	updateCart,
+	updateFavorites,
+	getUserData,
+};

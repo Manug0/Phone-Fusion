@@ -6,9 +6,8 @@ const userSchema = new mongoose.Schema(
 		name: { type: String, required: false },
 		email: { type: String, required: true },
 		password: { type: String, required: true },
-		// clientId: [{ type: mongoose.Types.ObjectId, ref: "clients" }],
-		inCart: [{ type: mongoose.Types.ObjectId, ref: "phones" }],
-		// profilePic: { type: String, required: false },
+		inCart: { type: Array, default: [] },
+		inFav: { type: Array, default: [] },
 		rol: {
 			type: String,
 			required: false,

@@ -9,6 +9,10 @@ const isAuth = async (req, res, next) => {
 		const { id } = verifyKey(parsedToken);
 		const user = await User.findById(id);
 
+		if (!user) {
+			return res.status(404).json({ message: "Usuario no encontrado" });
+		}
+
 		user.password = null;
 		req.user = user;
 		next();

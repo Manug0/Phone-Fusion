@@ -18,7 +18,8 @@ const phones = [
 		// review: ["Excelente"],
 		// rating: [5],
 		condition: "Nuevo",
-		imageUrl: "https://m.media-amazon.com/images/I/618nXc9a7gL._AC_UF894,1000_QL80_.jpg",
+		imageUrl:
+			"https://imgs.search.brave.com/xEcCXeGdmKv6s8xkKEOQ8jRqN9WnCeKEdNJqX0FQ8zQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tLm1l/ZGlhLWFtYXpvbi5j/b20vaW1hZ2VzL0kv/ODFJV3NxclZNVEwu/anBn",
 	},
 	{
 		phoneId: 3,
@@ -28,7 +29,8 @@ const phones = [
 		// review: ["No me gustó"],
 		// rating: [2],
 		condition: "Nuevo",
-		imageUrl: "https://m.media-amazon.com/images/I/5185tHjaERL._AC_UF894,1000_QL80_.jpg",
+		imageUrl:
+			"https://imgs.search.brave.com/IwVIVw3s9_6GLGIkpBhOtVQPD12QYxr2861WJPQjLZA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9kMmU2/Y2N1amIzbWtxZi5j/bG91ZGZyb250Lm5l/dC8zNDU0NzRmNi1l/NjEwLTQ4N2YtYWFl/Yy1jYjRlODMxYWY0/ZDUtMV80Yzg2ZTJi/Yi0zNTZkLTRiZGUt/OWFmOS1iZjJiOGI1/ZDdkNWMuanBn",
 	},
 	{
 		phoneId: 4,
@@ -178,7 +180,7 @@ const phones = [
 		// rating: [3],
 		condition: "Nuevo",
 		imageUrl:
-			"https://firstmarkt.es/wp-content/uploads/2021/08/huawei-p40-lite-128gb-4g-black-3-1.png",
+			"https://imgs.search.brave.com/UTwVC2Zm1TnSmVAj6BMnWR49xcJyKjxi8j4Axp7Lxac/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/d29ydGVuLmVzL2kv/NjIxZDc4ODU5MmQ4/NGRjMjQzNDBkYjhl/MzIzYTg5ZmVlODRh/MGE2ZC5qcGc",
 	},
 	{
 		phoneId: 18,
