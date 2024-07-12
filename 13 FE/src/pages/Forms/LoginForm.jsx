@@ -90,10 +90,11 @@ const LoginForm = () => {
 	const onSubmit = async (data) => {
 		try {
 			const response = await loginUser(data.email, data.password);
-			const { user, token } = response.data;
+			let { user, token } = response.data;
+
+			user.token = token;
 
 			localStorage.setItem("user", JSON.stringify(user));
-			localStorage.setItem("token", token);
 
 			await syncCartAndFavorites(token);
 

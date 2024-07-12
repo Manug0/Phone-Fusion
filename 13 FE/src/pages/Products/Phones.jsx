@@ -126,6 +126,7 @@ const Phones = ({ onOpen }) => {
 	const [totalPages, setTotalPages] = useState(1);
 	const [selectedBrands, setSelectedBrands] = useState([]);
 	const [priceRange, setPriceRange] = useState([0, 1000]);
+	const [selected, setSelected] = useState("6GB x 128GB");
 
 	const navigate = useNavigate();
 	const phonesPerPage = 10;
@@ -213,7 +214,7 @@ const Phones = ({ onOpen }) => {
 							</div>
 
 							<AddCartButton>
-								<AddToCartButton phone={phone} onOpen={onOpen} />
+								<AddToCartButton phone={phone} onOpen={onOpen} selectedOption={selected} />
 							</AddCartButton>
 							<StyledHeartButton phone={phone} />
 						</PhoneCard>

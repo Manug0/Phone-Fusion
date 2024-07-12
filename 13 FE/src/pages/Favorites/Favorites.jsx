@@ -122,6 +122,13 @@ const Favorites = ({ onOpen }) => {
 		}
 	}, [heart, setHeart]);
 
+	useEffect(() => {
+		const savedHeart = localStorage.getItem("heart");
+		if (savedHeart) {
+			setHeart(JSON.parse(savedHeart));
+		}
+	}, [localStorage.getItem("heart")]);
+
 	const handleRemoveFromFavorites = (phone, e) => {
 		e.stopPropagation();
 		removeHeart(phone);

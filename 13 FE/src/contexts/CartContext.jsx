@@ -5,10 +5,12 @@ const Cart = createContext();
 
 export const CartContext = ({ children }) => {
 	const [cart, setCart] = useState([]);
+	const [isCartUpdated, setIsCartUpdated] = useState(false);
 
 	useEffect(() => {
 		const loadCart = async () => {
-			const token = localStorage.getItem("token");
+			const user = JSON.parse(localStorage.getItem("user"));
+			const token = user ? user.token : null;
 			if (token) {
 				try {
 					const response = await getUserData(token);
@@ -27,15 +29,21 @@ export const CartContext = ({ children }) => {
 	}, []);
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (token && cart.length > 0) {
-			updateCart(cart, token).catch((error) => console.error("Error updating cart:", error));
+		if (isCartUpdated) {
+			const user = JSON.parse(localStorage.getItem("user"));
+			const token = user ? user.token : null;
+			if (token) {
+				updateCart(cart, token)
+					.then(() => setIsCartUpdated(false))
+					.catch((error) => console.error("Error updating cart:", error));
+			}
+			localStorage.setItem("cart", JSON.stringify(cart));
 		}
-		localStorage.setItem("cart", JSON.stringify(cart));
-	}, [cart]);
+	}, [cart, isCartUpdated]);
 
 	const addCart = (item) => {
 		setCart((prevCart) => [...prevCart, item]);
+		setIsCartUpdated(true);
 	};
 
 	const removeCart = (item) => {
@@ -44,26 +52,8 @@ export const CartContext = ({ children }) => {
 			localStorage.setItem("cart", JSON.stringify(updatedCart));
 			return updatedCart;
 		});
+		setIsCartUpdated(true);
 	};
-
-	useEffect(() => {
-		const loadData = async () => {
-			const token = localStorage.getItem("token");
-			if (token) {
-				try {
-					const response = await getUserData(token);
-					if (response.data) {
-						setCart(response.data.cart || []);
-					}
-				} catch (error) {
-					console.error("Error fetching user data:", error);
-				}
-			} else {
-				setCart([]);
-			}
-		};
-		loadData();
-	}, [localStorage.getItem("token")]);
 
 	const cartCount = cart.length;
 

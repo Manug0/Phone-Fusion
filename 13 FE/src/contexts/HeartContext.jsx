@@ -5,10 +5,12 @@ const Heart = createContext();
 
 export const HeartContext = ({ children }) => {
 	const [heart, setHeart] = useState([]);
+	const [isFavoritesUpdated, setIsFavoritesUpdated] = useState(false);
 
 	useEffect(() => {
 		const loadHeart = async () => {
-			const token = localStorage.getItem("token");
+			const user = JSON.parse(localStorage.getItem("user"));
+			const token = user ? user.token : null;
 			if (token) {
 				try {
 					const response = await getUserData(token);
@@ -27,18 +29,22 @@ export const HeartContext = ({ children }) => {
 	}, []);
 
 	useEffect(() => {
-		const token = localStorage.getItem("token");
-		if (token) {
-			updateFavorites(heart, token).catch((error) =>
-				console.error("Error updating favorites:", error)
-			);
+		if (isFavoritesUpdated) {
+			const user = JSON.parse(localStorage.getItem("user"));
+			const token = user ? user.token : null;
+			if (token) {
+				updateFavorites(heart, token)
+					.then(() => setIsFavoritesUpdated(false))
+					.catch((error) => console.error("Error updating favorites:", error));
+			}
+			localStorage.setItem("heart", JSON.stringify(heart));
 		}
-		localStorage.setItem("heart", JSON.stringify(heart));
-	}, [heart]);
+	}, [heart, isFavoritesUpdated]);
 
 	const addHeart = (phone) => {
 		setHeart((prevHeart) => {
 			if (!prevHeart.some((item) => item._id === phone._id)) {
+				setIsFavoritesUpdated(true);
 				return [...prevHeart, phone];
 			}
 			return prevHeart;
@@ -50,28 +56,10 @@ export const HeartContext = ({ children }) => {
 		setHeart((prevHeart) => {
 			const updatedHeart = prevHeart.filter((h) => h._id !== phone._id);
 			localStorage.setItem("heart", JSON.stringify(updatedHeart));
+			setIsFavoritesUpdated(true);
 			return updatedHeart;
 		});
 	};
-
-	useEffect(() => {
-		const loadData = async () => {
-			const token = localStorage.getItem("token");
-			if (token) {
-				try {
-					const response = await getUserData(token);
-					if (response.data) {
-						setHeart(response.data.favorites || []);
-					}
-				} catch (error) {
-					console.error("Error fetching user data:", error);
-				}
-			} else {
-				setHeart([]);
-			}
-		};
-		loadData();
-	}, [localStorage.getItem("token")]);
 
 	const heartCount = heart.length;
 

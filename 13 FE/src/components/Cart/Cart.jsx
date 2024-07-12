@@ -95,14 +95,13 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 	const confirmOrder = async () => {
 		try {
 			setIsLoading(true);
-			const storedData = JSON.parse(localStorage.getItem("user"));
+			const user = JSON.parse(localStorage.getItem("user"));
 
-			if (!storedData || !storedData.token || !storedData.user) {
+			if (!user || !user.token) {
 				throw new Error("User data is missing");
 			}
 
-			const token = storedData.token;
-			const user = storedData.user;
+			const token = user.token;
 
 			const newClient = {
 				name: user.name,
@@ -142,8 +141,7 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 			}
 
 			setTimeout(() => {
-				setCart([]);
-				setCounter({});
+				cart.forEach((phone) => removeCart(phone));
 				setCompleteOrder(true);
 				setIsLoading(false);
 			}, 2000);

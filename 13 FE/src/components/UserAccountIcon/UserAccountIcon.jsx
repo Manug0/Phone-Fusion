@@ -58,7 +58,7 @@ const UserAccounticon = () => {
 		localStorage.removeItem("cart");
 		localStorage.removeItem("heart");
 		localStorage.removeItem("user");
-		localStorage.removeItem("token");
+		// localStorage.removeItem("token");
 		window.location.href = "/login";
 	};
 
@@ -69,7 +69,7 @@ const UserAccounticon = () => {
 					style={{ cursor: "pointer" }}
 					onMouseEnter={openPopover}
 					onMouseLeave={closePopover}
-					onClick={(openPopover, goToLogin)}>
+					onClick={openPopover}>
 					<i className="ri-user-3-line"></i>
 				</Box>
 			</PopoverTrigger>
