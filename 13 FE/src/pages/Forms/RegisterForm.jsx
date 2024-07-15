@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { loginUser, registerUser } from "../../services/Api";
 import { useNavigate } from "react-router-dom";
+import { setUserToLocalStorage } from "../../utils/userHelper";
 
 const FormSection = styled.section`
 	position: relative;
@@ -73,6 +74,8 @@ const RegisterForm = () => {
 			if (registerResponse.status === 201) {
 				const loginResponse = await loginUser(data.email, data.password);
 				console.log("Sesión iniciada correctamente", loginResponse);
+
+				setUserToLocalStorage(loginResponse.data);
 
 				localStorage.setItem("user", JSON.stringify(loginResponse.data));
 

@@ -13,6 +13,7 @@ import { getUserData, loginUser } from "../../services/Api";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../contexts/CartContext";
 import { useHeart } from "../../contexts/HeartContext";
+import { setUserToLocalStorage } from "../../utils/userHelper";
 
 const FormSection = styled.section`
 	display: flex;
@@ -94,7 +95,9 @@ const LoginForm = () => {
 
 			user.token = token;
 
-			localStorage.setItem("user", JSON.stringify(user));
+			setUserToLocalStorage(user);
+
+			// localStorage.setItem("user", JSON.stringify(user));
 
 			await syncCartAndFavorites(token);
 

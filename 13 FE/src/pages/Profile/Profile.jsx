@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getClientByUserId, getPhoneById } from "../../services/Api";
 import styled from "styled-components";
+import { getUserFromLocalStorage } from "../../utils/userHelper";
 
 const ProfileWrapper = styled.div`
 	display: flex;
@@ -138,7 +139,8 @@ const NoOrdersMessage = styled.p`
 	text-align: center;
 `;
 const Profile = () => {
-	const user = JSON.parse(localStorage.getItem("user"));
+	const user = getUserFromLocalStorage();
+	// const user = JSON.parse(localStorage.getItem("user"));
 	const [client, setClient] = useState(null);
 
 	useEffect(() => {

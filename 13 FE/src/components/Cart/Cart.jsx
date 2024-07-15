@@ -16,6 +16,7 @@ import { DeleteIcon, AddIcon, MinusIcon } from "@chakra-ui/icons";
 import styled from "styled-components";
 import OrderCompleteCheckmark from "../OrderCompleteCheckmark/OrderCompleteCheckmark";
 import { createClient, createSale, getClientByUserId, updateClient } from "../../services/Api";
+import { getUserFromLocalStorage } from "../../utils/userHelper";
 
 const CartItem = styled.div`
 	width: 80%;
@@ -95,7 +96,8 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 	const confirmOrder = async () => {
 		try {
 			setIsLoading(true);
-			const user = JSON.parse(localStorage.getItem("user"));
+			const user = getUserFromLocalStorage();
+			// const user = JSON.parse(localStorage.getItem("user"));
 
 			if (!user || !user._id) {
 				throw new Error("User data is missing");

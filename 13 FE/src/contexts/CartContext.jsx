@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { getUserData, updateCart } from "../services/Api";
+import { getUserFromLocalStorage } from "../utils/userHelper";
 
 const Cart = createContext();
 
@@ -9,7 +10,8 @@ export const CartContext = ({ children }) => {
 
 	useEffect(() => {
 		const loadCart = async () => {
-			const user = JSON.parse(localStorage.getItem("user"));
+			const user = getUserFromLocalStorage();
+			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				try {
@@ -30,7 +32,8 @@ export const CartContext = ({ children }) => {
 
 	useEffect(() => {
 		if (isCartUpdated) {
-			const user = JSON.parse(localStorage.getItem("user"));
+			const user = getUserFromLocalStorage();
+			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				updateCart(cart, token)

@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { getUserData, updateFavorites } from "../services/Api";
+import { getUserFromLocalStorage } from "../utils/userHelper";
 
 const Heart = createContext();
 
@@ -9,7 +10,8 @@ export const HeartContext = ({ children }) => {
 
 	useEffect(() => {
 		const loadHeart = async () => {
-			const user = JSON.parse(localStorage.getItem("user"));
+			const user = getUserFromLocalStorage();
+			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				try {
@@ -30,7 +32,8 @@ export const HeartContext = ({ children }) => {
 
 	useEffect(() => {
 		if (isFavoritesUpdated) {
-			const user = JSON.parse(localStorage.getItem("user"));
+			const user = getUserFromLocalStorage();
+			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				updateFavorites(heart, token)
