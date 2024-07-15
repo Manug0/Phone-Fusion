@@ -145,18 +145,7 @@ const Profile = () => {
 		const fetchClient = async () => {
 			try {
 				const clientRes = await getClientByUserId(user._id);
-				const salesWithPhones = await Promise.all(
-					clientRes.data.saleId.map(async (sale) => {
-						const phones = await Promise.all(
-							sale.phoneIds.map(async (phoneId) => {
-								const phoneRes = await getPhoneById(phoneId);
-								return phoneRes.data;
-							})
-						);
-						return { ...sale, phones };
-					})
-				);
-				setClient({ ...clientRes.data, saleId: salesWithPhones });
+				setClient(clientRes.data);
 			} catch (error) {
 				console.error("Error encontrando el cliente", error);
 			}
@@ -193,12 +182,14 @@ const Profile = () => {
 							return (
 								<SaleItem key={index}>
 									<SaleDate>Fecha de pedido: {date}</SaleDate>
-									{sale.phones.map((phone, phoneIndex) => (
-										<PhoneWrapper key={phoneIndex}>
-											<PhoneImage src={phone.imageUrl} alt={phone.name} />
+									{sale.items.map((item, itemIndex) => (
+										<PhoneWrapper key={itemIndex}>
+											<PhoneImage src={item.phoneId[0].imageUrl} alt={item.phoneId[0].name} />
 											<PhoneDetails>
-												<PhoneName>{phone.name}</PhoneName>
-												<PhonePrice>{phone.price}€</PhonePrice>
+												<PhoneName>{item.phoneId[0].name}</PhoneName>
+												<PhonePrice>{item.price}€</PhonePrice>
+												<p>Cantidad: {item.quantity}</p>
+												<p>Opción: {item.selectedOption}</p>
 											</PhoneDetails>
 										</PhoneWrapper>
 									))}

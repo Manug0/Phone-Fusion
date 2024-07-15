@@ -15,7 +15,7 @@ import { useCounter } from "../../contexts/CounterContext";
 import { DeleteIcon, AddIcon, MinusIcon } from "@chakra-ui/icons";
 import styled from "styled-components";
 import OrderCompleteCheckmark from "../OrderCompleteCheckmark/OrderCompleteCheckmark";
-import { createClient, createSale, updateClient } from "../../services/Api";
+import { createClient, createSale, getClientByUserId, updateClient } from "../../services/Api";
 
 const CartItem = styled.div`
 	width: 80%;
@@ -97,44 +97,58 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 			setIsLoading(true);
 			const user = JSON.parse(localStorage.getItem("user"));
 
-			if (!user || !user.token) {
+			if (!user || !user._id) {
 				throw new Error("User data is missing");
 			}
 
-			const token = user.token;
-
-			const newClient = {
-				name: user.name,
-				email: user.email,
-				userId: user._id,
-				saleId: [],
-			};
-
-			const clientRes = await createClient(newClient, token);
-
-			if (clientRes.status !== 201) {
-				throw new Error("Failed to create client");
+			let clientRes;
+			try {
+				clientRes = await getClientByUserId(user._id);
+			} catch (error) {
+				if (error.response && error.response.status !== 404) {
+					console.log("No se encontró el cliente");
+				}
 			}
 
-			const createdClient = clientRes.data;
+			let client;
+			if (clientRes && clientRes.data) {
+				client = clientRes.data;
+			} else {
+				const newClient = {
+					name: user.name,
+					email: user.email,
+					userId: user._id,
+					saleId: [],
+				};
+				clientRes = await createClient(newClient, user.token);
+				client = clientRes.data;
+			}
 
 			const newSale = {
 				saleDate: new Date(),
-				phoneIds: cart.map((phone) => phone._id),
-				clientId: createdClient._id,
+				items: cart.map((item) => ({
+					phoneId: item._id,
+					quantity: counter[`${item.name} (${item.selectedOption})`] || 1,
+					selectedOption: item.selectedOption,
+					price: item.price,
+				})),
+				clientId: client._id,
 			};
 
-			const saleRes = await createSale(newSale, token);
+			console.log("New sale data:", newSale);
+
+			const saleRes = await createSale(newSale, user.token);
 
 			if (saleRes.status !== 201) {
-				throw new Error("Failed to create sale");
+				console.error("Sale creation failed:", saleRes);
+				throw new Error(`Failed to create sale: ${saleRes.statusText}`);
 			}
 
 			const createdSale = saleRes.data;
 
-			createdClient.saleId.push(createdSale._id);
+			client.saleId.push(createdSale._id);
 
-			const updateRes = await updateClient(createdClient._id, createdClient, token);
+			const updateRes = await updateClient(client._id, client, user.token);
 
 			if (updateRes.status !== 200) {
 				throw new Error("Failed to update client");
@@ -150,7 +164,7 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 				setCompleteOrder(false);
 			}, 4000);
 		} catch (error) {
-			console.error(error);
+			console.error("Error in confirmOrder:", error);
 			setIsLoading(false);
 		}
 	};
