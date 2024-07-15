@@ -39,6 +39,10 @@ export const getSaleById = (id) => {
 	return instance.get(`/sales/${id}`);
 };
 
+export const getClientByUserId = (id) => {
+	return instance.get(`/clients/${id}`);
+};
+
 export const createClient = (clientData, token) => {
 	return instance.post("/clients", clientData, {
 		headers: { Authorization: `Bearer ${token}` },

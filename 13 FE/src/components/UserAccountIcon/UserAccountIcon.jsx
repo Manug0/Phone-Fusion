@@ -6,14 +6,11 @@ import {
 	PopoverHeader,
 	PopoverBody,
 	PopoverArrow,
-	PopoverCloseButton,
 	Button,
 	Box,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useCart } from "../../contexts/CartContext";
-import { useHeart } from "../../contexts/HeartContext";
 
 const StyledPopoverContent = styled(PopoverContent)`
 	border: none;
@@ -58,7 +55,6 @@ const UserAccounticon = () => {
 		localStorage.removeItem("cart");
 		localStorage.removeItem("heart");
 		localStorage.removeItem("user");
-		// localStorage.removeItem("token");
 		window.location.href = "/login";
 	};
 
