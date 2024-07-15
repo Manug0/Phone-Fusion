@@ -2,15 +2,19 @@ const { default: mongoose } = require("mongoose");
 
 const saleSchema = new mongoose.Schema(
 	{
-		// saleId: { type: String, required: false },
 		clientId: { type: mongoose.Types.ObjectId, ref: "clients" },
-		phoneIds: [{ type: mongoose.Types.ObjectId, ref: "phones" }],
-		// review: { type: String, required: false },
-		// rating: { type: Number, required: false },
+		items: [
+			{
+				phoneId: [{ type: mongoose.Types.ObjectId, ref: "phones" }],
+				quantity: { type: Number, required: true },
+				selectedOption: { type: String, required: true },
+				price: { type: Number, required: true },
+			},
+		],
 		saleDate: { type: String, required: true },
 	},
 	{
-		timesmtaps: true,
+		timestamps: true,
 		collection: "sales",
 	}
 );

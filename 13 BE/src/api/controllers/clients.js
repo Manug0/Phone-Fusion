@@ -12,11 +12,23 @@ const getClients = async (req, res, next) => {
 	}
 };
 
-const getClientById = async (req, res, next) => {
+const getClientByUserId = async (req, res, next) => {
 	try {
-		const { id } = req.params;
-		const clients = await Client.findById(id).populate("userId").populate("saleId");
-		return res.status(200).json(clients);
+		const { userId } = req.params;
+		const client = await Client.findOne({ userId: userId })
+			.populate("userId")
+			.populate({
+				path: "saleId",
+				populate: {
+					path: "items.phoneId",
+					model: "phones",
+				},
+			});
+
+		if (!client) {
+			return res.status(404).json({ message: "Client not found" });
+		}
+		return res.status(200).json(client);
 	} catch (error) {
 		console.error(error);
 		return res.status(400).json(error);
@@ -58,4 +70,4 @@ const updateClient = async (req, res, next) => {
 	}
 };
 
-module.exports = { getClients, getClientById, createClient, updateClient };
+module.exports = { getClients, getClientByUserId, createClient, updateClient };

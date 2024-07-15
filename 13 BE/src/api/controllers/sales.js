@@ -25,9 +25,9 @@ const getSaleById = async (req, res, next) => {
 
 const createSale = async (req, res, next) => {
 	try {
-		const { clientId, phoneIds, saleDate } = req.body;
+		const { clientId, items, saleDate } = req.body;
 
-		const newSale = new Sale({ clientId, phoneIds, saleDate });
+		const newSale = new Sale({ clientId, items, saleDate });
 		const savedSale = await newSale.save();
 
 		const client = await Client.findById(clientId);
@@ -38,8 +38,8 @@ const createSale = async (req, res, next) => {
 		client.saleId.push(savedSale._id);
 		await client.save();
 
-		for (const phoneId of phoneIds) {
-			const phone = await Phone.findById(phoneId);
+		for (const item of items) {
+			const phone = await Phone.findById(item.phoneId);
 			if (phone) {
 				phone.saleId.push(savedSale._id);
 				await phone.save();
