@@ -12,6 +12,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+const StyledPopover = styled(Popover)`
+	border: none;
+`;
+
 const StyledPopoverContent = styled(PopoverContent)`
 	border: none;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -59,7 +63,7 @@ const UserAccounticon = () => {
 	};
 
 	return (
-		<Popover isOpen={isOpen} onClose={closePopover}>
+		<StyledPopover isOpen={isOpen} onClose={closePopover}>
 			<PopoverTrigger>
 				<Box
 					style={{ cursor: "pointer" }}
@@ -98,7 +102,7 @@ const UserAccounticon = () => {
 					</PopoverBody>
 				)}
 			</StyledPopoverContent>
-		</Popover>
+		</StyledPopover>
 	);
 };
 

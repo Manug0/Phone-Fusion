@@ -2,6 +2,9 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import HomeMockup from "../../components/HomePage/HomeMockup";
 import { Button } from "@chakra-ui/react";
+import Benefits from "../../components/Benefits/Benefits";
+import { useNavigate } from "react-router-dom";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 
 const HomeSection = styled.section`
 	/* margin-top: var(--size-6xl); */
@@ -10,24 +13,22 @@ const HomeSection = styled.section`
 const Hero = styled.div`
 	position: relative;
 	display: flex;
-	height: 50rem;
+	height: 48rem;
 	width: 100%;
 	background-image: linear-gradient(to right, #2477a7, #24a7a7);
-	/* background-color: #24a7a7; */
 	background-repeat: no-repeat;
 	background-size: cover;
 `;
 
-const Slogan = styled.h1`
+const Slogan = styled.div`
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	/* flex-wrap: wrap; */
+	justify-content: start;
+	margin-top: 3rem;
 	align-items: start;
 	padding: 0 50px;
 	color: var(--color-primary);
 	width: 100%;
-	/* z-index: 1; */
 `;
 
 const SmallSlogan = styled.span`
@@ -65,14 +66,33 @@ const StyledMockup = styled(HomeMockup)`
 	top: 0;
 	right: 0;
 	bottom: 0;
-	left: 0;
 	margin: auto;
 	transform: translate(-50%, -50%);
-	right: 0;
 	animation: ${float} 5s ease-in-out infinite;
 `;
 
+const CustomButton = styled(Button)`
+	background-color: #000000 !important;
+	color: var(--color-primary) !important;
+	border-radius: 25px;
+	padding: 2rem 4rem !important;
+	font-size: 1.5rem !important;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.3s ease !important;
+
+	&:hover {
+		background-color: #0d3a6b !important;
+	}
+
+	&:active {
+		background-color: #2c5282 !important;
+	}
+`;
 const Home = () => {
+	const navigate = useNavigate();
+
+	const goToPhones = () => navigate("/phones");
+
 	return (
 		<HomeSection>
 			<Hero>
@@ -82,15 +102,18 @@ const Home = () => {
 					<LargeSlogan>empieza aquí</LargeSlogan>
 				</Slogan>
 				<StyledMockup />
-				<Button
+				<CustomButton
+					onClick={goToPhones}
+					rightIcon={<ChevronRightIcon />}
 					backgroundColor="white"
 					variant="solid"
 					position="absolute"
 					left="50px"
 					bottom="20px">
 					Comprar ahora
-				</Button>
+				</CustomButton>
 			</Hero>
+			<Benefits />
 		</HomeSection>
 	);
 };
