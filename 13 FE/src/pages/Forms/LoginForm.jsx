@@ -93,11 +93,8 @@ const LoginForm = () => {
 			const response = await loginUser(data.email, data.password);
 			let { user, token } = response.data;
 
-			user.token = token;
-
-			setUserToLocalStorage(user);
-
-			// localStorage.setItem("user", JSON.stringify(user));
+			const userData = { ...user, token };
+			setUserToLocalStorage(userData);
 
 			await syncCartAndFavorites(token);
 

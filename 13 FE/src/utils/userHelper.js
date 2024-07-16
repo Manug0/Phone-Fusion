@@ -2,20 +2,22 @@ export const getUserFromLocalStorage = () => {
 	const userString = localStorage.getItem("user");
 	if (!userString) return null;
 
-	const user = JSON.parse(userString);
+	const userData = JSON.parse(userString);
+	const user = userData.user;
 
-	if (user.user) {
-		return {
-			_id: user.user._id,
-			name: user.user.name,
-			email: user.user.email,
-			token: user.token,
-		};
-	}
+	if (!user) return null;
 
-	return user;
+	return {
+		_id: user._id,
+		name: user.name,
+		email: user.email,
+		token: userData.token,
+	};
 };
+export const setUserToLocalStorage = (userData) => {
+	console.log("Guardando datos de usuario en localStorage:", userData);
 
-export const setUserToLocalStorage = (user) => {
-	localStorage.setItem("user", JSON.stringify(user));
+	const userToStore = userData.user ? { ...userData.user, token: userData.token } : userData;
+
+	localStorage.setItem("user", JSON.stringify(userToStore));
 };

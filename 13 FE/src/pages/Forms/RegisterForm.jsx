@@ -75,9 +75,8 @@ const RegisterForm = () => {
 				const loginResponse = await loginUser(data.email, data.password);
 				console.log("Sesión iniciada correctamente", loginResponse);
 
-				setUserToLocalStorage(loginResponse.data);
-
-				localStorage.setItem("user", JSON.stringify(loginResponse.data));
+				const userData = { ...loginResponse.data.user, token: loginResponse.data.token };
+				setUserToLocalStorage(userData);
 
 				setTimeout(() => {
 					goToHome();
