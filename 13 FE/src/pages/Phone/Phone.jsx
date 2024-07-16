@@ -27,6 +27,7 @@ const Container = styled.div`
 	align-items: center;
 	padding: 20px;
 	margin-top: var(--size-md);
+	min-height: 50rem;
 `;
 
 const BackButton = styled.button`
