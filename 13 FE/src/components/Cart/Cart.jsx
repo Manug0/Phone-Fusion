@@ -97,7 +97,6 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 		try {
 			setIsLoading(true);
 			const user = getUserFromLocalStorage();
-			// const user = JSON.parse(localStorage.getItem("user"));
 
 			if (!user || !user._id) {
 				throw new Error("User data is missing");

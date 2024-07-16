@@ -140,7 +140,6 @@ const NoOrdersMessage = styled.p`
 `;
 const Profile = () => {
 	const user = getUserFromLocalStorage();
-	// const user = JSON.parse(localStorage.getItem("user"));
 	const [client, setClient] = useState(null);
 
 	useEffect(() => {

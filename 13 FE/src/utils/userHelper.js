@@ -2,18 +2,19 @@ export const getUserFromLocalStorage = () => {
 	const userString = localStorage.getItem("user");
 	if (!userString) return null;
 
-	const userData = JSON.parse(userString);
-	const user = userData.user;
+	const user = JSON.parse(userString);
 
-	if (!user) return null;
+	if (!user || !user._id) return null;
 
 	return {
 		_id: user._id,
 		name: user.name,
 		email: user.email,
-		token: userData.token,
+		token: user.token,
+		createdAt: user.createdAt,
 	};
 };
+
 export const setUserToLocalStorage = (userData) => {
 	console.log("Guardando datos de usuario en localStorage:", userData);
 
