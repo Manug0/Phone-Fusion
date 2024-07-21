@@ -15,11 +15,9 @@ const PhoneSection = styled.section`
 	padding: var(--size-5xl) 0;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: flex-start;
 	align-items: center;
 	gap: 60px;
-	height: 100%;
-	z-index: 2;
 `;
 
 const FilterH2 = styled.h2`

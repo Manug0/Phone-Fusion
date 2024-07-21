@@ -12,7 +12,7 @@ const StyledFooter = styled.footer`
 	padding-top: 3rem;
 `;
 
-const MainFooter = styled.div`
+const MainFooter = styled.footer`
 	display: flex;
 	justify-content: space-evenly;
 `;
