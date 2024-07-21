@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import "./App.css";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Home from "./pages/Home/Home";
@@ -30,6 +30,12 @@ function App() {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = useRef();
 	let location = useLocation();
+
+	useEffect(() => {
+		setTimeout(() => {
+			window.scrollTo(0, 0);
+		}, 490);
+	}, [location.pathname]);
 
 	const pageVariants = {
 		initial: {
