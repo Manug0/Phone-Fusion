@@ -6,14 +6,12 @@ import Benefits from "../../components/Benefits/Benefits";
 import { useNavigate } from "react-router-dom";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
-const HomeSection = styled.section`
-	/* margin-top: var(--size-6xl); */
-`;
+const HomeSection = styled.section``;
 
 const Hero = styled.div`
 	position: relative;
 	display: flex;
-	height: 48rem;
+	height: 46rem;
 	width: 100%;
 	background-image: linear-gradient(to right, #2477a7, #24a7a7);
 	background-repeat: no-repeat;
@@ -72,22 +70,28 @@ const StyledMockup = styled(HomeMockup)`
 `;
 
 const CustomButton = styled(Button)`
-	background-color: #000000 !important;
-	color: var(--color-primary) !important;
+	background-color: var(--color-dark) !important;
+	color: white !important;
 	border-radius: 25px;
-	padding: 2rem 4rem !important;
-	font-size: 1.5rem !important;
+	padding: 1.5rem 3rem !important;
+	font-size: 1.2rem !important;
+	font-weight: bold;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	transition: background-color 0.3s ease !important;
+	transition: all 0.3s ease !important;
+	border: none;
 
 	&:hover {
-		background-color: #0d3a6b !important;
+		background-color: #1d3c94 !important;
+		transform: translateY(-2px);
+		box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 	}
 
 	&:active {
-		background-color: #2c5282 !important;
+		background-color: var(--color-dark) !important;
+		transform: translateY(1px);
 	}
 `;
+
 const Home = () => {
 	const navigate = useNavigate();
 
