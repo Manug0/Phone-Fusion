@@ -13,19 +13,21 @@ const FavoritesContainer = styled.div`
 	justify-content: ${(props) => (props.hasItems ? "flex-start" : "center")};
 	padding: 20px;
 	min-height: 100vh;
-	background-color: #f5f5f5;
+	background-color: #f9f9f9;
 `;
 
 const NoFavoritesMessage = styled.p`
-	font-size: var(--size-xl);
-	font-weight: var(--font-weight-semibold);
+	font-size: 1.5rem;
+	font-weight: 600;
 	text-align: center;
 	width: 100%;
+	color: #555;
 `;
 
 const ShopPhonesButton = styled(Button)`
 	background-color: var(--color-quaternary);
-	margin-top: var(--size-4xl);
+	color: white;
+	margin-top: 20px;
 
 	&:hover {
 		background-color: var(--color-dark);
@@ -33,18 +35,18 @@ const ShopPhonesButton = styled(Button)`
 `;
 
 const Message = styled.h2`
-	font-size: 1.5rem;
-	font-weight: var(--font-weight-semibold);
+	font-size: 1.8rem;
+	font-weight: 600;
 	margin-bottom: 20px;
-	text-align: left;
+	text-align: center;
 	width: 100%;
 	color: #333;
 `;
 
 const FavoritesListContainer = styled.div`
-	width: 70%;
+	width: 90%;
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	gap: 20px;
 	margin: 0 auto;
 `;
@@ -53,7 +55,8 @@ const FavItemContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	padding: 20px;
-	background-color: var(--color-primary);
+	position: relative;
+	background-color: white;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	border-radius: 10px;
 	transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
@@ -79,31 +82,32 @@ const FavItem = styled.div`
 	}
 
 	.product-name {
-		font-weight: var(--font-weight-medium);
+		font-weight: 500;
 		color: #333;
 		font-size: 1.2rem;
 	}
 
 	.product-brand {
-		color: #666;
+		color: #777;
 		font-size: 1rem;
 	}
 
 	.product-price {
 		color: var(--color-dark);
-		font-weight: var(--font-weight-bold);
-		font-size: 1.1rem;
+		font-weight: 700;
+		font-size: 1.3rem;
 	}
 
 	img {
 		width: 150px;
 		height: auto;
+		border-radius: 8px;
 	}
 `;
 
 const ActionsContainer = styled.div`
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
 	align-items: center;
 	gap: 10px;
 `;
@@ -146,7 +150,8 @@ const Favorites = ({ onOpen }) => {
 						onClick={goToPhones}
 						rightIcon={<ArrowForwardIcon />}
 						variant="outline"
-						size="lg">
+						size="lg"
+						marginBottom="20vh">
 						Ir a móviles
 					</ShopPhonesButton>
 				</div>
@@ -169,7 +174,10 @@ const Favorites = ({ onOpen }) => {
 											icon={<CloseIcon />}
 											onClick={(e) => handleRemoveFromFavorites(phone, e)}
 											size="sm"
-											colorScheme="red"
+											background="none"
+											position="absolute"
+											top="10px"
+											right="10px"
 										/>
 										<AddToCartButton
 											phone={phone}

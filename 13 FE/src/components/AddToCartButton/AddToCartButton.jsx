@@ -37,8 +37,8 @@ const AddToCartButton = ({
 	return isIconButton ? (
 		<IconButton
 			style={styles}
-			colorScheme={colorScheme || "green"}
-			size={size || "sm"}
+			colorScheme={colorScheme || "gray"}
+			size={size || "md"}
 			icon={<i className="ri-shopping-cart-2-fill"></i>}
 			onClick={toggleLiked}
 		/>
