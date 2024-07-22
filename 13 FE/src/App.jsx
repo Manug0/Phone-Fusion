@@ -15,6 +15,7 @@ import Favorites from "./pages/Favorites/Favorites";
 import Profile from "./pages/Profile/Profile";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
+import ScrollTop from "./components/ScrollTop/ScrollTop";
 
 const PageContainer = styled(motion.div)`
 	width: 100%;
@@ -84,6 +85,7 @@ function App() {
 			</RoutesContainer>
 			<Cart isOpen={isOpen} onClose={onClose} btnRef={btnRef} />
 			<Footer />
+			<ScrollTop />
 		</div>
 	);
 }
