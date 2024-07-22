@@ -12,7 +12,7 @@ const FavoritesContainer = styled.div`
 	align-items: ${(props) => (props.hasItems ? "center" : "center")};
 	justify-content: ${(props) => (props.hasItems ? "flex-start" : "center")};
 	padding: 20px;
-	min-height: calc(100vh - 300px);
+	min-height: 100vh;
 	background-color: #f5f5f5;
 `;
 
@@ -152,7 +152,7 @@ const Favorites = ({ onOpen }) => {
 				</div>
 			) : (
 				<>
-					<Message>Aquí están tus móviles favoritos</Message>
+					<Message>Tus móviles favoritos</Message>
 					<FavoritesListContainer>
 						{heart.map((phone) => (
 							<FavItemContainer key={phone._id} onClick={() => goToPhone(phone)}>

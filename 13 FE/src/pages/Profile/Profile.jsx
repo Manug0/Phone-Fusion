@@ -7,7 +7,7 @@ const ProfileWrapper = styled.div`
 	display: flex;
 	padding: 40px;
 	background-color: #f9f9f9;
-	min-height: 80vh;
+	min-height: 100vh;
 `;
 
 const UserInfoSection = styled.div`
