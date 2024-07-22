@@ -23,7 +23,7 @@ const PageContainer = styled(motion.div)`
 const RoutesContainer = styled.div`
 	position: relative;
 	min-height: 100vh;
-	overflow: hidden;
+	/* overflow: hidden; */
 `;
 
 function App() {

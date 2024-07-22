@@ -29,8 +29,8 @@ const FilterH2 = styled.h2`
 
 const SearchFilter = styled.div`
 	display: flex;
-	position: relative;
-	right: 20px;
+	position: sticky;
+	top: 150px;
 	gap: var(--size-5xl);
 	flex-direction: column;
 	min-width: 250px;
