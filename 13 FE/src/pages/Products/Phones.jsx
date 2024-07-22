@@ -150,10 +150,12 @@ const Phones = ({ onOpen }) => {
 
 	const handleNextPage = () => {
 		setPage((prevPage) => Math.min(prevPage + 1, totalPages));
+		window.scrollTo(0, 0);
 	};
 
 	const handlePreviousPage = () => {
 		setPage((prevPage) => Math.max(prevPage - 1, 1));
+		window.scrollTo(0, 0);
 	};
 
 	useEffect(() => {
