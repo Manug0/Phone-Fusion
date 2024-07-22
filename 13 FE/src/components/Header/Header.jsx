@@ -106,7 +106,10 @@ const StyledNavLink = styled(NavLink)`
 	cursor: pointer;
 	transition: var(--transition-fast);
 	&:hover {
-		color: var(--color-secondary);
+		color: #24a7a7;
+	}
+	&[href="/favorites"]:hover {
+		color: inherit;
 	}
 `;
 
