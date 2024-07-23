@@ -21,6 +21,10 @@ export const fetchPhones = (page = 1, limit = 10, query = "") => {
 	});
 };
 
+export const fetchAllPhones = () => {
+	return instance.get("/phones/all");
+};
+
 export const getPhoneById = (id) => {
 	return instance.get(`/phones/${id}`);
 };

@@ -1,10 +1,11 @@
-import React from "react";
-import styled, { keyframes } from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { keyframes, css } from "styled-components";
 import HomeMockup from "../../components/HomePage/HomeMockup";
-import { Button } from "@chakra-ui/react";
+import { Button, Box, Avatar, Text, VStack, HStack, Image } from "@chakra-ui/react";
 import Benefits from "../../components/Benefits/Benefits";
 import { useNavigate } from "react-router-dom";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import { fetchAllPhones } from "../../services/Api";
 
 const HomeSection = styled.section``;
 
@@ -92,10 +93,72 @@ const CustomButton = styled(Button)`
 	}
 `;
 
+const PromoSection = styled.section`
+	padding: 4rem 0;
+	background: var(--color-primary);
+`;
+
+const ReviewSection = styled.section`
+	padding: 4rem 0;
+	background: var(--color-primary);
+`;
+
+const hoverEffect = css`
+	transform: translateY(-5px);
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+`;
+
+const PhoneBox = styled(Box)`
+	${({ isHovered }) => isHovered && hoverEffect}
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	cursor: pointer;
+
+	&:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	}
+`;
+
 const Home = () => {
 	const navigate = useNavigate();
+	const [promoPhones, setPromoPhones] = useState([]);
+	const [hoveredIndex, setHoveredIndex] = useState(null);
 
 	const goToPhones = () => navigate("/phones");
+	const goToPhone = (phone) => navigate(`/phone/${phone._id}`);
+
+	useEffect(() => {
+		const fetchPhones = async () => {
+			try {
+				const { data } = await fetchAllPhones();
+				const shuffled = data.sort(() => 0.5 - Math.random());
+				setPromoPhones(shuffled.slice(0, 3));
+			} catch (error) {
+				console.error("Error fetching phones:", error);
+			}
+		};
+
+		fetchPhones();
+	}, []);
+
+	const reviews = [
+		{
+			name: "Carlos M.",
+			comment: "¡Excelente servicio y productos de alta calidad! Muy satisfecho con mi compra.",
+			avatar: "https://bit.ly/dan-abramov",
+		},
+		{
+			name: "Ana G.",
+			comment: "La atención al cliente es maravillosa. Me ayudaron en todo momento.",
+			avatar:
+				"https://res.cloudinary.com/dkh8c4ev0/image/upload/v1696502258/samples/outdoor-woman.jpg",
+		},
+		{
+			name: "Luis P.",
+			comment: "Los mejores precios y una entrega rápida. Recomendado al 100%.",
+			avatar: "https://bit.ly/ryan-florence",
+		},
+	];
 
 	return (
 		<HomeSection>
@@ -118,6 +181,66 @@ const Home = () => {
 				</CustomButton>
 			</Hero>
 			<Benefits />
+			<PromoSection>
+				<Box textAlign="center" mb={8}>
+					<Text fontSize="3xl" fontWeight="bold">
+						Móviles del momento 🔥
+					</Text>
+				</Box>
+				<HStack spacing={8} width="90%" margin="auto" justifyContent="center">
+					{promoPhones.map((phone, index) => (
+						<PhoneBox
+							key={phone._id}
+							isHovered={hoveredIndex === index}
+							onClick={() => goToPhone(phone)}
+							onMouseEnter={() => setHoveredIndex(index)}
+							onMouseLeave={() => setHoveredIndex(null)}
+							p={5}
+							shadow="md"
+							borderWidth="1px"
+							borderRadius="lg"
+							bg="white"
+							w="full"
+							maxW="md">
+							<HStack spacing={4}>
+								<Image src={phone.imageUrl} alt={phone.name} boxSize="100px" />
+								<VStack align="start" spacing={1}>
+									<Text fontWeight="bold">{phone.name}</Text>
+									<Text>{phone.price}€</Text>
+								</VStack>
+							</HStack>
+						</PhoneBox>
+					))}
+				</HStack>
+			</PromoSection>
+			<ReviewSection>
+				<Box textAlign="center" mb={8}>
+					<Text fontSize="3xl" fontWeight="bold">
+						¿Qué dicen nuestros clientes?
+					</Text>
+				</Box>
+				<HStack spacing={8} width="90%" margin="auto" justifyContent="center">
+					{reviews.map((review, index) => (
+						<Box
+							key={index}
+							p={5}
+							shadow="md"
+							borderWidth="1px"
+							borderRadius="lg"
+							bg="white"
+							w="full"
+							maxW="md">
+							<HStack spacing={4}>
+								<Avatar name={review.name} src={review.avatar} />
+								<VStack align="start" spacing={1}>
+									<Text fontWeight="bold">{review.name}</Text>
+									<Text>{review.comment}</Text>
+								</VStack>
+							</HStack>
+						</Box>
+					))}
+				</HStack>
+			</ReviewSection>
 		</HomeSection>
 	);
 };
