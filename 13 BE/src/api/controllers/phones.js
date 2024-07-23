@@ -24,6 +24,15 @@ const getPhones = async (req, res, next) => {
 	}
 };
 
+const getAllPhones = async (req, res, next) => {
+	try {
+		const phones = await Phone.find();
+		res.json(phones);
+	} catch (error) {
+		res.status(500).json({ message: "Error consiguiendo los móviles", error });
+	}
+};
+
 const getPhoneById = async (req, res, next) => {
 	try {
 		const { id } = req.params;
@@ -61,4 +70,4 @@ const deletePhone = async (req, res) => {
 	}
 };
 
-module.exports = { getPhones, getPhoneById, updatePhone, deletePhone };
+module.exports = { getPhones, getAllPhones, getPhoneById, updatePhone, deletePhone };
