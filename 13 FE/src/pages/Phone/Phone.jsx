@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getPhoneById } from "../../services/Api";
 import styled from "styled-components";
 import { ArrowBackIcon } from "@chakra-ui/icons";
-import { Button, Spinner, useDisclosure } from "@chakra-ui/react";
+import { Button, Spinner, Toast, useDisclosure, useToast } from "@chakra-ui/react";
 import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
 import ReviewModal from "../../components/ReviewModal/ReviewModal";
 import ReviewsBox from "../../components/ReviewBox/ReviewBox";
@@ -100,7 +100,11 @@ const Phone = () => {
 	const reviewDisclosure = useDisclosure();
 	const btnRef = useRef();
 
+	let user = JSON.parse(localStorage.getItem("user"));
+
 	const backToPhones = () => navigate("/phones");
+	const toLogin = () => navigate("/login");
+	const toast = useToast();
 
 	useEffect(() => {
 		const fetchPhone = async () => {
@@ -129,6 +133,21 @@ const Phone = () => {
 		setSelected(value);
 		if (!extraPrice) {
 			setExtraPrice([50, 60, 70][Math.floor(Math.random() * 3)]);
+		}
+	};
+
+	const handleReviewClick = () => {
+		if (user) {
+			reviewDisclosure.onOpen();
+		} else {
+			toLogin();
+			toast({
+				title: "Debes estar conectado para dejar una reseña",
+				status: "info",
+				position: "top",
+				duration: 3000,
+				isClosable: true,
+			});
 		}
 	};
 
@@ -202,7 +221,7 @@ const Phone = () => {
 					style={{ position: "absolute", bottom: "-10%", left: "-20%", zIndex: "1" }}
 					colorScheme="blue"
 					variant="outline"
-					onClick={reviewDisclosure.onOpen}>
+					onClick={handleReviewClick}>
 					Escribe una reseña
 				</Button>
 			</PhoneSection>
