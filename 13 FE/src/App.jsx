@@ -16,6 +16,7 @@ import Profile from "./pages/Profile/Profile";
 import { AnimatePresence, motion } from "framer-motion";
 import styled from "styled-components";
 import ScrollTop from "./components/ScrollTop/ScrollTop";
+import AboutUs from "./pages/AboutUs/AboutUs";
 
 const PageContainer = styled(motion.div)`
 	width: 100%;
@@ -74,6 +75,7 @@ function App() {
 							<Route path="/" element={<Home />} />
 							<Route path="/phones" element={<Phones onOpen={onOpen} />} />
 							<Route path="/favorites" element={<Favorites onOpen={onOpen} />} />
+							<Route path="/about" element={<AboutUs />} />
 							<Route path="/login" element={<LoginForm />} />
 							<Route path="/register" element={<RegisterForm />} />
 							<Route path="/profile" element={<Profile />} />
