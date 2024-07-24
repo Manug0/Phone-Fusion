@@ -170,7 +170,6 @@ const Home = () => {
 				</Slogan>
 				<StyledMockup />
 				<CustomButton
-					fontSize={{ base: "xl", sm: "2xl", md: "3xl" }}
 					onClick={goToPhones}
 					rightIcon={<ChevronRightIcon />}
 					backgroundColor="white"
