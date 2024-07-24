@@ -1,8 +1,8 @@
-#### Phone Fusion
+## Phone Fusion
 
 Bienvenidos a **Phone Fusion**, su destino único para la compra de dispositivos móviles. Este proyecto tiene como objetivo proporcionar una experiencia de compra en línea de primera clase, facilitando la búsqueda, selección y adquisición de móviles de las mejores marcas y diferentes gamas.
 
-## Descripción del Proyecto
+### Descripción del Proyecto
 
 **Phone Fusion** es una tienda en línea de dispositivos móviles desarrollada utilizando las siguientes tecnologías:
 
