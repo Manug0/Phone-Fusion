@@ -1,9 +1,6 @@
 require("dotenv").config();
-const mongoose = require("mongoose");
-
 const express = require("express");
 const { connectDB } = require("./src/config/db");
-const cloudinary = require("cloudinary").v2;
 const cors = require("cors");
 const usersRouter = require("./src/api/routes/users");
 const phonesRouter = require("./src/api/routes/phones");
@@ -15,12 +12,6 @@ const app = express();
 connectDB();
 
 app.use(cors());
-
-cloudinary.config({
-	cloud_name: process.env.CLOUD_NAME,
-	api_key: process.env.API_KEY,
-	api_secret: process.env.API_SECRET,
-});
 
 app.use(express.json());
 

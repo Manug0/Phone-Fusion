@@ -85,7 +85,6 @@ const register = async (req, res, next) => {
 
 		const newUser = new User({ name, email, password, rol: "user" });
 
-		// if (req.file) newUser.profilePic = req.file.path;
 		const saveUser = await newUser.save();
 		return res.status(201).json(saveUser);
 	} catch (error) {
