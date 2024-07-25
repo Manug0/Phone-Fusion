@@ -11,7 +11,6 @@ export const HeartContext = ({ children }) => {
 	useEffect(() => {
 		const loadHeart = async () => {
 			const user = getUserFromLocalStorage();
-			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				try {
@@ -33,7 +32,6 @@ export const HeartContext = ({ children }) => {
 	useEffect(() => {
 		if (isFavoritesUpdated) {
 			const user = getUserFromLocalStorage();
-			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				updateFavorites(heart, token)

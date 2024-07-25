@@ -11,7 +11,6 @@ export const CartContext = ({ children }) => {
 	useEffect(() => {
 		const loadCart = async () => {
 			const user = getUserFromLocalStorage();
-			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				try {
@@ -33,7 +32,6 @@ export const CartContext = ({ children }) => {
 	useEffect(() => {
 		if (isCartUpdated) {
 			const user = getUserFromLocalStorage();
-			// const user = JSON.parse(localStorage.getItem("user"));
 			const token = user ? user.token : null;
 			if (token) {
 				updateCart(cart, token)

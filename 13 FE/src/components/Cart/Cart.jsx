@@ -71,7 +71,7 @@ const TotalPrice = styled.p`
 `;
 
 const Cart = ({ isOpen, onClose, btnRef }) => {
-	const { cart, setCart, removeCart } = useCart();
+	const { cart, setCart, removeCart, cartCount } = useCart();
 	const { counter, setCounter, incrementCounter, decrementCounter } = useCounter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [completeOrder, setCompleteOrder] = useState(false);
@@ -157,6 +157,7 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 
 			setTimeout(() => {
 				cart.forEach((phone) => removeCart(phone));
+				setCounter({});
 				setCompleteOrder(true);
 				setIsLoading(false);
 			}, 2000);
