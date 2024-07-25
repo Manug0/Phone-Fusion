@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const StyledFooter = styled.footer`
@@ -98,24 +97,14 @@ const Subfooter = styled.div`
 `;
 
 const Footer = () => {
-	const navigate = useNavigate();
-
-	const goToForm = () => {
-		navigate("/infoForm");
-	};
+	const goToForm = () => {};
 	return (
 		<StyledFooter>
 			<MainFooter>
 				<FooterLinks>
 					<SupportLinks className="support">
 						<FooterH5>Soporte</FooterH5>
-						<p
-							onClick={goToForm}
-							style={{
-								cursor: "pointer",
-							}}>
-							Asistencia
-						</p>
+						<p>Asistencia</p>
 						<p>FAQs</p>
 						<p>Envíos</p>
 						<p>Devoluciones</p>

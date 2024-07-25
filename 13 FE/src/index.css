@@ -62,5 +62,3 @@ body {
 ::-webkit-scrollbar-thumb:hover {
 	background-color: hsl(0, 0%, 45%);
 }
-
-/* comprar movil no elimina el contador del cart */
