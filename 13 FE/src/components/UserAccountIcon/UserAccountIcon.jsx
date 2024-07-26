@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	Popover,
 	PopoverTrigger,
@@ -28,7 +28,19 @@ const PopoverButtons = styled.div`
 
 const UserAccounticon = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [isMobile, setIsMobile] = useState(false);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		const checkIfMobile = () => {
+			setIsMobile(window.innerWidth <= 768);
+		};
+
+		checkIfMobile();
+		window.addEventListener("resize", checkIfMobile);
+
+		return () => window.removeEventListener("resize", checkIfMobile);
+	}, []);
 
 	const storedUser = localStorage.getItem("user");
 	let user = null;
@@ -39,8 +51,9 @@ const UserAccounticon = () => {
 		console.error("Error parsing user data from localStorage", e);
 	}
 
-	const openPopover = () => setIsOpen(true);
-	const closePopover = () => setIsOpen(false);
+	const openPopover = () => !isMobile && setIsOpen(true);
+	const closePopover = () => !isMobile && setIsOpen(false);
+	const togglePopover = () => setIsOpen(!isOpen);
 
 	const goToLogin = () => {
 		closePopover();
@@ -69,7 +82,7 @@ const UserAccounticon = () => {
 					style={{ cursor: "pointer" }}
 					onMouseEnter={openPopover}
 					onMouseLeave={closePopover}
-					onClick={openPopover}>
+					onClick={togglePopover}>
 					<i className="ri-user-3-line"></i>
 				</Box>
 			</PopoverTrigger>
