@@ -44,7 +44,6 @@ const Slogan = styled.div`
 		align-items: start;
 		text-align: left;
 		padding: 0 50px;
-		margin-top: 0;
 	}
 
 	@media (min-width: 300px) {
@@ -103,8 +102,13 @@ const float = keyframes`
 const StyledMockup = styled(HomeMockup)`
 	z-index: 0;
 	width: 80%;
+	min-width: 350px;
 	margin-top: 2rem;
 	animation: ${float} 5s ease-in-out infinite;
+
+	@media (min-width: 200px) {
+		height: 80%;
+	}
 
 	@media (min-width: 768px) {
 		width: 60%;

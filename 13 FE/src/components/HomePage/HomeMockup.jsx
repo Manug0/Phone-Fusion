@@ -6,7 +6,7 @@ const HomeMockup = (props) => {
 			xmlns="http://www.w3.org/2000/svg"
 			xmlnsXlink="http://www.w3.org/1999/xlink"
 			width="100%"
-			height="auto"
+			height="500px"
 			viewBox="0 0 700 525"
 			fill="none"
 			{...props}>
