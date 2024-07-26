@@ -11,6 +11,7 @@ const BenefitBox = styled(Box)`
 	border-radius: var(--size-xs);
 	background-color: var(--color-light);
 	margin: var(--size-md);
+	min-width: 200px;
 `;
 
 const BenefitIcon = styled(Icon)`
@@ -45,13 +46,19 @@ const Benefits = () => {
 	return (
 		<HStack
 			spacing={8}
-			style={{ display: "flex", justifyContent: "center", padding: "var(--size-2xl)" }}>
+			style={{ display: "flex", justifyContent: "center", padding: "var(--size-2xl)" }}
+			flexWrap="wrap"
+			gap={{ base: "var(--size-md)" }}
+			flexDirection={{ base: "column", md: "row" }}
+			gridTemplateColumns={{ base: "repeat(2, 1fr)", md: "none" }}>
 			{benefits.map((benefit, index) => (
 				<BenefitBox key={index}>
 					<BenefitIcon as={benefit.icon} w={6} h={6} />
 					<VStack align="start">
-						<Text fontWeight="bold">{benefit.title}</Text>
-						<Text>{benefit.description}</Text>
+						<Text fontWeight="bold" fontSize={{ base: "sm", md: "lg" }}>
+							{benefit.title}
+						</Text>
+						<Text fontSize={{ base: "xs", md: "md" }}>{benefit.description}</Text>
 					</VStack>
 				</BenefitBox>
 			))}

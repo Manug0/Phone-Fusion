@@ -5,8 +5,9 @@ const HomeMockup = (props) => {
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			xmlnsXlink="http://www.w3.org/1999/xlink"
-			width={700}
-			height={525}
+			width="100%"
+			height="auto"
+			viewBox="0 0 700 525"
 			fill="none"
 			{...props}>
 			<path fill="url(#a)" d="M0 0h700v525H0z" />

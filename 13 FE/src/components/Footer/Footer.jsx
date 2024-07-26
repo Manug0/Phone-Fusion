@@ -97,7 +97,6 @@ const Subfooter = styled.div`
 `;
 
 const Footer = () => {
-	const goToForm = () => {};
 	return (
 		<StyledFooter>
 			<MainFooter>

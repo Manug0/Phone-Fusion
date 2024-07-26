@@ -12,11 +12,21 @@ const HomeSection = styled.section``;
 const Hero = styled.div`
 	position: relative;
 	display: flex;
-	height: 46rem;
+	flex-direction: column;
+	align-items: center;
+	height: auto;
 	width: 100%;
 	background-image: linear-gradient(to right, #2477a7, #24a7a7);
 	background-repeat: no-repeat;
 	background-size: cover;
+	padding: 2rem 0;
+
+	@media (min-width: 1200px) {
+		height: 46rem;
+		flex-direction: row;
+		align-items: flex-start;
+		padding: 0;
+	}
 `;
 
 const Slogan = styled.div`
@@ -24,27 +34,58 @@ const Slogan = styled.div`
 	flex-direction: column;
 	justify-content: start;
 	margin-top: 3rem;
-	align-items: start;
-	padding: 0 50px;
+	align-items: center;
+	padding: 0 20px;
 	color: var(--color-primary);
 	width: 100%;
+	text-align: center;
+
+	@media (min-width: 1200px) {
+		align-items: start;
+		text-align: left;
+		padding: 0 50px;
+		margin-top: 0;
+	}
+
+	@media (min-width: 300px) {
+		margin-top: 1rem;
+	}
 `;
 
 const SmallSlogan = styled.span`
-	font-size: var(--size-6xl);
-	font-weight: var(--font-weight-light);
+	font-size: var(--size-xl);
+
+	@media (min-width: 768px) {
+		font-size: var(--size-3xl);
+	}
+
+	@media (min-width: 1200px) {
+		font-size: var(--size-6xl);
+	}
 `;
 
 const MediumSlogan = styled.span`
-	height: 160px;
-	font-size: 8rem;
-	font-weight: var(--font-weight-medium);
+	font-size: 2rem;
+
+	@media (min-width: 768px) {
+		font-size: 4rem;
+	}
+
+	@media (min-width: 1200px) {
+		font-size: 8rem;
+	}
 `;
 
 const LargeSlogan = styled.span`
-	height: 200px;
-	font-size: 10rem;
-	font-weight: var(--font-weight-bold);
+	font-size: 3rem;
+
+	@media (min-width: 768px) {
+		font-size: 5rem;
+	}
+
+	@media (min-width: 1200px) {
+		font-size: 10rem;
+	}
 `;
 
 const float = keyframes`
@@ -61,25 +102,37 @@ const float = keyframes`
 
 const StyledMockup = styled(HomeMockup)`
 	z-index: 0;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	margin: auto;
-	transform: translate(-50%, -50%);
+	width: 80%;
+	margin-top: 2rem;
 	animation: ${float} 5s ease-in-out infinite;
+
+	@media (min-width: 768px) {
+		width: 60%;
+		margin-top: 0;
+	}
+
+	@media (min-width: 1200px) {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
+		width: auto;
+		transform: translate(-50%, -50%);
+	}
 `;
 
 const CustomButton = styled(Button)`
 	background-color: var(--color-dark) !important;
 	color: white !important;
 	border-radius: 25px;
-	padding: 1.5rem 3rem !important;
-	font-size: 1.2rem !important;
+	padding: 1rem 2rem !important;
+	font-size: 1rem !important;
 	font-weight: bold;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 	transition: all 0.3s ease !important;
 	border: none;
+	margin-top: 1rem;
 
 	&:hover {
 		background-color: #1d3c94 !important;
@@ -91,16 +144,29 @@ const CustomButton = styled(Button)`
 		background-color: var(--color-dark) !important;
 		transform: translateY(1px);
 	}
+
+	@media (min-width: 768px) {
+		padding: 1.5rem 3rem !important;
+		font-size: 1.2rem !important;
+	}
 `;
 
 const PromoSection = styled.section`
-	padding: 4rem 0;
+	padding: 2rem 0;
 	background: var(--color-primary);
+
+	@media (min-width: 768px) {
+		padding: 4rem 0;
+	}
 `;
 
 const ReviewSection = styled.section`
-	padding: 4rem 0;
+	padding: 2rem 0;
 	background: var(--color-primary);
+
+	@media (min-width: 768px) {
+		padding: 4rem 0;
+	}
 `;
 
 const hoverEffect = css`
@@ -167,27 +233,35 @@ const Home = () => {
 					<SmallSlogan>La revolución</SmallSlogan>
 					<MediumSlogan>móvil</MediumSlogan>
 					<LargeSlogan>empieza aquí</LargeSlogan>
+					<CustomButton
+						onClick={goToPhones}
+						rightIcon={<ChevronRightIcon />}
+						backgroundColor="white"
+						variant="solid">
+						Comprar ahora
+					</CustomButton>
 				</Slogan>
 				<StyledMockup />
-				<CustomButton
-					onClick={goToPhones}
-					rightIcon={<ChevronRightIcon />}
-					backgroundColor="white"
-					variant="solid"
-					position="absolute"
-					left="50px"
-					bottom="20px">
-					Comprar ahora
-				</CustomButton>
 			</Hero>
-			<Benefits />
+			<Benefits
+				display="flex"
+				flexWrap="wrap"
+				justifyContent="center"
+				flexDirection={{ base: "column", md: "row" }}
+			/>
 			<PromoSection>
 				<Box textAlign="center" mb={8}>
-					<Text fontSize="3xl" fontWeight="bold">
+					<Text fontSize={{ base: "lg", md: "3xl" }} fontWeight="bold">
 						Móviles del momento 🔥
 					</Text>
 				</Box>
-				<HStack spacing={8} width="90%" margin="auto" justifyContent="center">
+				<HStack
+					spacing={8}
+					width="90%"
+					margin="auto"
+					justifyContent="center"
+					flexWrap="wrap"
+					flexDirection={{ base: "column", md: "row" }}>
 					{promoPhones.map((phone, index) => (
 						<PhoneBox
 							key={phone._id}
@@ -200,12 +274,15 @@ const Home = () => {
 							borderWidth="1px"
 							borderRadius="lg"
 							bg="white"
-							w="full"
-							maxW="md">
+							w={{ base: "full", md: "auto" }}
+							maxW="md"
+							flexBasis={{ base: "100%", md: "30%" }}>
 							<HStack spacing={4}>
 								<Image src={phone.imageUrl} alt={phone.name} boxSize="100px" />
 								<VStack align="start" spacing={1}>
-									<Text fontWeight="bold">{phone.name}</Text>
+									<Text fontSize={{ base: "sm", md: "lg" }} fontWeight="bold">
+										{phone.name}
+									</Text>
 									<Text>{phone.price}€</Text>
 								</VStack>
 							</HStack>
@@ -215,11 +292,11 @@ const Home = () => {
 			</PromoSection>
 			<ReviewSection>
 				<Box textAlign="center" mb={8}>
-					<Text fontSize="3xl" fontWeight="bold">
+					<Text fontSize={{ base: "lg", md: "3xl" }} fontWeight="bold">
 						¿Qué dicen nuestros clientes?
 					</Text>
 				</Box>
-				<HStack spacing={8} width="90%" margin="auto" justifyContent="center">
+				<VStack spacing={8} width="90%" margin="auto" flexDirection={{ base: "column", md: "row" }}>
 					{reviews.map((review, index) => (
 						<Box
 							key={index}
@@ -228,18 +305,20 @@ const Home = () => {
 							borderWidth="1px"
 							borderRadius="lg"
 							bg="white"
-							w="full"
-							maxW="md">
+							w={{ base: "full", md: "50%" }}
+							textAlign="left">
 							<HStack spacing={4}>
 								<Avatar name={review.name} src={review.avatar} />
 								<VStack align="start" spacing={1}>
-									<Text fontWeight="bold">{review.name}</Text>
-									<Text>{review.comment}</Text>
+									<Text fontSize={{ base: "sm", md: "lg" }} fontWeight="bold">
+										{review.name}
+									</Text>
+									<Text fontSize={{ base: "sm", md: "md" }}>{review.comment}</Text>
 								</VStack>
 							</HStack>
 						</Box>
 					))}
-				</HStack>
+				</VStack>
 			</ReviewSection>
 		</HomeSection>
 	);
