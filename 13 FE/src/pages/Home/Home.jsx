@@ -46,16 +46,17 @@ const Slogan = styled.div`
 		padding: 0 50px;
 	}
 
-	@media (min-width: 300px) {
+	@media (min-width: 200px) {
 		margin-top: 1rem;
 	}
 `;
 
 const SmallSlogan = styled.span`
-	font-size: var(--size-xl);
+	font-size: var(--size-6xl);
+	font-weight: var(--font-weight-light);
 
-	@media (min-width: 768px) {
-		font-size: var(--size-3xl);
+	@media (min-width: 200px) {
+		font-size: 3rem;
 	}
 
 	@media (min-width: 1200px) {
@@ -64,10 +65,11 @@ const SmallSlogan = styled.span`
 `;
 
 const MediumSlogan = styled.span`
-	font-size: 2rem;
+	font-size: 8rem;
+	font-weight: var(--font-weight-medium);
 
-	@media (min-width: 768px) {
-		font-size: 4rem;
+	@media (min-width: 200px) {
+		font-size: 3rem;
 	}
 
 	@media (min-width: 1200px) {
@@ -76,10 +78,11 @@ const MediumSlogan = styled.span`
 `;
 
 const LargeSlogan = styled.span`
-	font-size: 3rem;
+	font-size: 10rem;
+	font-weight: var(--font-weight-bold);
 
-	@media (min-width: 768px) {
-		font-size: 5rem;
+	@media (min-width: 200px) {
+		font-size: 3rem;
 	}
 
 	@media (min-width: 1200px) {
