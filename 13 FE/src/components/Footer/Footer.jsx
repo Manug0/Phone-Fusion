@@ -4,22 +4,37 @@ import styled from "styled-components";
 const StyledFooter = styled.footer`
 	display: flex;
 	flex-direction: column;
-	gap: var(--size-3xl);
+	gap: var(--size-xl);
 	width: 100%;
 	height: fit-content;
 	background-color: var(--color-light);
-	padding-top: 3rem;
+	padding: 3rem 1rem;
+
+	@media (max-width: 768px) {
+		padding: 2rem 1rem;
+	}
 `;
 
-const MainFooter = styled.footer`
+const MainFooter = styled.div`
 	display: flex;
 	justify-content: space-evenly;
+	flex-wrap: wrap;
+	gap: var(--size-2xl);
+
+	@media (max-width: 768px) {
+		flex-direction: column;
+	}
 `;
 
 const FooterLinks = styled.div`
 	display: flex;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	gap: var(--size-3xl);
+
+	@media (max-width: 576px) {
+		flex-direction: column;
+		gap: var(--size-xl);
+	}
 `;
 
 const FooterH5 = styled.h5`
@@ -37,6 +52,11 @@ const Newsletter = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: var(--size-xl);
+	max-width: 400px;
+
+	@media (max-width: 768px) {
+		max-width: 100%;
+	}
 `;
 
 const NewsletterInput = styled.input`
@@ -50,6 +70,7 @@ const NewsletterInput = styled.input`
 	width: 70%;
 	color: #555;
 	font-size: var(--size-md);
+	max-width: 300px;
 
 	&:focus {
 		border-bottom: 2px solid var(--color-secondary);
@@ -57,6 +78,10 @@ const NewsletterInput = styled.input`
 
 	&::placeholder {
 		color: #aaa;
+	}
+
+	@media (max-width: 576px) {
+		max-width: 100%;
 	}
 `;
 
@@ -84,16 +109,26 @@ const SubscribeButton = styled.button`
 		background-color: #aaa;
 		cursor: not-allowed;
 	}
+
+	@media (max-width: 576px) {
+		width: 100%;
+	}
 `;
 
 const Subfooter = styled.div`
 	display: flex;
-	width: 90%;
-	margin: auto;
-	padding: var(--size-3xl) 0;
+	width: 100%;
+	padding: var(--size-2xl) 0;
 	gap: var(--size-xl);
 	justify-content: space-between;
 	border-top: 1px solid hsl(0, 0%, 25%);
+	flex-wrap: wrap;
+
+	@media (max-width: 576px) {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+	}
 `;
 
 const Footer = () => {
@@ -122,6 +157,8 @@ const Footer = () => {
 						style={{
 							display: "flex",
 							gap: "var(--size-md)",
+							flexWrap: "wrap",
+							justifyContent: "center",
 						}}>
 						<NewsletterInput
 							className="text-container"
@@ -140,6 +177,8 @@ const Footer = () => {
 					style={{
 						display: "flex",
 						gap: "var(--size-md)",
+						flexWrap: "wrap",
+						justifyContent: "center",
 					}}>
 					<p>© Phone Fusion 2024. </p>
 					<p>Made with ❤️ by Manu</p>
@@ -150,6 +189,7 @@ const Footer = () => {
 						gap: "var(--size-md)",
 						fontSize: "var(--size-xl)",
 						cursor: "pointer",
+						justifyContent: "center",
 					}}>
 					<i class="ri-twitter-x-line"></i>
 					<i class="ri-instagram-line"></i>
