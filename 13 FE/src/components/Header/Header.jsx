@@ -26,9 +26,13 @@ const StyledHeader = styled.header`
 `;
 
 const Logo = styled.img`
-	height: var(--size-4xl);
+	height: var(--size-6xl);
 	transition: height 0.4s ease;
 	cursor: pointer;
+
+	@media (max-width: 768px) {
+		height: var(--size-5xl);
+	}
 `;
 
 const SearchBarContainer = styled.div`
