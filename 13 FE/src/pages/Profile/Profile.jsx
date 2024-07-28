@@ -5,21 +5,36 @@ import { getUserFromLocalStorage } from "../../utils/userHelper";
 
 const ProfileWrapper = styled.div`
 	display: flex;
-	padding: 40px;
-	background-color: #f9f9f9;
+	padding: var(--space-4);
+	background-color: var(--color-light);
 	min-height: 100vh;
+
+	@media (max-width: 756px) {
+		flex-direction: column;
+		padding: var(--space-2);
+	}
 `;
 
 const UserInfoSection = styled.div`
 	width: 30%;
-	margin-right: 40px;
+	margin-right: var(--space-4);
+
+	@media (max-width: 756px) {
+		width: 100%;
+		margin-right: 0;
+		margin-bottom: var(--space-4);
+	}
 `;
 
 const UserInfo = styled.div`
-	background-color: #fff;
-	padding: 30px;
+	background-color: var(--color-primary);
+	padding: var(--space-3);
 	border-radius: 15px;
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+
+	@media (max-width: 756px) {
+		padding: var(--space-2);
+	}
 `;
 
 const AccountTitle = styled.h2`
@@ -31,18 +46,25 @@ const AccountTitle = styled.h2`
 `;
 
 const UserName = styled.h1`
-	font-size: 28px;
-	font-weight: bold;
+	font-size: var(--size-3xl);
+	font-weight: var(--font-weight-bold);
 	margin: 0;
-	color: #222;
+	color: var(--color-dark);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-2xl);
+	}
 `;
 
 const UserEmail = styled.p`
-	font-size: 16px;
-	color: #666;
-	margin: 10px 0 20px 0;
-`;
+	font-size: var(--size-md);
+	color: var(--color-dark);
+	margin: var(--space-1) 0 var(--space-3) 0;
 
+	@media (max-width: 756px) {
+		font-size: var(--size-sm);
+	}
+`;
 const UserInfoItem = styled.div`
 	margin-bottom: 15px;
 `;
@@ -61,14 +83,23 @@ const UserInfoValue = styled.p`
 
 const OrdersSection = styled.div`
 	flex: 1;
+
+	@media (max-width: 756px) {
+		width: 100%;
+	}
 `;
 
 const OrdersTitle = styled.h2`
-	font-size: 24px;
-	font-weight: bold;
-	margin-bottom: 20px;
-	color: #222;
+	font-size: var(--size-2xl);
+	font-weight: var(--font-weight-bold);
+	margin-bottom: var(--space-3);
+	color: var(--color-dark);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-xl);
+	}
 `;
+
 const SalesList = styled.ul`
 	list-style-type: none;
 	padding: 0;
@@ -77,17 +108,21 @@ const SalesList = styled.ul`
 `;
 
 const SaleItem = styled.li`
-	border: 1px solid #e0e0e0;
-	margin-bottom: 20px;
-	padding: 25px;
-	background-color: #fff;
+	border: 1px solid var(--color-quintary);
+	margin-bottom: var(--space-3);
+	padding: var(--space-3);
+	background-color: var(--color-primary);
 	border-radius: 12px;
 	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-	transition: all 0.3s ease;
+	transition: all var(--trasition-fast);
 
 	&:hover {
 		transform: translateY(-5px);
 		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	}
+
+	@media (max-width: 756px) {
+		padding: var(--space-2);
 	}
 `;
 
@@ -101,23 +136,37 @@ const SaleDate = styled.p`
 const PhoneWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	margin-top: 15px;
-	padding: 10px;
-	background-color: #f8f8f8;
+	margin-top: var(--space-2);
+	padding: var(--space-1);
+	background-color: var(--color-light);
 	border-radius: 8px;
+
+	@media (max-width: 756px) {
+		flex-direction: row;
+		align-items: flex-start;
+	}
 `;
 
 const PhoneImage = styled.img`
 	width: 70px;
 	height: 70px;
 	border-radius: 8px;
-	margin-right: 20px;
+	margin-right: var(--space-3);
 	object-fit: cover;
+
+	@media (max-width: 756px) {
+		margin-right: 0;
+		margin-bottom: var(--space-2);
+	}
 `;
 
 const PhoneDetails = styled.div`
 	display: flex;
 	flex-direction: column;
+
+	@media (max-width: 756px) {
+		gap: var(--space-1);
+	}
 `;
 
 const PhoneName = styled.p`
