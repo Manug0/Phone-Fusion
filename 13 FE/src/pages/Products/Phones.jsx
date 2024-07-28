@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchPhones } from "../../services/Api";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { Button, Spinner, Badge } from "@chakra-ui/react";
-import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon, ArrowForwardIcon, ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { useNavigate } from "react-router-dom";
 import HeartButton from "../../components/HeartButton/HeartButton";
 import AddToCartButton from "../../components/AddToCartButton/AddToCartButton";
@@ -27,6 +27,28 @@ const FilterH2 = styled.h2`
 	margin-bottom: var(--size-2xl);
 `;
 
+const slideDown = keyframes`
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+const slideUp = keyframes`
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+`;
+
 const SearchFilter = styled.div`
 	display: flex;
 	position: sticky;
@@ -35,15 +57,44 @@ const SearchFilter = styled.div`
 	flex-direction: column;
 	min-width: 250px;
 	height: fit-content;
+
+	@media (max-width: 756px) {
+		display: ${(props) => (props.isOpen ? "flex" : "none")};
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		background: var(--color-light);
+		padding: var(--size-2xl);
+		z-index: 1000;
+		max-height: 80vh;
+		overflow-y: auto;
+		animation: ${(props) => (props.isOpen ? slideDown : slideUp)} 0.3s ease-in-out;
+	}
 `;
 
-const SpinnerContainer = styled.div`
-	display: flex;
-	flex-direction: column;
+const FilterToggle = styled.button`
+	display: none;
 	align-items: center;
 	justify-content: center;
-	padding: 20px;
-	min-height: 70vh;
+	padding: var(--size-md);
+	background: var(--color-secondary);
+	color: var(--color-light);
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+
+	@media (max-width: 756px) {
+		display: flex;
+	}
+`;
+
+const ApplyFiltersButton = styled(Button)`
+	padding: var(--size-xl);
+	margin-top: var(--size-2xl);
+	@media (min-width: 757px) {
+		display: none;
+	}
 `;
 
 const PhoneDisplay = styled.div`
@@ -52,6 +103,10 @@ const PhoneDisplay = styled.div`
 	justify-content: center;
 	gap: 60px;
 	width: 100%;
+
+	@media (max-width: 756px) {
+		gap: 30px;
+	}
 `;
 
 const PhoneCard = styled.div`
@@ -64,6 +119,11 @@ const PhoneCard = styled.div`
 	cursor: pointer;
 	padding: var(--size-xl);
 	border-radius: 10px;
+
+	@media (max-width: 756px) {
+		width: 200px;
+		height: 350px;
+	}
 `;
 
 const PhoneImg = styled.img`
@@ -78,6 +138,12 @@ const PhoneImg = styled.img`
 
 	&:hover {
 		scale: 1.02;
+	}
+
+	@media (max-width: 756px) {
+		max-width: 180px;
+		max-height: 120px;
+		min-height: 120px;
 	}
 `;
 
@@ -94,6 +160,10 @@ const AddCartButton = styled.button`
 	${PhoneCard}:hover & {
 		transform: translateY(0%);
 	}
+	@media (max-width: 756px) {
+		transform: none;
+		right: 0;
+	}
 `;
 
 const StyledHeartButton = styled(HeartButton)`
@@ -102,11 +172,14 @@ const StyledHeartButton = styled(HeartButton)`
 	right: var(--size-2xl);
 	width: 24px;
 	height: 25px;
-	transform: translateY(-100px);
-	transition: transform 0.3s ease-in-out;
 
-	${PhoneCard}:hover & {
-		transform: translateY(0%);
+	@media (min-width: 757px) {
+		transform: translateY(-100px);
+		transition: transform 0.3s ease-in-out;
+
+		${PhoneCard}:hover & {
+			transform: translateY(0%);
+		}
 	}
 `;
 
@@ -114,6 +187,55 @@ const PrevNextButtons = styled.div`
 	display: flex;
 	align-items: center;
 	gap: var(--size-4xl);
+`;
+
+const PhoneInfo = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+	width: 80%;
+	margin: auto;
+	gap: 4px;
+
+	@media (max-width: 756px) {
+		width: 90%;
+	}
+`;
+
+const PhoneName = styled.p`
+	font-weight: var(--font-weight-semibold);
+	font-size: var(--size-sm);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-xs);
+	}
+`;
+
+const PhoneBrand = styled.p`
+	font-weight: var(--font-weight-semibold);
+	font-size: var(--size-sm);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-xs);
+	}
+`;
+
+const PhonePrice = styled.p`
+	font-weight: var(--font-weight-bold);
+	font-size: var(--size-md);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-sm);
+	}
+`;
+
+const SpinnerContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	min-height: 70vh;
 `;
 
 const Phones = ({ onOpen }) => {
@@ -125,6 +247,7 @@ const Phones = ({ onOpen }) => {
 	const [selectedBrands, setSelectedBrands] = useState([]);
 	const [priceRange, setPriceRange] = useState([0, 1000]);
 	const [selected, setSelected] = useState("6GB x 128GB");
+	const [isFilterOpen, setIsFilterOpen] = useState(false);
 
 	const navigate = useNavigate();
 	const phonesPerPage = 10;
@@ -158,7 +281,7 @@ const Phones = ({ onOpen }) => {
 		window.scrollTo(0, 0);
 	};
 
-	useEffect(() => {
+	const applyFilters = () => {
 		const filtered = phones.filter(
 			(phone) =>
 				selectedBrands.includes(phone.brand) &&
@@ -167,7 +290,8 @@ const Phones = ({ onOpen }) => {
 		);
 		setFilteredPhones(filtered);
 		setPage(1);
-	}, [phones, selectedBrands, priceRange]);
+		setIsFilterOpen(false);
+	};
 
 	useEffect(() => {
 		setTotalPages(Math.ceil(filteredPhones.length / phonesPerPage));
@@ -185,36 +309,41 @@ const Phones = ({ onOpen }) => {
 
 	return (
 		<PhoneSection>
+			<FilterToggle onClick={() => setIsFilterOpen(!isFilterOpen)}>
+				{isFilterOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+				Filtros
+			</FilterToggle>
 			<div style={{ display: "flex", width: "100%" }}>
-				<SearchFilter>
+				<SearchFilter isOpen={isFilterOpen}>
 					<FilterH2>Filtros de búsqueda</FilterH2>
 					<PriceSlider onChange={setPriceRange} />
 					<BrandFilter onBrandChange={setSelectedBrands} />
+					<ApplyFiltersButton onClick={applyFilters}>Aplicar Filtros</ApplyFiltersButton>
 				</SearchFilter>
 
 				<PhoneDisplay>
 					{paginatedPhones.map((phone) => (
 						<PhoneCard key={phone._id} phone={phone} onClick={() => goToPhone(phone)}>
 							<PhoneImg src={phone.imageUrl} alt={phone.name} />
-							<div
-								style={{
-									display: "flex",
-									flexDirection: "column",
-									alignItems: "start",
-									width: "80%",
-									margin: "auto",
-									gap: "4px",
-								}}>
-								<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.name}</p>
-								<p style={{ fontWeight: "var(--font-weight-semibold)" }}>{phone.brand}</p>
-								<p style={{ fontWeight: "var(--font-weight-bold)" }}>{phone.price}€</p>
+							<PhoneInfo>
+								<PhoneName>{phone.name}</PhoneName>
+								<PhoneBrand>{phone.brand}</PhoneBrand>
+								<PhonePrice>{phone.price}€</PhonePrice>
 								<Badge colorScheme={phone.condition === "Usado" ? "orange" : "green"}>
 									{phone.condition}
 								</Badge>
-							</div>
-
+							</PhoneInfo>
 							<AddCartButton>
-								<AddToCartButton phone={phone} onOpen={onOpen} selectedOption={selected} />
+								<AddToCartButton
+									styles={{
+										position: "absolute",
+										right: "var(--size-xl)",
+										bottom: "var(--size-xl)",
+									}}
+									phone={phone}
+									onOpen={onOpen}
+									selectedOption={selected}
+								/>
 							</AddCartButton>
 							<StyledHeartButton phone={phone} />
 						</PhoneCard>

@@ -10,6 +10,13 @@ const BrandsContainer = styled.div`
 	width: 50%;
 	margin: auto;
 	font-weight: var(--font-weight-medium);
+
+	@media (max-width: 756px) {
+		width: 80%;
+		flex-direction: row;
+		flex-wrap: wrap;
+		gap: var(--size-xl);
+	}
 `;
 
 const BrandsH2 = styled.h2`

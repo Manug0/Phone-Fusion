@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "../../contexts/CartContext";
 import { useCounter } from "../../contexts/CounterContext";
 import { Button, IconButton } from "@chakra-ui/react";
@@ -11,10 +11,19 @@ const AddToCartButton = ({
 	styles,
 	colorScheme,
 	size,
-	isIconButton,
 }) => {
 	const { cart, addCart } = useCart();
 	const { incrementCounter } = useCounter();
+	const [isDesktop, setIsDesktop] = useState(window.innerWidth > 756);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsDesktop(window.innerWidth > 756);
+		};
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	const toggleLiked = (event) => {
 		event.stopPropagation();
@@ -34,15 +43,7 @@ const AddToCartButton = ({
 		onOpen();
 	};
 
-	return isIconButton ? (
-		<IconButton
-			style={styles}
-			colorScheme={colorScheme || "gray"}
-			size={size || "md"}
-			icon={<i className="ri-shopping-cart-2-fill"></i>}
-			onClick={toggleLiked}
-		/>
-	) : (
+	return isDesktop ? (
 		<Button
 			style={{ ...styles, display: "flex", gap: "8px" }}
 			colorScheme={colorScheme || "green"}
@@ -51,6 +52,14 @@ const AddToCartButton = ({
 			<p>Añadir al carrito</p>
 			<i className="ri-shopping-cart-2-fill"></i>
 		</Button>
+	) : (
+		<IconButton
+			style={styles}
+			colorScheme={colorScheme || "gray"}
+			size={size || "md"}
+			icon={<i className="ri-shopping-cart-2-fill"></i>}
+			onClick={toggleLiked}
+		/>
 	);
 };
 
