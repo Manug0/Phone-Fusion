@@ -8,6 +8,7 @@ import {
 	PopoverArrow,
 	Button,
 	Box,
+	useBreakpointValue,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -19,6 +20,10 @@ const StyledPopover = styled(Popover)`
 const StyledPopoverContent = styled(PopoverContent)`
 	border: none;
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-sm);
+	}
 `;
 
 const PopoverButtons = styled.div`
@@ -26,14 +31,31 @@ const PopoverButtons = styled.div`
 	flex-direction: column;
 `;
 
+const StyledButton = styled(Button)`
+	@media (max-width: 756px) {
+		font-size: var(--size-xs);
+		padding: var(--space-1) var(--space-2);
+	}
+`;
+
+const StyledPopoverHeader = styled(PopoverHeader)`
+	@media (max-width: 756px) {
+		font-size: var(--size-sm);
+		padding: var(--space-1) var(--space-2);
+	}
+`;
+
 const UserAccounticon = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isMobile, setIsMobile] = useState(false);
 	const navigate = useNavigate();
 
+	const popoverWidth = useBreakpointValue({ base: "200px", md: "280px" });
+	const popoverFontSize = useBreakpointValue({ base: "var(--size-sm)", md: "var(--size-md)" });
+
 	useEffect(() => {
 		const checkIfMobile = () => {
-			setIsMobile(window.innerWidth <= 768);
+			setIsMobile(window.innerWidth <= 756);
 		};
 
 		checkIfMobile();
@@ -86,31 +108,47 @@ const UserAccounticon = () => {
 					<i className="ri-user-3-line"></i>
 				</Box>
 			</PopoverTrigger>
-			<StyledPopoverContent onMouseEnter={openPopover} onMouseLeave={closePopover}>
+			<StyledPopoverContent
+				onMouseEnter={openPopover}
+				onMouseLeave={closePopover}
+				width={popoverWidth}>
 				<PopoverArrow />
 				{user ? (
 					<>
-						<PopoverHeader>Bienvenido, {user.name}</PopoverHeader>
+						<StyledPopoverHeader>Bienvenido, {user.name}</StyledPopoverHeader>
 						<PopoverBody>
 							<PopoverButtons>
-								<Button variant="ghost" mb={2} onClick={goToProfile}>
+								<StyledButton
+									fontSize={popoverFontSize}
+									variant="ghost"
+									mb={2}
+									onClick={goToProfile}>
 									Mi Cuenta
-								</Button>
-								<Button variant="link" color="red.500" onClick={logout}>
+								</StyledButton>
+
+								<StyledButton
+									fontSize={popoverFontSize}
+									variant="link"
+									color="red.500"
+									onClick={logout}>
 									Cerrar Sesión
-								</Button>
+								</StyledButton>
 							</PopoverButtons>
 						</PopoverBody>
 					</>
 				) : (
 					<PopoverBody>
 						<PopoverButtons>
-							<Button variant="outline" mb={2} onClick={goToLogin}>
+							<StyledButton fontSize={popoverFontSize} variant="outline" mb={2} onClick={goToLogin}>
 								Iniciar sesión
-							</Button>
-							<Button variant="solid" mb={2} onClick={goToRegister}>
+							</StyledButton>
+							<StyledButton
+								fontSize={popoverFontSize}
+								variant="solid"
+								mb={2}
+								onClick={goToRegister}>
 								Registrarse
-							</Button>
+							</StyledButton>
 						</PopoverButtons>
 					</PopoverBody>
 				)}
