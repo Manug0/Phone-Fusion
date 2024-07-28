@@ -54,7 +54,11 @@ const AddToCartButton = ({
 		</Button>
 	) : (
 		<IconButton
-			style={styles}
+			style={{
+				position: "absolute",
+				right: "var(--size-xl)",
+				bottom: "var(--size-xl)",
+			}}
 			colorScheme={colorScheme || "gray"}
 			size={size || "md"}
 			icon={<i className="ri-shopping-cart-2-fill"></i>}

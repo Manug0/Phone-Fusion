@@ -334,16 +334,7 @@ const Phones = ({ onOpen }) => {
 								</Badge>
 							</PhoneInfo>
 							<AddCartButton>
-								<AddToCartButton
-									styles={{
-										position: "absolute",
-										right: "var(--size-xl)",
-										bottom: "var(--size-xl)",
-									}}
-									phone={phone}
-									onOpen={onOpen}
-									selectedOption={selected}
-								/>
+								<AddToCartButton phone={phone} onOpen={onOpen} selectedOption={selected} />
 							</AddCartButton>
 							<StyledHeartButton phone={phone} />
 						</PhoneCard>
