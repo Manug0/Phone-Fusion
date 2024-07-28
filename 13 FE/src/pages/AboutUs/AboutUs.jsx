@@ -4,15 +4,32 @@ import styled from "styled-components";
 const Container = styled.div`
 	padding: var(--space-3);
 	max-width: 900px;
+	width: 80%;
 	margin: 0 auto;
 	font-family: var(--font-body);
 	color: var(--color-dark);
 	background-color: var(--color-primary);
 	transition: var(--transition-main);
+
+	@media (max-width: 756px) {
+		padding: var(--space-2);
+	}
+
+	@media (max-width: 400px) {
+		padding: var(--space-1);
+	}
 `;
 
 const Section = styled.section`
 	margin-bottom: var(--space-4);
+
+	@media (max-width: 756px) {
+		margin-bottom: var(--space-3);
+	}
+
+	@media (max-width: 400px) {
+		margin-bottom: var(--space-2);
+	}
 `;
 
 const Title = styled.h1`
@@ -21,6 +38,18 @@ const Title = styled.h1`
 	font-size: var(--size-4xl);
 	font-weight: var(--font-weight-bold);
 	margin-bottom: var(--space-3);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-3xl);
+	}
+
+	@media (max-width: 400px) {
+		font-size: var(--size-2xl);
+	}
+
+	@media (max-width: 350px) {
+		font-size: var(--size-xl);
+	}
 `;
 
 const Subtitle = styled.h2`
@@ -29,6 +58,18 @@ const Subtitle = styled.h2`
 	padding-bottom: var(--space-2);
 	font-size: var(--size-2xl);
 	font-weight: var(--font-weight-semibold);
+
+	@media (max-width: 756px) {
+		font-size: var(--size-xl);
+	}
+
+	@media (max-width: 400px) {
+		font-size: var(--size-lg);
+	}
+
+	@media (max-width: 350px) {
+		font-size: var(--size-md);
+	}
 `;
 
 const Paragraph = styled.p`
@@ -36,6 +77,16 @@ const Paragraph = styled.p`
 	color: var(--color-dark);
 	font-size: var(--size-md);
 	margin: var(--space-3) 0;
+
+	@media (max-width: 756px) {
+		font-size: var(--size-sm);
+		margin: var(--space-2) 0;
+	}
+
+	@media (max-width: 400px) {
+		font-size: var(--size-xs);
+		margin: var(--space-1) 0;
+	}
 `;
 
 const List = styled.ul`
@@ -48,6 +99,18 @@ const List = styled.ul`
 	color: var(--color-dark);
 	font-size: var(--size-md);
 	margin: var(--space-3) 0;
+
+	@media (max-width: 756px) {
+		font-size: var(--size-sm);
+		gap: var(--space-1);
+		margin: var(--space-2) 0;
+	}
+
+	@media (max-width: 400px) {
+		font-size: var(--size-xs);
+		gap: var(--space-1);
+		margin: var(--space-1) 0;
+	}
 `;
 
 const AboutUs = () => {
