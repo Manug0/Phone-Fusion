@@ -22,6 +22,10 @@ const NoFavoritesMessage = styled.p`
 	text-align: center;
 	width: 100%;
 	color: #555;
+
+	@media (max-width: 650px) {
+		font-size: 1.2rem;
+	}
 `;
 
 const ShopPhonesButton = styled(Button)`
@@ -32,6 +36,10 @@ const ShopPhonesButton = styled(Button)`
 	&:hover {
 		background-color: var(--color-dark);
 	}
+
+	@media (max-width: 650px) {
+		font-size: 0.9rem;
+	}
 `;
 
 const Message = styled.h2`
@@ -41,6 +49,10 @@ const Message = styled.h2`
 	text-align: center;
 	width: 100%;
 	color: #333;
+
+	@media (max-width: 650px) {
+		font-size: 1.5rem;
+	}
 `;
 
 const FavoritesListContainer = styled.div`
@@ -49,6 +61,12 @@ const FavoritesListContainer = styled.div`
 	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 	gap: 20px;
 	margin: 0 auto;
+
+	@media (max-width: 650px) {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 auto;
+	}
 `;
 
 const FavItemContainer = styled.div`
@@ -64,6 +82,12 @@ const FavItemContainer = styled.div`
 	&:hover {
 		transform: translateY(-5px);
 		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+	}
+
+	@media (max-width: 650px) {
+		width: 50%;
+		min-width: 200px;
+		padding: 15px;
 	}
 `;
 
@@ -85,23 +109,39 @@ const FavItem = styled.div`
 		font-weight: 500;
 		color: #333;
 		font-size: 1.2rem;
+
+		@media (max-width: 650px) {
+			font-size: 1rem;
+		}
 	}
 
 	.product-brand {
 		color: #777;
 		font-size: 1rem;
+
+		@media (max-width: 650px) {
+			font-size: 0.9rem;
+		}
 	}
 
 	.product-price {
 		color: var(--color-dark);
 		font-weight: 700;
 		font-size: 1.3rem;
+
+		@media (max-width: 650px) {
+			font-size: 1.1rem;
+		}
 	}
 
 	img {
 		width: 150px;
 		height: auto;
 		border-radius: 8px;
+
+		@media (max-width: 650px) {
+			width: 120px;
+		}
 	}
 `;
 
@@ -111,7 +151,6 @@ const ActionsContainer = styled.div`
 	align-items: center;
 	gap: 10px;
 `;
-
 const Favorites = ({ onOpen }) => {
 	const { heart, setHeart, removeHeart } = useHeart();
 	const [selected, setSelected] = useState("6GB x 128GB");
