@@ -43,6 +43,7 @@ const PhoneSection = styled.section`
 	display: flex;
 	gap: var(--size-5xl);
 	position: relative;
+	margin-top: 2rem;
 `;
 
 const Image = styled.img`
@@ -88,6 +89,76 @@ const ReviewSection = styled.section`
 	width: 80%;
 `;
 
+const MobileContainer = styled(Container)`
+	padding: 10px;
+`;
+
+const MobileBackButton = styled(BackButton)`
+	top: var(--size-2xl);
+	left: var(--size-2xl);
+	font-size: var(--size-sm);
+`;
+
+const MobilePhoneSection = styled(PhoneSection)`
+	flex-direction: column;
+	gap: var(--size-2xl);
+	align-items: center;
+`;
+
+const MobileImage = styled(Image)`
+	width: 90%;
+	max-width: 350px;
+`;
+
+const MobileDetails = styled(Details)`
+	margin-top: var(--size-2xl);
+	width: 100%;
+	gap: var(--size-md);
+`;
+
+const MobileBrand = styled(Brand)`
+	font-size: 18px;
+`;
+
+const MobilePrice = styled(Price)`
+	font-size: 20px;
+`;
+
+const MobileCondition = styled(Condition)`
+	font-size: 16px;
+`;
+
+const MobileReviewSection = styled(ReviewSection)`
+	margin-top: var(--size-4xl);
+	width: 95%;
+	margin-bottom: 20px;
+`;
+
+const ButtonGroup = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	gap: 8px;
+
+	@media (max-width: 756px) {
+		width: 60%;
+		margin: 0 auto;
+	}
+`;
+
+const MobileReviewButton = styled(Button)`
+	width: 80%;
+	margin: 100px auto 0;
+`;
+
+const ActionButtonsContainer = styled.div`
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	display: flex;
+	gap: 10px;
+`;
+
 const Phone = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
@@ -99,6 +170,7 @@ const Phone = () => {
 	const cartDisclosure = useDisclosure();
 	const reviewDisclosure = useDisclosure();
 	const btnRef = useRef();
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 756);
 
 	let user = JSON.parse(localStorage.getItem("user"));
 
@@ -119,6 +191,13 @@ const Phone = () => {
 		};
 
 		fetchPhone();
+
+		const handleResize = () => {
+			setIsMobile(window.innerWidth <= 756);
+		};
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
 	}, [id]);
 
 	useEffect(() => {
@@ -159,7 +238,7 @@ const Phone = () => {
 		);
 	}
 
-	return (
+	const DesktopView = () => (
 		<Container>
 			<BackButton onClick={backToPhones}>
 				<ArrowBackIcon boxSize={6} />
@@ -236,6 +315,93 @@ const Phone = () => {
 			<Cart isOpen={cartDisclosure.isOpen} onClose={cartDisclosure.onClose} btnRef={btnRef} />
 		</Container>
 	);
+
+	const MobileView = () => (
+		<MobileContainer>
+			<MobileBackButton onClick={backToPhones}>
+				<ArrowBackIcon boxSize={6} />
+				Volver a móviles
+			</MobileBackButton>
+			<MobilePhoneSection>
+				<div
+					style={{
+						position: "relative",
+						width: "100%",
+						display: "flex",
+						justifyContent: "center",
+					}}>
+					<MobileImage src={phone.imageUrl} alt={phone.name} />
+					<ActionButtonsContainer>
+						<HeartButton phone={phone} />
+					</ActionButtonsContainer>
+				</div>
+				<MobileDetails>
+					<MobileBrand>
+						{phone.brand} {phone.name}
+					</MobileBrand>
+					{selected === "8GB x 256GB" ? (
+						<MobilePrice>{phone.price + extraPrice}€</MobilePrice>
+					) : (
+						<MobilePrice>{phone.price}€</MobilePrice>
+					)}
+					{phone.reviews && phone.reviews.length > 0 && (
+						<div>
+							<Rating averageRating={averageRating} reviewCount={phone?.reviews?.length || 0} />{" "}
+						</div>
+					)}
+
+					<MobileCondition condition={phone.condition}>{phone.condition}</MobileCondition>
+					<ButtonGroup>
+						<Button
+							colorScheme={selected === "6GB x 128GB" ? "blue" : "gray"}
+							variant="outline"
+							onClick={() => handleClick("6GB x 128GB")}>
+							6GB x 128GB
+						</Button>
+						<Button
+							colorScheme={selected === "8GB x 256GB" ? "blue" : "gray"}
+							variant="outline"
+							onClick={() => handleClick("8GB x 256GB")}>
+							8GB x 256GB
+						</Button>
+					</ButtonGroup>
+					<div>
+						<p>
+							<i className="ri-truck-line"></i> Envío gratis
+						</p>
+						<span style={{ fontWeight: "var(--font-weight-semibold)", color: "green" }}>
+							Recíbelo mañana
+						</span>
+					</div>
+					<AddToCartButton
+						phone={phone}
+						selectedOption={selected}
+						extraPrice={extraPrice}
+						onOpen={cartDisclosure.onOpen}
+						colorScheme="gray"
+						size="lg"
+						styles={{ fontSize: "var(--size-xl)", width: "80%" }}
+						ref={btnRef}
+						forceDesktop={true}
+					/>
+					<MobileReviewButton colorScheme="blue" variant="outline" onClick={handleReviewClick}>
+						Escribe una reseña
+					</MobileReviewButton>
+				</MobileDetails>
+			</MobilePhoneSection>
+			<ReviewModal setPhone={setPhone} phone={phone} disclosure={reviewDisclosure} />
+			<MobileReviewSection>
+				{phone.reviews && phone.reviews.length > 0 ? (
+					<ReviewsBox reviews={phone.reviews} />
+				) : (
+					<p>Se el primero en comentar!</p>
+				)}
+			</MobileReviewSection>
+			<Cart isOpen={cartDisclosure.isOpen} onClose={cartDisclosure.onClose} btnRef={btnRef} />
+		</MobileContainer>
+	);
+
+	return isMobile ? <MobileView /> : <DesktopView />;
 };
 
 export default Phone;

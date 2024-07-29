@@ -11,6 +11,7 @@ const AddToCartButton = ({
 	styles,
 	colorScheme,
 	size,
+	forceDesktop = false,
 }) => {
 	const { cart, addCart } = useCart();
 	const { incrementCounter } = useCounter();
@@ -43,7 +44,7 @@ const AddToCartButton = ({
 		onOpen();
 	};
 
-	return isDesktop ? (
+	return isDesktop || forceDesktop ? (
 		<Button
 			style={{ ...styles, display: "flex", gap: "8px" }}
 			colorScheme={colorScheme || "green"}
@@ -58,9 +59,11 @@ const AddToCartButton = ({
 				position: "absolute",
 				right: "var(--size-xl)",
 				bottom: "var(--size-xl)",
+				fontSize: "10px",
 			}}
 			colorScheme={colorScheme || "gray"}
 			size={size || "md"}
+			fontSize={"10px"}
 			icon={<i className="ri-shopping-cart-2-fill"></i>}
 			onClick={toggleLiked}
 		/>

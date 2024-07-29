@@ -53,6 +53,16 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 	const { id } = useParams();
 	const [hover, setHover] = useState(0);
 	const [userName, setUserName] = useState("");
+	const [isDesktop, setIsDesktop] = useState(window.innerWidth > 756);
+
+	useEffect(() => {
+		const handleResize = () => {
+			setIsDesktop(window.innerWidth > 756);
+		};
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	const {
 		register,
@@ -131,7 +141,10 @@ const ReviewModal = ({ setPhone, phone, disclosure }) => {
 		<>
 			<Modal isOpen={isOpen} onClose={handleClose} size="xl">
 				<ModalOverlay />
-				<ModalContent as="form" onSubmit={handleSubmit(writeReview)}>
+				<ModalContent
+					as="form"
+					onSubmit={handleSubmit(writeReview)}
+					style={{ width: isDesktop ? "100%" : "80%" }}>
 					<ModalHeader>
 						¿Cómo calificarías este producto? <span style={{ color: "red" }}>*</span>
 					</ModalHeader>
