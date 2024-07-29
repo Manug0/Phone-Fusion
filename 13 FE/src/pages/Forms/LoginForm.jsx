@@ -17,14 +17,24 @@ import { setUserToLocalStorage } from "../../utils/userHelper";
 
 const FormSection = styled.section`
 	display: flex;
-	height: 40rem;
+	height: fit-content;
 	width: 90%;
 	justify-content: space-around;
+
+	@media (max-width: 768px) {
+		flex-wrap: wrap;
+		margin: auto;
+		gap: var(--space-4);
+		padding: var(--space-4) 0;
+	}
 `;
 
 const FormContainer = styled.div`
 	width: 90%;
 	margin: auto;
+
+	@media (max-width: 768px) {
+	}
 `;
 
 const Form = styled.form`
@@ -35,6 +45,10 @@ const Form = styled.form`
 	margin: auto;
 	width: 50%;
 	height: 100%;
+
+	@media (max-width: 768px) {
+		font-size: 12px;
+	}
 `;
 
 const FormInput = styled.input`
@@ -53,6 +67,11 @@ const RegisterQuestion = styled.div`
 	gap: var(--size-5xl);
 	width: 50%;
 	margin: auto;
+	font-size: 10px;
+
+	@media (max-width: 768px) {
+		font-size: 14px;
+	}
 `;
 
 const LoginForm = () => {
@@ -186,7 +205,8 @@ const LoginForm = () => {
 							}}
 							variant="solid"
 							fontWeight="var(--font-weight-semibold)"
-							w="50%">
+							w="50%"
+							minW="130px">
 							Iniciar Sesión
 						</Button>
 					</Form>
@@ -207,6 +227,7 @@ const LoginForm = () => {
 						variant="solid"
 						fontWeight="var(--font-weight-semibold)"
 						w="50%"
+						minW="130px"
 						borderRadius="0"
 						onClick={goToRegisterForm}>
 						Registro
