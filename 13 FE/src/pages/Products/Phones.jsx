@@ -321,46 +321,47 @@ const Phones = ({ onOpen }) => {
 					<ApplyFiltersButton onClick={applyFilters}>Aplicar Filtros</ApplyFiltersButton>
 				</SearchFilter>
 
-				<PhoneDisplay>
-					{paginatedPhones.map((phone) => (
-						<PhoneCard key={phone._id} phone={phone} onClick={() => goToPhone(phone)}>
-							<PhoneImg src={phone.imageUrl} alt={phone.name} />
-							<PhoneInfo>
-								<PhoneName>{phone.name}</PhoneName>
-								<PhoneBrand>{phone.brand}</PhoneBrand>
-								<PhonePrice>{phone.price}€</PhonePrice>
-								<Badge colorScheme={phone.condition === "Usado" ? "orange" : "green"}>
-									{phone.condition}
-								</Badge>
-							</PhoneInfo>
-							<AddCartButton>
-								<AddToCartButton phone={phone} onOpen={onOpen} selectedOption={selected} />
-							</AddCartButton>
-							<StyledHeartButton phone={phone} />
-						</PhoneCard>
-					))}
-				</PhoneDisplay>
-			</div>
-
-			<PrevNextButtons>
-				<Button
-					onClick={handlePreviousPage}
-					disabled={page === 1}
-					leftIcon={<ArrowBackIcon />}
-					variant="outline">
-					Anterior
-				</Button>
-				<div>
-					{page} de {totalPages}
+				<div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+					<PhoneDisplay>
+						{paginatedPhones.map((phone) => (
+							<PhoneCard key={phone._id} phone={phone} onClick={() => goToPhone(phone)}>
+								<PhoneImg src={phone.imageUrl} alt={phone.name} />
+								<PhoneInfo>
+									<PhoneName>{phone.name}</PhoneName>
+									<PhoneBrand>{phone.brand}</PhoneBrand>
+									<PhonePrice>{phone.price}€</PhonePrice>
+									<Badge colorScheme={phone.condition === "Usado" ? "orange" : "green"}>
+										{phone.condition}
+									</Badge>
+								</PhoneInfo>
+								<AddCartButton>
+									<AddToCartButton phone={phone} onOpen={onOpen} selectedOption={selected} />
+								</AddCartButton>
+								<StyledHeartButton phone={phone} />
+							</PhoneCard>
+						))}
+					</PhoneDisplay>
+					<PrevNextButtons>
+						<Button
+							onClick={handlePreviousPage}
+							disabled={page === 1}
+							leftIcon={<ArrowBackIcon />}
+							variant="outline">
+							Anterior
+						</Button>
+						<div>
+							{page} de {totalPages}
+						</div>
+						<Button
+							onClick={handleNextPage}
+							disabled={page === totalPages}
+							rightIcon={<ArrowForwardIcon />}
+							variant="outline">
+							Siguiente
+						</Button>
+					</PrevNextButtons>
 				</div>
-				<Button
-					onClick={handleNextPage}
-					disabled={page === totalPages}
-					rightIcon={<ArrowForwardIcon />}
-					variant="outline">
-					Siguiente
-				</Button>
-			</PrevNextButtons>
+			</div>
 		</PhoneSection>
 	);
 };
