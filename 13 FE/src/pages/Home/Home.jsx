@@ -250,12 +250,7 @@ const Home = () => {
 				</Slogan>
 				<StyledMockup />
 			</Hero>
-			<Benefits
-				display="flex"
-				flexWrap="wrap"
-				justifyContent="center"
-				flexDirection={{ base: "column", md: "row" }}
-			/>
+			<Benefits />
 			<PromoSection>
 				<Box textAlign="center" mb={8}>
 					<Text fontSize={{ base: "lg", md: "3xl" }} fontWeight="bold">

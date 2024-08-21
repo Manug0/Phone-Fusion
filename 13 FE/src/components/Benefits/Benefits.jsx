@@ -46,11 +46,11 @@ const Benefits = () => {
 	return (
 		<HStack
 			spacing={8}
-			style={{ display: "flex", justifyContent: "center", padding: "var(--size-2xl)" }}
+			display={{ base: "grid", xl: "flex" }}
+			style={{ justifyContent: "center", padding: "var(--size-2xl)" }}
 			flexWrap="wrap"
 			gap={{ base: "var(--size-md)" }}
-			flexDirection={{ base: "column", md: "row" }}
-			gridTemplateColumns={{ base: "repeat(2, 1fr)", md: "none" }}>
+			gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}>
 			{benefits.map((benefit, index) => (
 				<BenefitBox key={index}>
 					<BenefitIcon as={benefit.icon} w={6} h={6} />
