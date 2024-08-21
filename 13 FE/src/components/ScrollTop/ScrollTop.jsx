@@ -34,10 +34,10 @@ const ScrollTop = () => {
 			borderRadius="full"
 			boxShadow="lg"
 			position="fixed"
-			bottom="50px"
+			bottom="80px"
 			right="50px"
 			zIndex="1000"
-			opacity={isVisible ? 1 : 0}
+			opacity={isVisible ? 0.9 : 0}
 			transition="opacity 0.3s"
 			pointerEvents={isVisible ? "auto" : "none"}>
 			<ArrowUpIcon />

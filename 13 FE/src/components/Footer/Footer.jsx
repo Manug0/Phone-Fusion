@@ -8,7 +8,7 @@ const StyledFooter = styled.footer`
 	width: 100%;
 	height: fit-content;
 	background-color: var(--color-light);
-	padding: 3rem 1rem;
+	padding: 3rem 0 1rem 1rem;
 
 	@media (max-width: 768px) {
 		padding: 2rem 1rem;
@@ -117,12 +117,13 @@ const SubscribeButton = styled.button`
 
 const Subfooter = styled.div`
 	display: flex;
-	width: 100%;
+	width: 90%;
 	padding: var(--size-2xl) 0;
 	gap: var(--size-xl);
 	justify-content: space-between;
 	border-top: 1px solid hsl(0, 0%, 25%);
 	flex-wrap: wrap;
+	margin: auto;
 
 	@media (max-width: 576px) {
 		flex-direction: column;
