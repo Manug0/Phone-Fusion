@@ -51,6 +51,7 @@ const Form = styled.form`
 const RegisterForm = () => {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const toast = useToast();
 	const navigate = useNavigate();
@@ -68,6 +69,8 @@ const RegisterForm = () => {
 
 	const onSubmit = async (data) => {
 		try {
+			setIsLoading(true);
+
 			const registerResponse = await registerUser(data.name, data.email, data.password);
 			console.log("Registro de usuario completado", registerResponse);
 
@@ -212,7 +215,8 @@ const RegisterForm = () => {
 						}}
 						variant="solid"
 						fontWeight="var(--font-weight-semibold)"
-						w="50%">
+						w="50%"
+						isLoading={isLoading}>
 						Registrarse
 					</Button>
 				</Form>

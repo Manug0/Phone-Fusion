@@ -77,6 +77,7 @@ const RegisterQuestion = styled.div`
 
 const LoginForm = () => {
 	const [show, setShow] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const toast = useToast();
 	const navigate = useNavigate();
@@ -110,6 +111,8 @@ const LoginForm = () => {
 
 	const onSubmit = async (data) => {
 		try {
+			setIsLoading(true);
+
 			const response = await loginUser(data.email, data.password);
 			let { user, token } = response.data;
 
@@ -206,7 +209,8 @@ const LoginForm = () => {
 						variant="solid"
 						fontWeight="var(--font-weight-semibold)"
 						w="50%"
-						minW="130px">
+						minW="130px"
+						isLoading={isLoading}>
 						Iniciar Sesión
 					</Button>
 				</Form>
