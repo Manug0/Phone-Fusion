@@ -43,7 +43,7 @@ const PhoneSection = styled.section`
 	display: flex;
 	gap: var(--size-5xl);
 	position: relative;
-	margin-top: 2rem;
+	margin-top: 4rem;
 `;
 
 const Image = styled.img`
@@ -170,7 +170,7 @@ const Phone = () => {
 	const cartDisclosure = useDisclosure();
 	const reviewDisclosure = useDisclosure();
 	const btnRef = useRef();
-	const [isMobile, setIsMobile] = useState(window.innerWidth <= 756);
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
 
 	let user = JSON.parse(localStorage.getItem("user"));
 
@@ -193,7 +193,7 @@ const Phone = () => {
 		fetchPhone();
 
 		const handleResize = () => {
-			setIsMobile(window.innerWidth <= 756);
+			setIsMobile(window.innerWidth <= 900);
 		};
 
 		window.addEventListener("resize", handleResize);
@@ -296,20 +296,21 @@ const Phone = () => {
 						ref={btnRef}
 					/>
 				</Details>
-				<Button
-					style={{ position: "absolute", bottom: "-10%", left: "-20%", zIndex: "1" }}
-					colorScheme="blue"
-					variant="outline"
-					onClick={handleReviewClick}>
-					Escribe una reseña
-				</Button>
 			</PhoneSection>
+			<Button
+				style={{ position: "absolute", bottom: "10%", left: "10%", zIndex: "1" }}
+				colorScheme="blue"
+				variant="outline"
+				onClick={handleReviewClick}>
+				Escribe una reseña
+			</Button>
+
 			<ReviewModal setPhone={setPhone} phone={phone} disclosure={reviewDisclosure} />
 			<ReviewSection>
 				{phone.reviews && phone.reviews.length > 0 ? (
 					<ReviewsBox reviews={phone.reviews} />
 				) : (
-					<p>Se el primero en comentar!</p>
+					<p style={{ marginTop: "var(--size-5xl)" }}>Se el primero en comentar!</p>
 				)}
 			</ReviewSection>
 			<Cart isOpen={cartDisclosure.isOpen} onClose={cartDisclosure.onClose} btnRef={btnRef} />
