@@ -73,22 +73,6 @@ const SearchFilter = styled.div`
 	}
 `;
 
-const FilterToggle = styled.button`
-	display: none;
-	align-items: center;
-	justify-content: center;
-	padding: var(--size-md);
-	background: var(--color-secondary);
-	color: var(--color-light);
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-
-	@media (max-width: 756px) {
-		display: flex;
-	}
-`;
-
 const ApplyFiltersButton = styled(Button)`
 	padding: var(--size-xl);
 	margin-top: var(--size-2xl);
@@ -260,7 +244,21 @@ const Phones = ({ onOpen }) => {
 				const response = await fetchPhones(1, 100);
 				const allPhones = response.data.phones;
 				setPhones(allPhones);
-				setFilteredPhones(allPhones);
+
+				const savedBrands = JSON.parse(localStorage.getItem("selectedBrands")) || [];
+				const savedPriceRange = JSON.parse(localStorage.getItem("priceRange")) || [0, 1000];
+
+				setSelectedBrands(savedBrands);
+				setPriceRange(savedPriceRange);
+
+				const filtered = allPhones.filter(
+					(phone) =>
+						(savedBrands.length === 0 || savedBrands.includes(phone.brand)) &&
+						phone.price >= savedPriceRange[0] &&
+						phone.price <= savedPriceRange[1]
+				);
+				setFilteredPhones(filtered);
+
 				setLoading(false);
 			} catch (error) {
 				console.error("Error consiguiendo los móviles:", error);
@@ -284,13 +282,16 @@ const Phones = ({ onOpen }) => {
 	const applyFilters = () => {
 		const filtered = phones.filter(
 			(phone) =>
-				selectedBrands.includes(phone.brand) &&
+				(selectedBrands.length === 0 || selectedBrands.includes(phone.brand)) &&
 				phone.price >= priceRange[0] &&
 				phone.price <= priceRange[1]
 		);
 		setFilteredPhones(filtered);
 		setPage(1);
 		setIsFilterOpen(false);
+
+		localStorage.setItem("selectedBrands", JSON.stringify(selectedBrands));
+		localStorage.setItem("priceRange", JSON.stringify(priceRange));
 	};
 
 	useEffect(() => {
@@ -309,15 +310,11 @@ const Phones = ({ onOpen }) => {
 
 	return (
 		<PhoneSection>
-			<FilterToggle onClick={() => setIsFilterOpen(!isFilterOpen)}>
-				{isFilterOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
-				Filtros
-			</FilterToggle>
 			<div style={{ display: "flex", width: "100%" }}>
 				<SearchFilter isOpen={isFilterOpen}>
 					<FilterH2>Filtros de búsqueda</FilterH2>
-					<PriceSlider onChange={setPriceRange} />
-					<BrandFilter onBrandChange={setSelectedBrands} />
+					<PriceSlider onChange={setPriceRange} initialRange={priceRange} />
+					<BrandFilter onBrandChange={setSelectedBrands} initialBrands={selectedBrands} />
 					<ApplyFiltersButton onClick={applyFilters}>Aplicar Filtros</ApplyFiltersButton>
 				</SearchFilter>
 

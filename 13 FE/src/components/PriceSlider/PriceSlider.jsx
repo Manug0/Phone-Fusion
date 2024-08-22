@@ -31,20 +31,36 @@ const PriceSlider = ({ onChange }) => {
 	useEffect(() => {
 		const fetchPrices = async () => {
 			try {
-				const response = await fetchPhones(1, 100);
-				const phones = response.data.phones;
+				const savedSliderPosition = localStorage.getItem("sliderPosition");
+				const savedPriceLimits = localStorage.getItem("priceLimits");
 
-				if (Array.isArray(phones)) {
-					const prices = phones.map((phone) => phone.price);
-					const min = Math.min(...prices);
-					const max = Math.max(...prices);
-
-					setMinPrice(min);
-					setMaxPrice(max);
-					setSliderValues([min, max]);
-					setInputValues([min, max]);
+				if (savedSliderPosition && savedPriceLimits) {
+					const [savedMin, savedMax] = JSON.parse(savedPriceLimits);
+					const [savedLower, savedUpper] = JSON.parse(savedSliderPosition);
+					setMinPrice(savedMin);
+					setMaxPrice(savedMax);
+					setSliderValues([savedLower, savedUpper]);
+					setInputValues([savedLower, savedUpper]);
+					onChange([savedLower, savedUpper]);
 				} else {
-					console.error("Error: phones no es un array");
+					const response = await fetchPhones(1, 100);
+					const phones = response.data.phones;
+
+					if (Array.isArray(phones)) {
+						const prices = phones.map((phone) => phone.price);
+						const min = Math.min(...prices);
+						const max = Math.max(...prices);
+
+						setMinPrice(min);
+						setMaxPrice(max);
+						setSliderValues([min, max]);
+						setInputValues([min, max]);
+						onChange([min, max]);
+						localStorage.setItem("priceLimits", JSON.stringify([min, max]));
+						localStorage.setItem("sliderPosition", JSON.stringify([min, max]));
+					} else {
+						console.error("Error: phones no es un array");
+					}
 				}
 			} catch (error) {
 				console.error("Error fetching phone prices:", error);
@@ -61,6 +77,8 @@ const PriceSlider = ({ onChange }) => {
 	const handleSliderChange = (val) => {
 		setSliderValues(val);
 		setInputValues(val);
+		localStorage.setItem("sliderPosition", JSON.stringify(val));
+		onChange(val);
 	};
 
 	const handleInputChange = (index, value) => {
@@ -73,6 +91,8 @@ const PriceSlider = ({ onChange }) => {
 		const numericValues = [...sliderValues];
 		numericValues[index] = Number(value);
 		setSliderValues(numericValues);
+		localStorage.setItem("sliderPosition", JSON.stringify(numericValues));
+		onChange(numericValues);
 	};
 
 	const handleInputBlur = (index) => {
@@ -80,6 +100,8 @@ const PriceSlider = ({ onChange }) => {
 			const newValues = [...inputValues];
 			newValues[index] = sliderValues[index];
 			setInputValues(newValues);
+			localStorage.setItem("sliderPosition", JSON.stringify(sliderValues));
+			onChange(sliderValues);
 		}
 	};
 
