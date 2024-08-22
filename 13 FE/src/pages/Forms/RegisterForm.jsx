@@ -98,129 +98,126 @@ const RegisterForm = () => {
 	};
 
 	return (
-		<>
-			<FormSection>
-				<ReturnToLogin onClick={goBackToLogin}>
-					<ArrowBackIcon boxSize={6} />
-					Volver a iniciar sesión
-				</ReturnToLogin>
+		<FormSection>
+			<ReturnToLogin onClick={goBackToLogin}>
+				<ArrowBackIcon boxSize={6} />
+				Volver a iniciar sesión
+			</ReturnToLogin>
 
-				<FormContainer style={{ display: "flex", flexDirection: "column", gap: "var(--size-5xl)" }}>
-					<h2 style={{ fontSize: "var(--size-2xl)" }}>Ingresa tus datos</h2>
-					<Form onSubmit={handleSubmit(onSubmit)}>
-						<FormControl isInvalid={errors.name}>
-							<FormLabel>
-								Nombre <span style={{ color: "red" }}>*</span>
-							</FormLabel>
+			<FormContainer style={{ display: "flex", flexDirection: "column", gap: "var(--size-5xl)" }}>
+				<h2 style={{ fontSize: "var(--size-2xl)" }}>Ingresa tus datos</h2>
+				<Form onSubmit={handleSubmit(onSubmit)}>
+					<FormControl isInvalid={errors.name}>
+						<FormLabel>
+							Nombre <span style={{ color: "red" }}>*</span>
+						</FormLabel>
+						<Input
+							pl="var(--size-xs)"
+							size="lg"
+							{...register("name", { required: "El nombre es obligatorio" })}
+						/>
+						<FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
+					</FormControl>
+
+					<FormControl isInvalid={errors.email}>
+						<FormLabel>
+							Correo electrónico <span style={{ color: "red" }}>*</span>
+						</FormLabel>
+						<Input
+							pl="var(--size-xs)"
+							size="lg"
+							{...register("email", {
+								required: "El correo electrónico es obligatorio",
+								pattern: {
+									value: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
+									message: "Formato de email incorrecto",
+								},
+							})}
+						/>
+						<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
+					</FormControl>
+
+					<FormControl isInvalid={errors.password}>
+						<FormLabel>
+							Contraseña <span style={{ color: "red" }}>*</span>
+						</FormLabel>
+						<InputGroup>
 							<Input
+								type={showPassword ? "text" : "password"}
 								pl="var(--size-xs)"
 								size="lg"
-								{...register("name", { required: "El nombre es obligatorio" })}
-							/>
-							<FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
-						</FormControl>
-
-						<FormControl isInvalid={errors.email}>
-							<FormLabel>
-								Correo electrónico <span style={{ color: "red" }}>*</span>
-							</FormLabel>
-							<Input
-								pl="var(--size-xs)"
-								size="lg"
-								{...register("email", {
-									required: "El correo electrónico es obligatorio",
+								{...register("password", {
+									required: "La contraseña es obligatoria",
 									pattern: {
-										value: /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/,
-										message: "Formato de email incorrecto",
+										value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/,
+										message:
+											"La contraseña debe incluir números, letras Mayúsculas y minúsculas y como mínimo 4 caracteres",
 									},
 								})}
 							/>
-							<FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
-						</FormControl>
+							<InputRightElement width="4.5rem">
+								<Button h="2.25rem" size="sm" mt="8px" onClick={handleClickShowPassword}>
+									{showPassword ? <i class="ri-eye-line"></i> : <i class="ri-eye-off-line"></i>}
+								</Button>
+							</InputRightElement>
+						</InputGroup>
 
-						<FormControl isInvalid={errors.password}>
-							<FormLabel>
-								Contraseña <span style={{ color: "red" }}>*</span>
-							</FormLabel>
-							<InputGroup>
-								<Input
-									type={showPassword ? "text" : "password"}
-									pl="var(--size-xs)"
-									size="lg"
-									{...register("password", {
-										required: "La contraseña es obligatoria",
-										pattern: {
-											// value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}$/,
-											message:
-												"La contraseña debe incluir números, letras Mayúsculas y minúsculas y como mínimo 4 caracteres",
-										},
-									})}
-								/>
-								<InputRightElement width="4.5rem">
-									<Button h="2.25rem" size="sm" mt="8px" onClick={handleClickShowPassword}>
-										{showPassword ? <i class="ri-eye-line"></i> : <i class="ri-eye-off-line"></i>}
-									</Button>
-								</InputRightElement>
-							</InputGroup>
+						<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
+					</FormControl>
 
-							<FormErrorMessage>{errors.password && errors.password.message}</FormErrorMessage>
-						</FormControl>
+					<FormControl isInvalid={errors.confirmPassword}>
+						<FormLabel>Confirma tu contraseña</FormLabel>
+						<InputGroup>
+							<Input
+								type={showConfirmPassword ? "text" : "password"}
+								pl="var(--size-xs)"
+								size="lg"
+								{...register("confirmPassword", {
+									required: "La confirmación de la contraseña es obligatoria",
+								})}
+							/>
+							<InputRightElement width="4.5rem">
+								<Button h="2.25rem" size="sm" mt="8px" onClick={handleClickShowConfirmPassword}>
+									{showConfirmPassword ? (
+										<i class="ri-eye-line"></i>
+									) : (
+										<i class="ri-eye-off-line"></i>
+									)}
+								</Button>
+							</InputRightElement>
+						</InputGroup>
+						<FormErrorMessage>
+							{errors.confirmPassword && errors.confirmPassword.message}
+						</FormErrorMessage>
+					</FormControl>
 
-						<FormControl isInvalid={errors.confirmPassword}>
-							<FormLabel>Confirma tu contraseña</FormLabel>
-							<InputGroup>
-								<Input
-									type={showConfirmPassword ? "text" : "password"}
-									pl="var(--size-xs)"
-									size="lg"
-									{...register("confirmPassword", {
-										required: "La confirmación de la contraseña es obligatoria",
-									})}
-								/>
-								<InputRightElement width="4.5rem">
-									<Button h="2.25rem" size="sm" mt="8px" onClick={handleClickShowConfirmPassword}>
-										{showConfirmPassword ? (
-											<i class="ri-eye-line"></i>
-										) : (
-											<i class="ri-eye-off-line"></i>
-										)}
-									</Button>
-								</InputRightElement>
+					<p>
+						Al proceder, confirma que acepta nuestra/s{" "}
+						<Button colorScheme="teal" variant="link">
+							Condiciones generales
+						</Button>{" "}
+						y{" "}
+						<Button colorScheme="teal" variant="link">
+							Política de privacidad
+						</Button>{" "}
+					</p>
 
-								<FormErrorMessage>
-									{errors.confirmPassword && errors.confirmPassword.message}
-								</FormErrorMessage>
-							</InputGroup>
-						</FormControl>
-
-						<p>
-							Al proceder, confirma que acepta nuestra/s{" "}
-							<Button colorScheme="teal" variant="link">
-								Condiciones generales
-							</Button>{" "}
-							y{" "}
-							<Button colorScheme="teal" variant="link">
-								Política de privacidad
-							</Button>{" "}
-						</p>
-
-						<Button
-							type="submit"
-							bg="var(--color-tertiary)"
-							_hover={{ bg: "var(--color-secondary)" }}
-							_active={{
-								bg: "var(--color-quaternary)",
-								transform: "scale(0.98)",
-							}}
-							variant="solid"
-							fontWeight="var(--font-weight-semibold)"
-							w="50%">
-							Registrarse
-						</Button>
-					</Form>
-				</FormContainer>
-			</FormSection>
-		</>
+					<Button
+						type="submit"
+						bg="var(--color-tertiary)"
+						_hover={{ bg: "var(--color-secondary)" }}
+						_active={{
+							bg: "var(--color-quaternary)",
+							transform: "scale(0.98)",
+						}}
+						variant="solid"
+						fontWeight="var(--font-weight-semibold)"
+						w="50%">
+						Registrarse
+					</Button>
+				</Form>
+			</FormContainer>
+		</FormSection>
 	);
 };
 
