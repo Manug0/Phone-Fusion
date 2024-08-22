@@ -86,7 +86,7 @@ const ReviewSection = styled.section`
 	flex-direction: column;
 	margin: auto;
 	margin-top: var(--size-6xl);
-	width: 80%;
+	width: 60%;
 `;
 
 const MobileContainer = styled(Container)`
@@ -216,6 +216,16 @@ const Phone = () => {
 	};
 
 	const handleReviewClick = () => {
+		if (phone.reviews.length > 0) {
+			toast({
+				title: "Ya has dejado tu reseña para este producto",
+				status: "warning",
+				duration: 3000,
+				isClosable: true,
+			});
+			return;
+		}
+
 		if (user) {
 			reviewDisclosure.onOpen();
 		} else {
@@ -298,7 +308,7 @@ const Phone = () => {
 				</Details>
 			</PhoneSection>
 			<Button
-				style={{ position: "absolute", bottom: "10%", left: "10%", zIndex: "1" }}
+				style={{ position: "absolute", bottom: "20%", left: "10%", zIndex: "1" }}
 				colorScheme="blue"
 				variant="outline"
 				onClick={handleReviewClick}>
