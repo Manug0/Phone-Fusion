@@ -290,7 +290,7 @@ const Header = ({ onOpen }) => {
 		<>
 			<Overlay open={navOpen} onClick={() => setNavOpen(false)} />
 			<StyledHeader>
-				<Logo src="/public/assets/logo.png" alt="logo" onClick={goToHome} />
+				<Logo src="/13 FE/public/assets/logo.png" alt="logo" onClick={goToHome} />
 				<SearchBarContainer ref={searchBarRef}>
 					<SearchBar open={search}>
 						<SearchInput
