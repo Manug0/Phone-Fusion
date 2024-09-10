@@ -5,7 +5,7 @@ import { useCart } from "../../contexts/CartContext";
 import { useHeart } from "../../contexts/HeartContext";
 import { fetchPhones } from "../../services/Api";
 import UserAccounticon from "../UserAccountIcon/UserAccountIcon";
-import logo from "/public/logo.png";
+import logo from "../../../public/logo.png";
 
 const StyledHeader = styled.header`
 	position: fixed;
