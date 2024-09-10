@@ -53,9 +53,13 @@ const SearchBar = styled.div`
 	background-color: var(--color-light);
 	border-radius: 50px;
 	overflow: hidden;
-	width: ${(props) => (props.open ? "200px" : "0")};
+	width: ${(props) => (props.open ? "400px" : "0")};
 	transition: width 0.3s ease-in-out;
 	border: none;
+
+	@media (max-width: 768px) {
+		width: ${(props) => (props.open ? "200px" : "0")};
+	}
 `;
 
 const SearchInput = styled.input`
@@ -67,11 +71,6 @@ const SearchInput = styled.input`
 	box-sizing: border-box;
 	background-color: var(--color-light);
 	border-radius: 50px;
-`;
-
-const CloseIcon = styled.i.attrs({ className: "ri-close-line" })`
-	cursor: pointer;
-	padding: 10px;
 `;
 
 const SuggestionsList = styled.ul`
@@ -300,7 +299,6 @@ const Header = ({ onOpen }) => {
 							onChange={handleInputChange}
 							ref={searchInputRef}
 						/>
-						{search && <CloseIcon onClick={closeSearch} />}
 					</SearchBar>
 					<SearchIcon onClick={searchIconClick} />
 					{suggestions.length > 0 && (
