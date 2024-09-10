@@ -9,6 +9,7 @@ import {
 	DrawerCloseButton,
 	Button,
 	IconButton,
+	useToast,
 } from "@chakra-ui/react";
 import { useCart } from "../../contexts/CartContext";
 import { useCounter } from "../../contexts/CounterContext";
@@ -17,6 +18,7 @@ import styled from "styled-components";
 import OrderCompleteCheckmark from "../OrderCompleteCheckmark/OrderCompleteCheckmark";
 import { createClient, createSale, getClientByUserId, updateClient } from "../../services/Api";
 import { getUserFromLocalStorage } from "../../utils/userHelper";
+import { useNavigate } from "react-router-dom";
 
 const CartItem = styled.div`
 	width: 80%;
@@ -75,6 +77,10 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 	const { counter, setCounter, incrementCounter, decrementCounter } = useCounter();
 	const [isLoading, setIsLoading] = useState(false);
 	const [completeOrder, setCompleteOrder] = useState(false);
+	const toast = useToast();
+	const navigate = useNavigate();
+
+	const toLogin = () => navigate("/login");
 
 	useEffect(() => {
 		if (cart.length === 0) {
@@ -99,7 +105,17 @@ const Cart = ({ isOpen, onClose, btnRef }) => {
 			const user = getUserFromLocalStorage();
 
 			if (!user || !user._id) {
-				throw new Error("User data is missing");
+				console.log("No se encontró el cliente");
+				toLogin();
+				onClose();
+
+				toast({
+					title: "Debes estar conectado para comprar productos",
+					status: "info",
+					position: "top",
+					duration: 3000,
+					isClosable: true,
+				});
 			}
 
 			let clientRes;
