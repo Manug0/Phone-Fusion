@@ -5,6 +5,7 @@ import { useCart } from "../../contexts/CartContext";
 import { useHeart } from "../../contexts/HeartContext";
 import { fetchPhones } from "../../services/Api";
 import UserAccounticon from "../UserAccountIcon/UserAccountIcon";
+import logo from "/public/logo.png";
 
 const StyledHeader = styled.header`
 	position: fixed;
@@ -289,7 +290,7 @@ const Header = ({ onOpen }) => {
 		<>
 			<Overlay open={navOpen} onClick={() => setNavOpen(false)} />
 			<StyledHeader>
-				<Logo src="/logo.png" alt="logo" onClick={goToHome} />
+				<Logo src={logo} alt="logo" onClick={goToHome} />
 				<SearchBarContainer ref={searchBarRef}>
 					<SearchBar open={search}>
 						<SearchInput
