@@ -12,7 +12,9 @@ const app = express();
 connectDB();
 
 const corsOptions = {
-	origin: "https://phone-fusion.vercel.app/",
+	origin: process.env.ALLOWED_ORIGINS
+		? process.env.ALLOWED_ORIGINS.split(",")
+		: "https://phone-fusion.vercel.app",
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true,
 	optionsSuccessStatus: 204,
@@ -27,10 +29,16 @@ app.use("/api/v1/phones", phonesRouter);
 app.use("/api/v1/sales", salesRouter);
 app.use("/api/v1/users", usersRouter);
 
-app.use("*", (req, res, next) => {
+app.use("*", (req, res) => {
 	return res.status(404).json("Route Not Found");
 });
 
-app.listen(3000, () => {
-	console.log("http://localhost:3000");
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).send("Something broke!");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
 });
