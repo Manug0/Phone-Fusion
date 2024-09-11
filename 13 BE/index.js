@@ -11,17 +11,7 @@ const app = express();
 
 connectDB();
 
-const corsOptions = {
-	origin: process.env.ALLOWED_ORIGINS
-		? process.env.ALLOWED_ORIGINS.split(",")
-		: ["http://localhost:3000", "https://phone-fusion.vercel.app"],
-	methods: ["GET", "POST", "PUT", "DELETE"],
-	allowedHeaders: ["Content-Type", "Authorization"],
-	credentials: true,
-	optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 
@@ -34,7 +24,6 @@ app.use("*", (req, res, next) => {
 	return res.status(404).json("Route Not Found");
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-	console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+	console.log("http://localhost:3000");
 });
