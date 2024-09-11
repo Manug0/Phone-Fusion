@@ -11,7 +11,14 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
+const corsOptions = {
+	origin: "https://phone-fusion.vercel.app/",
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	credentials: true,
+	optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
