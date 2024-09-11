@@ -3,9 +3,9 @@ const { getSales, getSaleById, updateSale, createSale } = require("../controller
 
 const salesRouter = require("express").Router();
 
-// salesRouter.get("/", getSales);
-// salesRouter.get("/:id", getSaleById);
-// salesRouter.post("/", [isAuth], createSale);
-// salesRouter.put("/:id", [isAuth], updateSale);
+salesRouter.get("/", getSales);
+salesRouter.get("/:id", getSaleById);
+salesRouter.post("/", [isAuth], createSale);
+salesRouter.put("/:id", [isAuth], updateSale);
 
 module.exports = salesRouter;
