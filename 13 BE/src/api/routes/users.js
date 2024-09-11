@@ -13,9 +13,9 @@ const {
 
 const usersRouter = require("express").Router();
 
-usersRouter.post("/update-cart", isAuth, updateCart);
-usersRouter.post("/update-favorites", isAuth, updateFavorites);
-usersRouter.get("/user-data", [isAuth], getUserData);
+// usersRouter.post("/update-cart", [isAuth], updateCart);
+// usersRouter.post("/update-favorites", [isAuth], updateFavorites);
+// usersRouter.get("/user-data", [isAuth], getUserData);
 
 usersRouter.get("/", getUsers);
 usersRouter.get("/:id", getUserById);
