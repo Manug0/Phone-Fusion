@@ -40,14 +40,20 @@ const Slogan = styled.div`
 	width: 100%;
 	text-align: center;
 
+	@media (min-width: 200px) {
+		margin-top: 1rem;
+	}
+
 	@media (min-width: 1200px) {
+		margin-top: 3rem;
+		gap: 2rem;
 		align-items: start;
 		text-align: left;
 		padding: 0 50px;
 	}
 
-	@media (min-width: 200px) {
-		margin-top: 1rem;
+	@media (min-width: 1600px) {
+		gap: 0;
 	}
 `;
 
@@ -60,7 +66,11 @@ const SmallSlogan = styled.span`
 	}
 
 	@media (min-width: 1200px) {
-		font-size: var(--size-6xl);
+		font-size: 4rem;
+	}
+
+	@media (min-width: 1600px) {
+		font-size: 6rem;
 	}
 `;
 
@@ -73,6 +83,10 @@ const MediumSlogan = styled.span`
 	}
 
 	@media (min-width: 1200px) {
+		font-size: 6rem;
+	}
+
+	@media (min-width: 1600px) {
 		font-size: 8rem;
 	}
 `;
@@ -86,6 +100,10 @@ const LargeSlogan = styled.span`
 	}
 
 	@media (min-width: 1200px) {
+		font-size: 8rem;
+	}
+
+	@media (min-width: 1600px) {
 		font-size: 10rem;
 	}
 `;
@@ -119,13 +137,19 @@ const StyledMockup = styled(HomeMockup)`
 	}
 
 	@media (min-width: 1200px) {
+		height: 65%;
 		position: absolute;
 		top: 0;
-		right: 0;
+		right: -6rem;
 		bottom: 0;
 		margin: auto;
 		width: auto;
 		transform: translate(-50%, -50%);
+	}
+
+	@media (min-width: 1400px) {
+		right: -2rem;
+		height: 80%;
 	}
 `;
 
@@ -153,8 +177,15 @@ const CustomButton = styled(Button)`
 	}
 
 	@media (min-width: 768px) {
+		position: static !important;
 		padding: 1.5rem 3rem !important;
 		font-size: 1.2rem !important;
+	}
+
+	@media (min-width: 1200px) {
+		position: absolute !important;
+		bottom: 3rem;
+		left: 3rem;
 	}
 `;
 
@@ -240,14 +271,14 @@ const Home = () => {
 					<SmallSlogan>La revolución</SmallSlogan>
 					<MediumSlogan>móvil</MediumSlogan>
 					<LargeSlogan>empieza aquí</LargeSlogan>
-					<CustomButton
-						onClick={goToPhones}
-						rightIcon={<ChevronRightIcon />}
-						backgroundColor="white"
-						variant="solid">
-						Comprar ahora
-					</CustomButton>
 				</Slogan>
+				<CustomButton
+					onClick={goToPhones}
+					rightIcon={<ChevronRightIcon />}
+					backgroundColor="white"
+					variant="solid">
+					Comprar ahora
+				</CustomButton>
 				<StyledMockup />
 			</Hero>
 			<Benefits />
