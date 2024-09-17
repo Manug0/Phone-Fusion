@@ -11,16 +11,7 @@ const app = express();
 
 connectDB();
 
-const corsOptions = {
-	origin: process.env.ALLOWED_ORIGINS
-		? process.env.ALLOWED_ORIGINS.split(",")
-		: ["https://phone-fusion.vercel.app"],
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-	credentials: true,
-	optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json());
 
