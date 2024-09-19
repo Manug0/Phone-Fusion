@@ -44,9 +44,3 @@ En **Phone Fusion**, los usuarios pueden disfrutar de las siguientes funcionalid
 
 - Una vez que los usuarios compran los móviles en su carrito, la transacción se completa y los productos se marcan como comprados.
 - Los usuarios pueden ver y gestionar sus pedidos en la página de "Mi cuenta".
-
-## Conclusión
-
-**Phone Fusion** no solo ofrece una amplia gama de móviles de todas las marcas y precios, sino que también proporciona una experiencia de usuario fluida y eficiente. Desde el registro hasta la compra, pasando por la búsqueda y el almacenamiento de favoritos, nuestra plataforma está diseñada para satisfacer todas sus necesidades móviles.
-
-¡Gracias por elegir **Phone Fusion** para todas sus necesidades de tecnología móvil!
