@@ -181,7 +181,7 @@ const Footer = () => {
 						flexWrap: "wrap",
 						justifyContent: "center",
 					}}>
-					<p>© Phone Fusion 2024. </p>
+					<p>© {new Date().getFullYear()} Phone Fusion </p>
 					<p>Made with ❤️ by Manu</p>
 				</div>
 				<div
